@@ -5,10 +5,6 @@ import BottomNavBar from "./BottomNavBar";
 function Home() {
   return (
     <>
-      <View>
-        <Text>Home sweet home</Text>
-        <Button mode="outlined"> Don't stop me now </Button>
-      </View>
       <BottomNavBar />
     </>
   );
