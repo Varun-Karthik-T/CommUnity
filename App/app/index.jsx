@@ -1,5 +1,5 @@
 import { PaperProvider } from "react-native-paper";
-import Home from "@/Components/Hone";
+import Home from "@/Components/Home";
 
 export default function Main() {
   const theme = {

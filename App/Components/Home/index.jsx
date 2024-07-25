@@ -1,18 +1,17 @@
-import { View } from "react-native"
-import { Text, Button } from "react-native-paper"
-import BottomNavBar from "./BottomNavBar"
+import { View } from "react-native";
+import { Text, Button } from "react-native-paper";
+import BottomNavBar from "./BottomNavBar";
 
 function Home() {
   return (
     <>
-    <View>
+      <View>
         <Text>Home sweet home</Text>
         <Button mode="outlined"> Don't stop me now </Button>
-        <BottomNavBar />
-    </View>
-      
+      </View>
+      <BottomNavBar />
     </>
-  )
+  );
 }
 
-export default Home
+export default Home;
