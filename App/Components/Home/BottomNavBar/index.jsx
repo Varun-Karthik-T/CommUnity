@@ -1,6 +1,6 @@
 import { BottomNavigation, Text } from 'react-native-paper';
 import { useState } from 'react';
-import MarketPlace from '../marketPlace';
+import MarketPlace from '../Marketplace';
 import Invest from '../Invest';
 
 const MarketPlaceRoute = () => <MarketPlace />;
