@@ -1,9 +1,10 @@
 import { BottomNavigation, Text } from 'react-native-paper';
 import { useState } from 'react';
+import Invest from '../Invest';
 
 const MarketPlaceRoute = () => <Text>MarketPlace</Text>;
 
-const InvestRoute = () => <Text>Invest in Binary Potatoes</Text>;
+const InvestRoute = () => <Invest />;
 
 const CommunityRoute = () => <Text>Community</Text>;
 
