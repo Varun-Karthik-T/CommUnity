@@ -1,7 +1,8 @@
 import { BottomNavigation, Text } from 'react-native-paper';
 import { useState } from 'react';
+import MarketPlace from '../marketPlace';
 
-const MarketPlaceRoute = () => <Text>MarketPlace</Text>;
+const MarketPlaceRoute = () => <MarketPlace />;
 
 const InvestRoute = () => <Text>Invest in Binary Potatoes</Text>;
 

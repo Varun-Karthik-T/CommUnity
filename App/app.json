@@ -3,7 +3,7 @@
     "name": "SHG-helper",
     "slug": "SHG-helper",
     "version": "1.0.0",
-    "scheme" : "SHG-helper",
+    "scheme": "SHG-helper",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -34,7 +34,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "27b5cee0-23b0-4378-b41b-c6740d6d51de"
+        "projectId": "1e1e2f69-5998-4b31-a25e-58c6aa1ab816"
       }
     }
   }
