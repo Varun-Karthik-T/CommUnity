@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
-import { Text, Card, Searchbar, Button, Avatar, Modal, Portal, Provider } from "react-native-paper";
+import {
+  Text,
+  Card,
+  Searchbar,
+  Button,
+  Avatar,
+  Modal,
+  Portal,
+} from "react-native-paper";
 
 function Community() {
   const [visible, setVisible] = useState(false);
@@ -11,19 +19,22 @@ function Community() {
       date: "2024-07-25",
       shgName: "Sunrise SHG",
       description: "Conducted a workshop on sustainable farming practices.",
-      details: "Detailed description of the workshop on sustainable farming practices by Sunrise SHG."
+      details:
+        "Detailed description of the workshop on sustainable farming practices by Sunrise SHG.",
     },
     {
       date: "2024-07-20",
       shgName: "Empowerment SHG",
       description: "Launched a new handicraft product line.",
-      details: "Detailed description of the new handicraft product line launched by Empowerment SHG."
+      details:
+        "Detailed description of the new handicraft product line launched by Empowerment SHG.",
     },
     {
       date: "2024-07-15",
       shgName: "Unity SHG",
       description: "Organized a health camp for the local community.",
-      details: "Detailed description of the health camp organized by Unity SHG for the local community."
+      details:
+        "Detailed description of the health camp organized by Unity SHG for the local community.",
     },
     // Can be added later
   ];
@@ -70,7 +81,7 @@ function Community() {
   };
 
   return (
-    <Provider>
+    <>
       <ScrollView style={styles.container}>
         <View style={styles.searchContainer}>
           <Searchbar placeholder="Search SHGs or NGOs" />
@@ -79,7 +90,11 @@ function Community() {
         <View style={styles.newsContainerWrapper}>
           <ScrollView style={styles.newsContainer} nestedScrollEnabled={true}>
             {recentActivities.map((activity, index) => (
-              <Card key={index} style={styles.newsCard} onPress={() => showModal(activity)}>
+              <Card
+                key={index}
+                style={styles.newsCard}
+                onPress={() => showModal(activity)}
+              >
                 <Card.Content>
                   <Text style={styles.date}>{activity.date}</Text>
                   <Text style={styles.shgName}>{activity.shgName}</Text>
@@ -96,7 +111,9 @@ function Community() {
               <Card.Title
                 title={shg.name}
                 subtitle={shg.location}
-                left={(props) => <Avatar.Image {...props} source={{ uri: shg.avatar }} />}
+                left={(props) => (
+                  <Avatar.Image {...props} source={{ uri: shg.avatar }} />
+                )}
               />
               <Card.Actions>
                 <Button>Contact</Button>
@@ -111,7 +128,9 @@ function Community() {
               <Card.Title
                 title={ngo.name}
                 subtitle={ngo.resources}
-                left={(props) => <Avatar.Image {...props} source={{ uri: ngo.avatar }} />}
+                left={(props) => (
+                  <Avatar.Image {...props} source={{ uri: ngo.avatar }} />
+                )}
               />
               <Card.Actions>
                 <Button>Contact</Button>
@@ -121,14 +140,18 @@ function Community() {
         </ScrollView>
       </ScrollView>
       <Portal>
-        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={styles.modalContainer}>
+        <Modal
+          visible={visible}
+          onDismiss={hideModal}
+          contentContainerStyle={styles.modalContainer}
+        >
           <Text style={styles.modalTitle}>{selectedNews?.shgName}</Text>
           <Text style={styles.modalDate}>{selectedNews?.date}</Text>
           <Text style={styles.modalDetails}>{selectedNews?.details}</Text>
           <Button onPress={hideModal}>Close</Button>
         </Modal>
       </Portal>
-    </Provider>
+    </>
   );
 }
 
@@ -163,7 +186,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginVertical: 10,
     fontWeight: "bold",
-    color: "000", 
+    color: "000",
   },
   horizontalScroll: {
     marginBottom: 20,
