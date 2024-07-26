@@ -2,12 +2,13 @@ import { BottomNavigation, Text } from 'react-native-paper';
 import { useState } from 'react';
 import MarketPlace from '../Marketplace';
 import Invest from '../Invest';
+import Community from '../Community';
 
 const MarketPlaceRoute = () => <MarketPlace />;
 
 const InvestRoute = () => <Invest />;
 
-const CommunityRoute = () => <Text>Community</Text>;
+const CommunityRoute = () => <Community />;
 
 const BottomNavBar = () => {
   const [index, setIndex] = useState(0);
