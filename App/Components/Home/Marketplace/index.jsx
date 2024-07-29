@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Image, FlatList } from "react-native";
 import { Searchbar, FAB, Divider, Chip } from "react-native-paper";
 import HorizontalScrollView from "@/Components/UI/MarketScroll";
 export default function MarketPlace() {
@@ -30,6 +30,18 @@ export default function MarketPlace() {
     },
   ];
 
+  const categories = [
+    { key: '1', name: 'Fruits', icon: 'fruit-cherries' },
+    { key: '2', name: 'Fruits', icon: 'fruit-cherries' },
+    { key: '3', name: 'Fruits', icon: 'fruit-cherries' },
+    { key: '4', name: 'Fruits', icon: 'fruit-cherries' },
+    { key: '5', name: 'Fruits', icon: 'fruit-cherries' },
+    { key: '6', name: 'Fruits', icon: 'fruit-cherries' },
+    { key: '7', name: 'Fruits', icon: 'fruit-cherries' },
+    { key: '8', name: 'Fruits', icon: 'fruit-cherries' },
+    { key: '9', name: 'Fruits', icon: 'fruit-cherries' },
+  ];
+
   return (
     <>
       <ScrollView>
@@ -52,9 +64,15 @@ export default function MarketPlace() {
           <HorizontalScrollView data={data} />
           <Divider />
           <Text style={styles.heading2}> Shop by category</Text>
-          <View>
-            <Chip icon="fruit-cherries">Fruits</Chip>
-          </View>
+          <FlatList
+          data={categories}
+          renderItem={({ item }) => (
+            <Chip icon={item.icon} style={styles.chip}>{item.name}</Chip>
+          )}
+          keyExtractor={item => item.key}
+          numColumns={3}
+          columnWrapperStyle={styles.row}
+        />
           <Divider />
           <Text style={styles.heading2}>Suggested for you</Text>
           <HorizontalScrollView data={data} />
@@ -109,5 +127,12 @@ const styles = StyleSheet.create({
     gap: 10,
     height: "100%",
     marginBottom: 20,
+  },
+  chip: {
+    margin: 5,
+  },
+  row: {
+    justifyContent: "space-around",
+    marginHorizontal: 10,
   },
 });

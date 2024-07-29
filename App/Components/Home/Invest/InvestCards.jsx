@@ -18,7 +18,7 @@ const InvestCard = ({ title, subtitle, description, imageUri, id }) => {
       <Card.Cover source={{ uri: imageUri }} style={styles.shgMedia} />
       <Card.Actions>
         <Button onPress={() => router.navigate(`Performance/${id}`)}>View Performance</Button>
-        <Button>Invest</Button>
+        <Button onPress={() => router.navigate(`Invest/${id}`)}>Invest</Button>
       </Card.Actions>
     </Card>
   );

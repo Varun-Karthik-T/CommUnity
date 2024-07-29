@@ -8,7 +8,7 @@ const AppBar = () => {
   return (
     <>
       <Appbar.Header statusBarHeight={top}>
-        {pathname != "/" && <Appbar.BackAction onPress={() => {router.back()}}/>}
+        {pathname != "/" && pathname != "/Home" && <Appbar.BackAction onPress={() => {router.back()}}/>}
         <Appbar.Content title="SHG-Helper" titleStyle={{fontWeight: "bold"}} />
         <Appbar.Action icon="bell" onPress={() => {}} />
         <Appbar.Action icon="account-circle" onPress={() => {}} />

@@ -1,5 +1,5 @@
 SHG_Name,Date_of_Establishment,Number_of_Members,Sector,Annual_Revenue,Annual_Profit,Expenses,Loan_Amount,Loan_Repayment_Status,Projects_Completed,Success_Rate,Geographical_Area,Market_Reach,Training_Programs_Attended,Community_Impact,Awards_Recognitions,Economic_Conditions,Government_Support,Market_Trends,Credit_Score
-SHG_0,2000-01-31,48,Services,33930,4564,42650,14933,Pending,1,0.8153502355793925,Rural,Regional,0,Medium,None,Poor,High,Downward,268
+SHG_0,2000-01-  31,48,Services,33930,4564,42650,14933,Pending,1,0.8153502355793925,Rural,Regional,0,Medium,None,Poor,High,Downward,268
 SHG_1,2000-02-29,38,Services,10077,2389,11012,10473,Default,10,0.7748031342653783,Rural,Regional,8,Low,Local,Good,Low,Upward,247
 SHG_2,2000-03-31,24,Handicrafts,30611,12593,12151,19033,Pending,15,0.8448894246240606,Rural,Local,5,High,None,Average,Low,Downward,425
 SHG_3,2000-04-30,17,Services,26984,8274,33211,10805,Pending,11,0.5719709567861154,Rural,National,1,High,None,Poor,High,Upward,291
