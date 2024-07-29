@@ -1,10 +1,10 @@
-import { View, Text, Image, ScrollView } from "react-native";
-import { Card, Searchbar } from "react-native-paper";
-
+import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
+import { Searchbar, FAB, Divider, Chip } from "react-native-paper";
+import HorizontalScrollView from "@/Components/UI/MarketScroll";
 export default function MarketPlace() {
   const data = [
     {
-      name: "Bag",
+      name: "Thirunelveli Alwa",
       price: 100,
       image: "https://picsum.photos/200/300",
     },
@@ -31,56 +31,47 @@ export default function MarketPlace() {
   ];
 
   return (
-    <View>
-      <View style={styles.Searchbar}>
-        <Searchbar />
-      </View>
-      <Text style={styles.heading2}>Top selling Products</Text>
-      <ScrollView horizontal style={styles.scroll}>
-        {data.map((item, index) => (
-          <View key={index} style={styles.card}>
-            <Card>
-              <Card.Content>
-                <Image source={{ uri: item.image }} style={styles.img} />
-                <Text>{item.name}</Text>
-                <Text>{item.price}</Text>
-              </Card.Content>
-            </Card>
+    <>
+      <ScrollView>
+        <View style={styles.pageLayout}>
+          <View style={styles.Searchbar}>
+            <Searchbar placeholder="Search for products near you" />
           </View>
-        ))}
-      </ScrollView>
-      <Text style={styles.heading2}>Suggested for you</Text>
-      <ScrollView horizontal>
-        {data.map((item, index) => (
-          <View key={index} style={styles.card}>
-            <Card>
-              <Card.Content>
-                <Image source={{ uri: item.image }} style={styles.img} />
-                <Text>{item.name}</Text>
-                <Text>{item.price}</Text>
-              </Card.Content>
-            </Card>
+          <Divider />
+          <View style={styles.banner}>
+            <Image
+              style={styles.bannerImage}
+              source={require("@/assets/images/marketplace-banner.png")}
+            />
+            <Text style={styles.bannerText}>
+              Your wallet has power, support local businesses
+            </Text>
           </View>
-        ))}
+          <Divider />
+          <Text style={styles.heading2}>Top selling Products</Text>
+          <HorizontalScrollView data={data} />
+          <Divider />
+          <Text style={styles.heading2}> Shop by category</Text>
+          <View>
+            <Chip icon="fruit-cherries">Fruits</Chip>
+          </View>
+          <Divider />
+          <Text style={styles.heading2}>Suggested for you</Text>
+          <HorizontalScrollView data={data} />
+        </View>
       </ScrollView>
-    </View>
+      <FAB
+        icon="cart-variant"
+        style={styles.cartFAB}
+        onPress={() => console.log("Pressed")}
+      />
+    </>
   );
 }
 
-const styles = {
-    Searchbar: {
-        margin: 10,
-    },
-  img: {
-    width: 150,
-    height: 150,
-  },
-  card: {
-    marginHorizontal: 10,
-    marginVertical: 10,
-  },
-  scroll: {
-    height: "fit-content",
+const styles = StyleSheet.create({
+  Searchbar: {
+    margin: 10,
   },
   heading2: {
     fontSize: 20,
@@ -88,4 +79,35 @@ const styles = {
     marginHorizontal: 15,
     marginTop: 10,
   },
-};
+  cartFAB: {
+    position: "absolute",
+    margin: 16,
+    right: 0,
+    bottom: 0,
+  },
+  banner: {
+    width: "100%",
+    height: 180,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  bannerText: {
+    flex: 1,
+    textAlign: "center",
+    padding: 10,
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  bannerImage: {
+    flex: 1,
+    height: "100%",
+  },
+  pageLayout: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 10,
+    height: "100%",
+    marginBottom: 20,
+  },
+});

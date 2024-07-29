@@ -13,9 +13,9 @@ const CommunityRoute = () => <Community />;
 const BottomNavBar = () => {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
-    { key: 'market', title: 'Marketplace', focusedIcon: 'heart', unfocusedIcon: 'heart-outline'},
-    { key: 'invest', title: 'Invest', focusedIcon: 'album' },
-    { key: 'community', title: 'Community', focusedIcon: 'history' },
+    { key: 'invest', title: 'Invest', focusedIcon: 'cash-check', unfocusedIcon: 'cash' },
+    { key: 'market', title: 'Marketplace', focusedIcon: 'cart-check', unfocusedIcon: 'cart-outline'},
+    { key: 'community', title: 'Community', focusedIcon: 'account-group', unfocusedIcon: 'account-group-outline' },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
