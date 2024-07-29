@@ -10,7 +10,7 @@ const InvestRoute = () => <Invest />;
 
 const CommunityRoute = () => <Community />;
 
-const BottomNavBar = () => {
+const UserBottomNavBar = () => {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
     { key: 'invest', title: 'Invest', focusedIcon: 'cash-check', unfocusedIcon: 'cash' },
@@ -33,4 +33,4 @@ const BottomNavBar = () => {
   );
 };
 
-export default BottomNavBar;
+export default UserBottomNavBar;

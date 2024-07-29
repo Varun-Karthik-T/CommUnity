@@ -1,6 +1,7 @@
 import { Slot, Stack } from "expo-router";
 import { PaperProvider, MD3LightTheme } from "react-native-paper";
 import AppBar from "@/Components/UI/AppBar";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 const theme = {
   ...MD3LightTheme,
@@ -52,8 +53,10 @@ function RootLayout() {
   return (
     <>
       <PaperProvider theme={theme}>
-        <AppBar />
-        <Stack screenOptions={{headerShown: false}} />
+        <AuthProvider>
+          <AppBar />
+          <Stack screenOptions={{ headerShown: false }} />
+        </AuthProvider>
       </PaperProvider>
     </>
   );
