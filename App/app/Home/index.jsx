@@ -1,4 +1,5 @@
 import ShgBottomNavBar from "@/Components/Home/ShgBottomNavBar";
+import UserBottomNavBar from "@/Components/Home/UserBottomNavBar";
 import { AuthContext } from "@/contexts/AuthContext";
 import { Text } from "react-native-paper";
 import { useContext } from "react";
