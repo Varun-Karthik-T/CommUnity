@@ -1,4 +1,4 @@
-import UserBottomNavBar from "@/Components/Home/UserBottomNavBar";
+import ShgBottomNavBar from "@/Components/Home/ShgBottomNavBar";
 import { AuthContext } from "@/contexts/AuthContext";
 import { Text } from "react-native-paper";
 import { useContext } from "react";
@@ -9,7 +9,7 @@ function Home() {
     <>
       {isAuthenticated ? (
         role === "SHG" ? (
-          <Text> SHG </Text>
+          <ShgBottomNavBar/>
         ) : (
           <UserBottomNavBar />
         )
