@@ -13,7 +13,7 @@ const ShgBottomNavBar = () => {
   const [routes] = useState([
     { key: 'invest', title: 'Invest', focusedIcon: 'cash-check', unfocusedIcon: 'cash' },
     { key: 'market', title: 'Marketplace', focusedIcon: 'cart-check', unfocusedIcon: 'cart-outline'},
-    { key: 'profile', title: 'Profile', focusedIcon: 'people', unfocusedIcon: 'people-outline' },
+    { key: 'profile', title: 'Profile', focusedIcon: 'account', unfocusedIcon: 'account-outline' },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
