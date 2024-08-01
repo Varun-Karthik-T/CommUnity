@@ -6,7 +6,7 @@ import { LineChart } from "react-native-chart-kit";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import axios from "axios";
 
-const screenWidth = Dimensions.get("window").width;
+const screenWidth = Dimensions.get("window").width - 40;
 
 function Performance() {
   const theme = useTheme();
@@ -55,7 +55,7 @@ function Performance() {
   };
 
   const data = {
-    labels: profitData ? Object.keys(profitData[0]) : [],
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     datasets: [
       {
         data: profitData ? Object.values(profitData[0]) : [],
