@@ -12,7 +12,7 @@ export default function SHGBookkeeping() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let response = await axios.get('http://10.11.53.8:5000/fetchSHG');
+        let response = await axios.get('http://10.16.49.41:5000/fetchSHG');
         setShgData(response.data);
         console.log(response.data);
       } catch (error) {

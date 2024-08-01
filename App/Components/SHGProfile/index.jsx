@@ -11,7 +11,7 @@ export default function SHGProfile() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let response = await axios.get("http://10.11.53.8:5000/fetchSHG");
+        let response = await axios.get("http://10.16.49.41:5000/fetchSHG");
         setData(response.data);
         setLoading(false);
         console.log(response.data);
