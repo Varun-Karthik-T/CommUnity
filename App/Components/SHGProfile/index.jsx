@@ -5,7 +5,8 @@ export default function SHGProfile() {
 
     return (
         <>
-            <Form/>
+            <Text>SHG Profile</Text>
+           
         </>
     )
 
