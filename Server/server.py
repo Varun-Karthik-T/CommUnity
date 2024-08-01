@@ -1,7 +1,9 @@
 from flask import Flask, jsonify, request
 from db import db
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/')
 def hello_world():
@@ -35,7 +37,7 @@ def fetch_data():
     for document in data:
         document.pop('_id', None)  # Remove the '_id' field safely
         result.append(document)
-
+    print(result)
     return jsonify(result)
 
 @app.get('/fetchProfit')
@@ -49,7 +51,7 @@ def fetch_profit_by_id():
         # Ensure 'profit-percent' exists and add it to the result list
         if 'profit-percent' in data:
             res.append(data['profit-percent'])
-
+    print(res)
     return res
 
 
@@ -60,6 +62,7 @@ def add_data():
 
     try:
         result = collection.insert_one(data)
+        print(result)
         return jsonify({"message": "Data inserted successfully", "id": str(result.inserted_id)}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
