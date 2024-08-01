@@ -18,31 +18,31 @@ export default function ShgMarket() {
     {
       name: 'Alwa',
       price: 100,
-      image: 'https://picsum.photos/200/300',
+      image: 'https://images.pexels.com/photos/20446403/pexels-photo-20446403/free-photo-of-top-view-of-gajorer-halwa-dessert.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       sale: 30,
     },
     {
-      name: 'Handicraft',
+      name: 'Basket',
       price: 200,
-      image: 'https://picsum.photos/200/300',
+      image: 'https://images.pexels.com/photos/2113125/pexels-photo-2113125.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       sale: 40,
     },
     {
-      name: 'Onion',
+      name: 'Candle',
       price: 300,
-      image: 'https://picsum.photos/200/300',
+      image: 'https://images.pexels.com/photos/783200/pexels-photo-783200.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       sale: 20,
     },
     {
-      name: 'Carrot',
+      name: 'Handbag',
       price: 400,
-      image: 'https://picsum.photos/200/300',
+      image: 'https://images.pexels.com/photos/6044266/pexels-photo-6044266.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       sale: 10,
     },
     {
-      name: 'Cabbage',
+      name: 'Pot',
       price: 500,
-      image: 'https://picsum.photos/200/300',
+      image: 'https://images.pexels.com/photos/3692083/pexels-photo-3692083.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       sale: 50,
     },
   ];
@@ -55,6 +55,8 @@ export default function ShgMarket() {
       },
     ],
   };
+
+  
 
   const screenWidth = Dimensions.get('window').width;
 
