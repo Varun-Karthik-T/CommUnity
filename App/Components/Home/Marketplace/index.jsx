@@ -31,15 +31,15 @@ export default function MarketPlace() {
   ];
 
   const categories = [
-    { key: '1', name: 'Fruits', icon: 'fruit-cherries' },
-    { key: '2', name: 'Fruits', icon: 'fruit-cherries' },
-    { key: '3', name: 'Fruits', icon: 'fruit-cherries' },
-    { key: '4', name: 'Fruits', icon: 'fruit-cherries' },
-    { key: '5', name: 'Fruits', icon: 'fruit-cherries' },
-    { key: '6', name: 'Fruits', icon: 'fruit-cherries' },
-    { key: '7', name: 'Fruits', icon: 'fruit-cherries' },
-    { key: '8', name: 'Fruits', icon: 'fruit-cherries' },
-    { key: '9', name: 'Fruits', icon: 'fruit-cherries' },
+    { key: '1', name: 'Pot', icon: 'pot' },
+    { key: '2', name: 'Clothing', icon: 'tshirt-crew' },
+    { key: '3', name: 'Baskets', icon: 'basket' },
+    { key: '4', name: 'Spices', icon: 'spoon-sugar' },
+    { key: '5', name: 'Herbal Tea', icon: 'tea' },
+    { key: '6', name: 'Pickle', icon: 'food-variant' },
+    { key: '7', name: 'Honey', icon: 'bee-flower' },
+    { key: '8', name: 'Candles', icon: 'candle' },
+    { key: '9', name: 'Shoes', icon: 'shoe-formal' },
   ];
 
   return (
