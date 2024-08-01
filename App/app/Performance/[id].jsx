@@ -12,8 +12,8 @@ function Performance() {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams();
-  const [expanded, setExpanded] = useState(true);
-  const [showGraph, setShowGraph] = useState(true);
+  const [expanded, setExpanded] = useState(false);
+  const [showGraph, setShowGraph] = useState(false);
   const [shgData, setShgData] = useState();
   const [profitData, setProfitData] = useState();
 
@@ -75,10 +75,10 @@ function Performance() {
             {shgData && (
               <>
                 <Chip variant="titleSmall">
-                  {shgData[0].SHG_Members + " members"}
+                  on {shgData[0].Date_Of_Establishment}
                 </Chip>
                 <Chip variant="titleSmall">
-                  Established on {shgData[0].Date_Of_Establishment}
+                  {shgData[0].SHG_Members + " members"}
                 </Chip>
               </>
             )}
@@ -106,7 +106,7 @@ function Performance() {
           </Button>
         </Surface>
         <View style={{ marginBottom: 50 }}>
-          {showGraph && (
+          {showGraph && profitData &&  (
             <LineChart
               data={data}
               width={screenWidth}
