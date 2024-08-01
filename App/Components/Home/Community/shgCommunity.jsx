@@ -6,7 +6,7 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
-import { Searchbar, Divider, Button, Card, useTheme } from 'react-native-paper';
+import { Searchbar, Divider, Button, Card} from 'react-native-paper';
 
 export default function ShgCommunity()
 {
@@ -50,7 +50,7 @@ return (
         <View style={styles.banner}>
           <Image
             style={styles.bannerImage}
-            source={require('@/assets/images/marketplace-banner.png')}
+            source={require('@/assets/images/candle.jpeg')}
           />
           <Text style={styles.bannerText}>
             Form a community
