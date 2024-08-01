@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify, request
 from db import db
 
 app = Flask(__name__)
@@ -23,5 +23,46 @@ def insert_data():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.get('/fetchSHG')
+def fetch_data():
+    collection = db['user-details']
+    
+    # Fetch all data
+    data = collection.find()
+    
+    # Process the data to remove '_id' from each document
+    result = []
+    for document in data:
+        document.pop('_id', None)  # Remove the '_id' field safely
+        result.append(document)
+
+    return jsonify(result)
+
+@app.get('/fetchProfit')
+def fetch_profit_by_id():
+    collection = db['shg-profit']
+
+    # Fetch data by ID
+    data = collection.find_one()
+    res=[]
+    if data:
+        # Ensure 'profit-percent' exists and add it to the result list
+        if 'profit-percent' in data:
+            res.append(data['profit-percent'])
+
+    return res
+
+
+@app.post('/add')
+def add_data():
+    data = request.json
+    collection = db['user-details']
+
+    try:
+        result = collection.insert_one(data)
+        return jsonify({"message": "Data inserted successfully", "id": str(result.inserted_id)}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

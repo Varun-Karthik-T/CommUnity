@@ -18,7 +18,7 @@ if db_url is None:
 client = MongoClient(db_url, server_api=ServerApi('1'))
 
 # Select the database
-db = client['face-db']
+db = client['SHG-Details']
 
 # Test the connection
 try:
