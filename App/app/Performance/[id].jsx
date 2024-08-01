@@ -80,6 +80,9 @@ function Performance() {
                 <Chip variant="titleSmall">
                   {shgData[0].SHG_Members + " members"}
                 </Chip>
+                <Chip variant="titleSmall">
+                  Specializes in {shgData[0].Sector}
+                </Chip>
               </>
             )}
           </View>
