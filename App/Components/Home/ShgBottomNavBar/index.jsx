@@ -1,25 +1,52 @@
-import { BottomNavigation, Text } from 'react-native-paper';
-import { useState } from 'react';
-import SHGProfile from '@/Components/SHGProfile';
+import { BottomNavigation, Text } from "react-native-paper";
+import { useState } from "react";
+import SHGProfile from "@/Components/SHGProfile";
+import ShgCommunity from "../Community/shgCommunity";
+import ShgMarket from "../Marketplace/shgmarket";
 
-const SampleRoute = () => <Text>Sample</Text>;
+const CommunityRoute = () => <ShgCommunity/>;
 
-const Sample2Route = () => <Text>Sample2</Text>;
+const MarketPlaceRoute = () => <ShgMarket/>;
 
 const ProfileRoute = () => <SHGProfile />;
+
+const BookKeepingRoute = () => <Text>BookKeeping</Text>;
 
 const ShgBottomNavBar = () => {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
-    { key: 'invest', title: 'Invest', focusedIcon: 'cash-check', unfocusedIcon: 'cash' },
-    { key: 'market', title: 'Marketplace', focusedIcon: 'cart-check', unfocusedIcon: 'cart-outline'},
-    { key: 'profile', title: 'Profile', focusedIcon: 'account', unfocusedIcon: 'account-outline' },
+    {
+      key: "community",
+      title: "Community",
+      focusedIcon: "account-group",
+      unfocusedIcon: "account-group-outline",
+    },
+    {
+      key: "marketplace",
+      title: "Marketplace",
+      focusedIcon: "cart",
+      unfocusedIcon: "cart-outline",
+    },
+    {
+      key: "bookkeeping",
+      title: "BookKeeping",
+      focusedIcon: "book",
+      unfocusedIcon: "book-outline",
+    },
+    {
+      key: "profile",
+      title: "Profile",
+      focusedIcon: "account",
+      unfocusedIcon: "account-outline",
+    }
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
-    market: SampleRoute,
-    invest: Sample2Route,
+    community: CommunityRoute,
+    marketplace: MarketPlaceRoute,
+    bookkeeping: BookKeepingRoute,
     profile: ProfileRoute,
+    
   });
 
   return (

@@ -231,7 +231,9 @@ const Form = ({ onSubmit }) => {
 
                 <Text style={styles.label}>Loan Repayment Status</Text>
                 <SelectList
-                  setSelected={(val) => setFieldValue("Loan_Repayment_Status", val)}
+                  setSelected={(val) =>
+                    setFieldValue("Loan_Repayment_Status", val)
+                  }
                   data={repaymentData}
                   save="value"
                 />
@@ -319,7 +321,9 @@ const Form = ({ onSubmit }) => {
 
                 <Text style={styles.label}>Awards Recognitions</Text>
                 <SelectList
-                  setSelected={(val) => setFieldValue("Awards_Recognitions", val)}
+                  setSelected={(val) =>
+                    setFieldValue("Awards_Recognitions", val)
+                  }
                   data={awardsRecognitionData}
                   save="value"
                 />
@@ -331,7 +335,9 @@ const Form = ({ onSubmit }) => {
 
                 <Text style={styles.label}>Economic Conditions</Text>
                 <SelectList
-                  setSelected={(val) => setFieldValue("Economic_Conditions", val)}
+                  setSelected={(val) =>
+                    setFieldValue("Economic_Conditions", val)
+                  }
                   data={economicConditionData}
                   save="value"
                 />
