@@ -125,7 +125,7 @@ const Form = ({ onSubmit }) => {
           }) => (
             <ScrollView>
               <View style={styles.container}>
-                <Text style={styles.label}>SHG Name</Text>
+                {/* <Text style={styles.label}>SHG Name</Text>
                 <TextInput
                   style={styles.input}
                   onChangeText={handleChange("SHG_Name")}
@@ -134,9 +134,9 @@ const Form = ({ onSubmit }) => {
                 />
                 {touched.SHG_Name && errors.SHG_Name ? (
                   <Text style={styles.errorText}>{errors.SHG_Name}</Text>
-                ) : null}
+                ) : null} */}
 
-                <Text style={styles.label}>Date of Establishment</Text>
+                {/* <Text style={styles.label}>Date of Establishment</Text>
                 <Button onPress={() => setShowDatePicker(true)}>
                   {date.toDateString()}
                 </Button>
@@ -153,7 +153,7 @@ const Form = ({ onSubmit }) => {
                   <Text style={styles.errorText}>
                     {errors.Date_of_Establishment}
                   </Text>
-                ) : null}
+                ) : null} */}
 
                 <Text style={styles.label}>Number of Members</Text>
                 <TextInput
@@ -168,7 +168,7 @@ const Form = ({ onSubmit }) => {
                     {errors.Number_of_Members}
                   </Text>
                 ) : null}
-
+{/* 
                 <Text style={styles.label}>Sector</Text>
                 <TextInput
                   style={styles.input}
@@ -178,9 +178,9 @@ const Form = ({ onSubmit }) => {
                 />
                 {touched.Sector && errors.Sector ? (
                   <Text style={styles.errorText}>{errors.Sector}</Text>
-                ) : null}
+                ) : null} */}
 
-                <Text style={styles.label}>Annual Revenue</Text>
+                <Text style={styles.label}>Revenue</Text>
                 <TextInput
                   style={styles.input}
                   keyboardType="numeric"
@@ -192,7 +192,7 @@ const Form = ({ onSubmit }) => {
                   <Text style={styles.errorText}>{errors.Annual_Revenue}</Text>
                 ) : null}
 
-                <Text style={styles.label}>Annual Profit</Text>
+                <Text style={styles.label}>Profit</Text>
                 <TextInput
                   style={styles.input}
                   keyboardType="numeric"
