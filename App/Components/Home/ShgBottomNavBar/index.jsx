@@ -1,6 +1,6 @@
 import { BottomNavigation, Text } from "react-native-paper";
 import { useState } from "react";
-import SHGProfile from "@/Components/SHGProfile";
+import SHGProfile from "@/Components/Home/SHGProfile";
 import ShgCommunity from "../Community/shgCommunity";
 import ShgMarket from "../Marketplace/shgmarket";
 import SHGBookkeeping from "../SHGBookkeeping";

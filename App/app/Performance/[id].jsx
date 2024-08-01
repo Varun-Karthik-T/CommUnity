@@ -53,9 +53,26 @@ function Performance() {
       strokeDasharray: "0",
     },
   };
-
+  response1 = {
+    data: {
+      Score: 4,
+    },
+  };
   const data = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    labels: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
     datasets: [
       {
         data: profitData ? Object.values(profitData[0]) : [],
@@ -108,14 +125,25 @@ function Performance() {
             Performance Analytics
           </Button>
         </Surface>
+
         <View style={{ marginBottom: 50 }}>
-          {showGraph && profitData &&  (
-            <LineChart
-              data={data}
-              width={screenWidth}
-              height={220}
-              chartConfig={chartConfig}
-            />
+          {showGraph && profitData && (
+            <>
+              <View
+                style={{ display: "flex", flexDirection: "row" }}
+              >
+                <Text style={{ fontWeight: "bold" , fontSize: 20}}>
+                  Risk Assessment Score:
+                </Text>
+                <Text style={{ fontSize: 20 }}>{shgData[0].Score}</Text>
+              </View>
+              <LineChart
+                data={data}
+                width={screenWidth}
+                height={220}
+                chartConfig={chartConfig}
+              />
+            </>
           )}
         </View>
       </ScrollView>

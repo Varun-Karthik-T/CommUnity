@@ -6,40 +6,40 @@ export default function MarketPlace() {
     {
       name: "Thirunelveli Alwa",
       price: 100,
-      image: "https://picsum.photos/200/300",
+      image: "https://images.pexels.com/photos/20446403/pexels-photo-20446403/free-photo-of-top-view-of-gajorer-halwa-dessert.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     {
-      name: "Handicraft",
+      name: "Basket",
       price: 200,
-      image: "https://picsum.photos/200/300",
+      image: "https://images.pexels.com/photos/2113125/pexels-photo-2113125.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     {
-      name: "Onion",
+      name: "Candle",
       price: 300,
-      image: "https://picsum.photos/200/300",
+      image: "https://images.pexels.com/photos/783200/pexels-photo-783200.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     {
-      name: "Carrot",
+      name: "Handbag",
       price: 400,
-      image: "https://picsum.photos/200/300",
+      image: "https://images.pexels.com/photos/6044266/pexels-photo-6044266.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     {
-      name: "Cabbage",
+      name: "Pot",
       price: 500,
-      image: "https://picsum.photos/200/300",
+      image: "https://images.pexels.com/photos/3692083/pexels-photo-3692083.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
   ];
 
   const categories = [
-    { key: '1', name: 'Fruits', icon: 'fruit-cherries' },
-    { key: '2', name: 'Fruits', icon: 'fruit-cherries' },
-    { key: '3', name: 'Fruits', icon: 'fruit-cherries' },
-    { key: '4', name: 'Fruits', icon: 'fruit-cherries' },
-    { key: '5', name: 'Fruits', icon: 'fruit-cherries' },
-    { key: '6', name: 'Fruits', icon: 'fruit-cherries' },
-    { key: '7', name: 'Fruits', icon: 'fruit-cherries' },
-    { key: '8', name: 'Fruits', icon: 'fruit-cherries' },
-    { key: '9', name: 'Fruits', icon: 'fruit-cherries' },
+    { key: '1', name: 'Pot', icon: 'pot' },
+    { key: '2', name: 'Clothing', icon: 'tshirt-crew' },
+    { key: '3', name: 'Baskets', icon: 'basket' },
+    { key: '4', name: 'Spices', icon: 'spoon-sugar' },
+    { key: '5', name: 'Herbal Tea', icon: 'tea' },
+    { key: '6', name: 'Pickle', icon: 'food-variant' },
+    { key: '7', name: 'Honey', icon: 'bee-flower' },
+    { key: '8', name: 'Candles', icon: 'candle' },
+    { key: '9', name: 'Shoes', icon: 'shoe-formal' },
   ];
 
   return (

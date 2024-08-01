@@ -54,13 +54,13 @@ const shgData = [
     title: "UPTOWN GIRLS",
     subtitle: "Pudukkottai",
     description: "We make the best Laddoos in town",
-    imageUri: "https://picsum.photos/700",
+    imageUri: "https://th.bing.com/th/id/R.3cef5299a9fb84b64f846b564f4e895e?rik=JU9vcW0%2bi%2brRMw&riu=http%3a%2f%2fe3az4yc7762.exactdn.com%2fwp-content%2fuploads%2f2022%2f08%2fPCI-India_Womens-SHG.jpg&ehk=1%2fYxsWbcVnPpHDw1YTul18O2zgunEC1POyr7oWvHmpM%3d&risl=&pid=ImgRaw&r=0",
   },
   {
-    title: "UPTOWN GIRLS",
-    subtitle: "Pudukkottai",
-    description: "We make the best Laddoos in town",
-    imageUri: "https://picsum.photos/700",
+    title: "TSI SHG",
+    subtitle: "Tenkasi",
+    description: "We make the best baskets in town",
+    imageUri: "https://images.pexels.com/photos/1875480/pexels-photo-1875480.jpeg?auto=compress&cs=tinysrgb&w=600",
   },
 ];
 

@@ -48,6 +48,10 @@ export default function SHGProfile() {
               <Text style={styles.dataValue}>{shg.SHG_Name}</Text>
             </View>
             <View style={styles.dataContainer}>
+              <Text style={styles.dataLabel}>Risk Assessment Score</Text>
+              <Text style={styles.dataValue}>{shg.Score}</Text>
+            </View>
+            <View style={styles.dataContainer}>
               <Text style={styles.dataLabel}>Annual Revenue:</Text>
               <Text style={styles.dataValue}>{shg.Annual_Revenue}</Text>
             </View>

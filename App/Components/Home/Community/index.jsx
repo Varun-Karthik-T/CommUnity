@@ -43,17 +43,17 @@ function Community() {
     {
       name: "Sunrise SHG",
       location: "Village A",
-      avatar: "https://picsum.photos/100/100",
+      avatar: "https://images.pexels.com/photos/36744/agriculture-arable-clouds-countryside.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     {
       name: "Empowerment SHG",
       location: "Village B",
-      avatar: "https://picsum.photos/100/100",
+      avatar: "https://images.pexels.com/photos/7938943/pexels-photo-7938943.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     {
       name: "Unity SHG",
       location: "Village C",
-      avatar: "https://picsum.photos/100/100",
+      avatar: "https://images.pexels.com/photos/4659806/pexels-photo-4659806.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
   ];
 
@@ -61,7 +61,7 @@ function Community() {
     {
       name: "Helping Hands NGO",
       resources: "Financial Aid, Training Programs",
-      avatar: "https://picsum.photos/100/100",
+      avatar: "https://images.pexels.com/photos/3541916/pexels-photo-3541916.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     {
       name: "Growth Foundation",
