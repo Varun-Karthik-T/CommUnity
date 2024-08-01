@@ -6,14 +6,14 @@ import { LineChart } from "react-native-chart-kit";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import axios from "axios";
 
-const screenWidth = Dimensions.get("window").width;
+const screenWidth = Dimensions.get("window").width - 40;
 
 function Performance() {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams();
-  const [expanded, setExpanded] = useState(true);
-  const [showGraph, setShowGraph] = useState(true);
+  const [expanded, setExpanded] = useState(false);
+  const [showGraph, setShowGraph] = useState(false);
   const [shgData, setShgData] = useState();
   const [profitData, setProfitData] = useState();
 
@@ -23,10 +23,10 @@ function Performance() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let response = await axios.get("http://10.11.50.21:5000/fetchSHG");
+        let response = await axios.get("http://10.16.49.41:5000/fetchSHG");
         setShgData(response.data);
         console.log(response.data);
-        response = await axios.get("http://10.11.50.21:5000/fetchProfit");
+        response = await axios.get("http://10.16.49.41:5000/fetchProfit");
         setProfitData(response.data);
         console.log(response.data);
       } catch (error) {
@@ -55,7 +55,7 @@ function Performance() {
   };
 
   const data = {
-    labels: profitData ? Object.keys(profitData[0]) : [],
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     datasets: [
       {
         data: profitData ? Object.values(profitData[0]) : [],
@@ -75,10 +75,13 @@ function Performance() {
             {shgData && (
               <>
                 <Chip variant="titleSmall">
+                  on {shgData[0].Date_Of_Establishment}
+                </Chip>
+                <Chip variant="titleSmall">
                   {shgData[0].SHG_Members + " members"}
                 </Chip>
                 <Chip variant="titleSmall">
-                  Established on {shgData[0].Date_Of_Establishment}
+                  Specializes in {shgData[0].Sector}
                 </Chip>
               </>
             )}
@@ -106,7 +109,7 @@ function Performance() {
           </Button>
         </Surface>
         <View style={{ marginBottom: 50 }}>
-          {showGraph && (
+          {showGraph && profitData &&  (
             <LineChart
               data={data}
               width={screenWidth}

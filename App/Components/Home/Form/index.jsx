@@ -80,8 +80,7 @@ const Form = ({ onSubmit }) => {
   };
 
   return (
-    <Card style={styles.card}>
-      <Card.Content>
+<View>
         <Formik
           initialValues={{
             SHG_Name: "",
@@ -371,15 +370,14 @@ const Form = ({ onSubmit }) => {
                   <Text style={styles.errorText}>{errors.Market_Trends}</Text>
                 ) : null}
 
-                <Button onPress={handleSubmit} title="Submit">
+                <Button mode="contained" onPress={handleSubmit} title="Submit" style={{margin:10}}>
                   Submit
                 </Button>
               </View>
             </ScrollView>
           )}
         </Formik>
-      </Card.Content>
-    </Card>
+ </View>
   );
 };
 
