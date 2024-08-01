@@ -3,6 +3,7 @@ import { useState } from "react";
 import SHGProfile from "@/Components/SHGProfile";
 import ShgCommunity from "../Community/shgCommunity";
 import ShgMarket from "../Marketplace/shgmarket";
+import SHGBookkeeping from "../SHGBookkeeping";
 
 const CommunityRoute = () => <ShgCommunity/>;
 
@@ -10,7 +11,7 @@ const MarketPlaceRoute = () => <ShgMarket/>;
 
 const ProfileRoute = () => <SHGProfile />;
 
-const BookKeepingRoute = () => <Text>BookKeeping</Text>;
+const BookKeepingRoute = () => <SHGBookkeeping />;
 
 const ShgBottomNavBar = () => {
   const [index, setIndex] = useState(0);

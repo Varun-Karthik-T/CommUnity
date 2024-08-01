@@ -16,7 +16,7 @@ export default function ShgMarket() {
 
   const data = [
     {
-      name: 'Thirunelveli Alwa',
+      name: 'Alwa',
       price: 100,
       image: 'https://picsum.photos/200/300',
       sale: 30,
@@ -80,17 +80,23 @@ export default function ShgMarket() {
           <Text style={styles.heading2}>Sales Chart</Text>
           <BarChart
             data={chartData}
-            width={screenWidth - 30} // from react-native
+            width={screenWidth - 30} 
             height={220}
             yAxisLabel=""
             chartConfig={{
-              backgroundColor: theme.colors.primary,
-              backgroundGradientFrom: theme.colors.primaryContainer,
-              backgroundGradientTo: theme.colors.secondaryContainer,
+              backgroundColor: theme.colors.surface,
+              backgroundGradientFrom: theme.colors.surface,
+              backgroundGradientTo: theme.colors.surface,
               decimalPlaces: 2,
-              color: (opacity = 1) => theme.colors.onPrimary,
+              color: (opacity = 1) => `rgba(151, 72, 16, ${opacity})`,
+              labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, 
               style: {
                 borderRadius: 16,
+              },
+              propsForBackgroundLines: {
+                strokeWidth: 1,
+                stroke: '#e3e3e3', 
+                strokeDasharray: '0',
               },
             }}
             style={{
@@ -110,13 +116,13 @@ export default function ShgMarket() {
                     <View style={styles.textContent}>
                       <Text style={styles.caption}>{item.name}</Text>
                       <View style={styles.salesInfo}>
-                        <MaterialCommunityIcons name="sale" size={20} color="red" />
+                        <MaterialCommunityIcons name="chart-line" size={20} color="green" />
                         <Text style={styles.salesText}>{item.sale}</Text>
                       </View>
                     </View>
                   </Card.Content>
                   <Card.Actions>
-                    <Button> View product </Button>
+                    <Button> Change availability</Button>
                   </Card.Actions>
                 </Card>
               </View>
@@ -205,6 +211,5 @@ const styles = StyleSheet.create({
   salesText: {
     marginLeft: 5,
     fontSize: 16,
-    color: 'red',
   },
 });
