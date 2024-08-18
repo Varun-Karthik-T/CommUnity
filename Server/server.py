@@ -1,9 +1,16 @@
 from flask import Flask, jsonify, request
 from db import db
+import xgboost as xgb
+import numpy as np
+import pandas as pd
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
+
+model = xgb.XGBRegressor()
+model.load_model('model/xgb_model.json')
+print("Model loaded successfully")
 
 @app.route('/')
 def hello_world():
@@ -67,5 +74,33 @@ def add_data():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
+
+@app.route('/performance', methods=['POST'])
+def predict():
+    data = request.get_json(force=True)
+    
+    # Extract the required fields from the input JSON
+    initial_capital = data.get('initial_capital')
+    total_revenue = data.get('total_revenue')
+    gross_profit = total_revenue - initial_capital
+    profit_margins = (gross_profit / total_revenue) * 100
+    attendance = data.get('attendance')
+    loan_repayments = data.get('loan_repayments')
+    
+    # Prepare the input data in the correct format
+    user_data = pd.DataFrame({
+        'initial_capital': [initial_capital],
+        'gross_profit': [gross_profit],
+        'profit_margins': [profit_margins],
+        'attendance': [attendance],
+        'loan_repayments': [loan_repayments]
+    })
+
+    # Predict the performance score
+    predicted_score = model.predict(user_data)
+    
+    return jsonify({'prediction': predicted_score.tolist()})
+
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
