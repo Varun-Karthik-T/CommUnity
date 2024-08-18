@@ -1,0 +1,1 @@
+performance_score = np.clip(np.round(performance_score), 0, 100).astype(int)
