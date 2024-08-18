@@ -7,9 +7,9 @@ import SHGBookkeeping from "../SHGBookkeeping";
 import SHGManagement from "../SHGManagement";
 import SHGDevelopment from "../SHGDevelopment";
 
-const CommunityRoute = () => <ShgCommunity/>;
+const CommunityRoute = () => <ShgCommunity />;
 
-const MarketPlaceRoute = () => <ShgMarket/>;
+const MarketPlaceRoute = () => <ShgMarket />;
 
 // const ProfileRoute = () => <SHGProfile />;
 
@@ -17,7 +17,7 @@ const BookKeepingRoute = () => <SHGBookkeeping />;
 
 const ManagementRoute = () => <SHGManagement />;
 
-const DevelopmentRoute = () => <SHGDevelopment />;  
+const DevelopmentRoute = () => <SHGDevelopment />;
 
 const ShgBottomNavBar = () => {
   const [index, setIndex] = useState(0);
@@ -44,8 +44,8 @@ const ShgBottomNavBar = () => {
     {
       key: "development",
       title: "Develop",
-      focusedIcon: "account-tie",
-      unfocusedIcon: "account-tie-outline",
+      focusedIcon: "chart-areaspline-variant",
+      unfocusedIcon: "chart-line",
     },
     {
       key: "management",
@@ -67,8 +67,7 @@ const ShgBottomNavBar = () => {
     bookkeeping: BookKeepingRoute,
     development: DevelopmentRoute,
     management: ManagementRoute,
-   // profile: ProfileRoute,
-    
+    // profile: ProfileRoute,
   });
 
   return (
