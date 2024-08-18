@@ -7,7 +7,6 @@ import { useContext } from "react";
 function Home() {
   const { role, isAuthenticated } = useContext(AuthContext);
 
-  )
   return (
     <>
       {isAuthenticated ? (

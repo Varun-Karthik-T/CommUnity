@@ -4,14 +4,20 @@ import SHGProfile from "@/Components/Home/SHGProfile";
 import ShgCommunity from "../Community/shgCommunity";
 import ShgMarket from "../Marketplace/shgmarket";
 import SHGBookkeeping from "../SHGBookkeeping";
+import SHGManagement from "../SHGManagement";
+import SHGDevelopment from "../SHGDevelopment";
 
 const CommunityRoute = () => <ShgCommunity/>;
 
 const MarketPlaceRoute = () => <ShgMarket/>;
 
-const ProfileRoute = () => <SHGProfile />;
+// const ProfileRoute = () => <SHGProfile />;
 
 const BookKeepingRoute = () => <SHGBookkeeping />;
+
+const ManagementRoute = () => <SHGManagement />;
+
+const DevelopmentRoute = () => <SHGDevelopment />;  
 
 const ShgBottomNavBar = () => {
   const [index, setIndex] = useState(0);
@@ -34,19 +40,34 @@ const ShgBottomNavBar = () => {
       focusedIcon: "book",
       unfocusedIcon: "book-outline",
     },
+
     {
-      key: "profile",
-      title: "Profile",
-      focusedIcon: "account",
-      unfocusedIcon: "account-outline",
-    }
+      key: "development",
+      title: "Develop",
+      focusedIcon: "account-tie",
+      unfocusedIcon: "account-tie-outline",
+    },
+    {
+      key: "management",
+      title: "Manage",
+      focusedIcon: "account-tie",
+      unfocusedIcon: "account-tie-outline",
+    },
+    // {
+    //   key: "profile",
+    //   title: "Profile",
+    //   focusedIcon: "account",
+    //   unfocusedIcon: "account-outline",
+    // }
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
     community: CommunityRoute,
     marketplace: MarketPlaceRoute,
     bookkeeping: BookKeepingRoute,
-    profile: ProfileRoute,
+    development: DevelopmentRoute,
+    management: ManagementRoute,
+   // profile: ProfileRoute,
     
   });
 
