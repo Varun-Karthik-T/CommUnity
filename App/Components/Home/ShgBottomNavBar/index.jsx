@@ -47,9 +47,9 @@ const ShgBottomNavBar = () => {
     },
     {
       key: "management",
-      title: "Manage",
-      focusedIcon: "account-tie",
-      unfocusedIcon: "account-tie-outline",
+      title: "Finance",
+      focusedIcon: "cash-check",
+      unfocusedIcon: "cash",
     },
     // {
     //   key: "profile",
