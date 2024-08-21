@@ -14,6 +14,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { BarChart } from 'react-native-chart-kit';
 import { Dimensions } from 'react-native';
 import i from '@/Translations';
+import api from '@/api/api';
 
 export default function ShgMarket() {
   const theme = useTheme();
@@ -47,13 +48,14 @@ export default function ShgMarket() {
   };
 
   const addProduct = async () => {
-    const response = api.post("/addProduct", {
+    const response = await api.post("/addProduct", {
       product_name: newProductName,
       price: parseFloat(newProductPrice),
       image: newProductImage,
       shg_id: "shg_001",
       availability: parseInt(newProductAvailability),
     });
+    console.log(response.data);
     setAddProductModalVisible(false);
     setNewProductName("");
     setNewProductPrice("");
