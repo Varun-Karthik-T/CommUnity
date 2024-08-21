@@ -17,11 +17,15 @@ import { Dimensions } from 'react-native';
 export default function ShgMarket() {
   const theme = useTheme();
   const [modalVisible, setModalVisible] = useState(false);
+  const [addProductModalVisible, setAddProductModalVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [updatedPrice, setUpdatedPrice] = useState('');
   const [updatedAvailability, setUpdatedAvailability] = useState('');
-
-  const data = [
+  const [newProductName, setNewProductName] = useState('');
+  const [newProductPrice, setNewProductPrice] = useState('');
+  const [newProductAvailability, setNewProductAvailability] = useState('');
+  const [newProductImage, setNewProductImage] = useState('');
+  const [data, setData] = useState([
     {
       name: 'Alwa',
       price: 100,
@@ -57,7 +61,7 @@ export default function ShgMarket() {
       sale: 50,
       availability: 30,
     },
-  ];
+  ]);
 
   const chartData = {
     labels: data.map((item) => item.name),
@@ -78,12 +82,38 @@ export default function ShgMarket() {
   };
 
   const saveChanges = () => {
-    // Save the updated product details here
     if (selectedProduct) {
-      selectedProduct.price = updatedPrice;
-      selectedProduct.availability = updatedAvailability;
+      setData((prevData) =>
+        prevData.map((item) =>
+          item.name === selectedProduct.name
+            ? { ...item, price: updatedPrice, availability: updatedAvailability }
+            : item
+        )
+      );
     }
     setModalVisible(false);
+  };
+
+  const openAddProductModal = () => {
+    setAddProductModalVisible(true);
+  };
+
+  const addProduct = () => {
+    setData((prevData) => [
+      ...prevData,
+      {
+        name: newProductName,
+        price: parseFloat(newProductPrice),
+        image: newProductImage,
+        sale: 0,
+        availability: parseInt(newProductAvailability),
+      },
+    ]);
+    setAddProductModalVisible(false);
+    setNewProductName('');
+    setNewProductPrice('');
+    setNewProductAvailability('');
+    setNewProductImage('');
   };
 
   return (
@@ -164,7 +194,7 @@ export default function ShgMarket() {
         icon="plus"
         label="Add Product"
         style={styles.cartFAB}
-        onPress={() => console.log('Pressed')}
+        onPress={openAddProductModal}
       />
 
       <Modal
@@ -195,11 +225,63 @@ export default function ShgMarket() {
             />
 
             <View style={styles.modalButtons}>
+              <Button mode="outlined" onPress={() => setModalVisible(false)}>
+                Cancel
+              </Button>
               <Button mode="contained" onPress={saveChanges}>
                 Save
               </Button>
-              <Button mode="outlined" onPress={() => setModalVisible(false)}>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        visible={addProductModalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setAddProductModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Add New Product</Text>
+
+            <Text style={styles.modalLabel}>Product Name:</Text>
+            <TextInput
+              style={styles.input}
+              value={newProductName}
+              onChangeText={setNewProductName}
+            />
+
+            <Text style={styles.modalLabel}>Price:</Text>
+            <TextInput
+              style={styles.input}
+              value={newProductPrice}
+              onChangeText={setNewProductPrice}
+              keyboardType="numeric"
+            />
+
+            <Text style={styles.modalLabel}>Availability:</Text>
+            <TextInput
+              style={styles.input}
+              value={newProductAvailability}
+              onChangeText={setNewProductAvailability}
+              keyboardType="numeric"
+            />
+
+            <Text style={styles.modalLabel}>Image Link:</Text>
+            <TextInput
+              style={styles.input}
+              value={newProductImage}
+              onChangeText={setNewProductImage}
+            />
+
+            <View style={styles.modalButtons}>
+              <Button mode="outlined" onPress={() => setAddProductModalVisible(false)}>
                 Cancel
+              </Button>
+              <Button mode="contained" onPress={addProduct}>
+                Add
               </Button>
             </View>
           </View>
