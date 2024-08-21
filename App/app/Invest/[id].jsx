@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet } from "react-native";
 import {
   Text,
   Card,
@@ -9,7 +9,6 @@ import {
   TextInput,
 } from "react-native-paper";
 import { Dropdown } from "react-native-paper-dropdown";
-import UpiPayment from "react-native-upi-payment";
 
 const data = {
   Name: "UPTOWN Girls",
@@ -34,38 +33,6 @@ function InvestPage() {
   const [type, setType] = useState("");
   const [freq, setFreq] = useState("");
   const [amount, setAmount] = useState("");
-
-  const handlePayment = () => {
-    if (!amount) {
-      Alert.alert("Error", "Please enter an amount to proceed.");
-      return;
-    }
-
-    UpiPayment.initializePayment(
-      {
-        vpa: "7708656066@ybl", // Replace with the correct UPI ID of the recipient
-        payeeName: "UPTOWN Girls",
-        amount: amount,
-        transactionRef: `${Math.random()}`,
-      },
-      successCallback,
-      failureCallback
-    );
-  };
-
-  const successCallback = (data) => {
-    Alert.alert("Success", "Payment Successful", [
-      { text: "OK", onPress: () => console.log("OK Pressed") },
-    ]);
-    console.log(data);
-  };
-
-  const failureCallback = (data) => {
-    Alert.alert("Error", "Payment Failed", [
-      { text: "OK", onPress: () => console.log("OK Pressed") },
-    ]);
-    console.log(data);
-  };
 
   return (
     <View style={styles.container}>
@@ -159,7 +126,9 @@ function InvestPage() {
 
           <Button
             mode="contained"
-            onPress={handlePayment}
+            onPress={() => {
+              // Redirect to UPI apps or handle payment logic here
+            }}
             style={styles.investButton}
           >
             Proceed to Pay
