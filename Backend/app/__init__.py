@@ -4,6 +4,6 @@ from flask_cors import CORS
 app=Flask(__name__)
 CORS(app)
 
-from .routes import hello, fetchSHGs, fetchMembers, fetchExpenses, fetchAllShg, fetchAllMembers, applyLoan
+from .routes import hello, fetchSHGs, fetchMembers, fetchExpenses, fetchAllShg, fetchAllMembers, applyLoan, addProduct
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
