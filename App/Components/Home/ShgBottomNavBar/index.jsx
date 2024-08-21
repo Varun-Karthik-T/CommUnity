@@ -11,7 +11,6 @@ const CommunityRoute = () => <ShgCommunity />;
 
 const MarketPlaceRoute = () => <ShgMarket />;
 
-// const ProfileRoute = () => <SHGProfile />;
 
 const BookKeepingRoute = () => <SHGBookkeeping />;
 
