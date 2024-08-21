@@ -1,5 +1,6 @@
 import { useRouter } from "expo-router";
-import * as React from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "@/contexts/AuthContext";
 import {
   SafeAreaView,
   ScrollView,
@@ -11,9 +12,11 @@ import {
 import { Card, Button, DataTable, Divider, Avatar } from "react-native-paper";
 import i from "@/Translations";
 
-const SHGManagement = ({ navigation }) => {
-  const [showAllTransactions, setShowAllTransactions] = React.useState(false);
+const SHGManagement = () => {
+  const [showAllTransactions, setShowAllTransactions] = useState(false);
   const router = useRouter();
+
+  const { role } = useContext(AuthContext);
 
   const transactions = [
     { date: "2024-08-01", type: "Deposit", amount: "₹13,000", isCredit: true },
@@ -38,14 +41,12 @@ const SHGManagement = ({ navigation }) => {
       isCredit: false,
     },
     { date: "2024-08-02", type: "Deposit", amount: "₹2,000", isCredit: true },
-    // Add more transactions here
   ];
 
   const sortedTransactions = [...transactions].sort(
     (a, b) => new Date(b.date) - new Date(a.date)
   );
 
-  // Group transactions by date
   const groupedTransactions = sortedTransactions.reduce((acc, transaction) => {
     if (!acc[transaction.date]) {
       acc[transaction.date] = [];
@@ -54,7 +55,6 @@ const SHGManagement = ({ navigation }) => {
     return acc;
   }, {});
 
-  // Get the two most recent transactions for display
   const recentTransactions = sortedTransactions.slice(0, 2);
 
   const renderGroupedTransactions = () => (
@@ -80,7 +80,7 @@ const SHGManagement = ({ navigation }) => {
           </DataTable>
         </View>
       )}
-      keyExtractor={(item) => item} // Ensure each item has a unique key
+      keyExtractor={(item) => item}
       ListFooterComponent={
         <Button
           mode="contained"
@@ -100,35 +100,34 @@ const SHGManagement = ({ navigation }) => {
           renderGroupedTransactions()
         ) : (
           <>
-            {/* Finance Overview Section */}
             <Card style={styles.card}>
               <Card.Content>
                 <View style={styles.overviewHeader}>
-                  <Text style={styles.title}>{i.t('financeOverview')}</Text>
+                  <Text style={styles.title}>{i.t("financeOverview")}</Text>
                 </View>
                 <View style={styles.overview}>
                   <View style={styles.overviewItem}>
                     <Avatar.Icon size={48} icon="bank" />
                     <View style={styles.overviewText}>
-                      <Text>{i.t('totalShgFunds')}: ₹1,00,000</Text>
+                      <Text>{i.t("totalShgFunds")}: ₹1,00,000</Text>
                     </View>
                   </View>
                   <View style={styles.overviewItem}>
                     <Avatar.Icon size={48} icon="account" />
                     <View style={styles.overviewText}>
-                      <Text>{i.t('yourContributions')}: ₹10,000</Text>
+                      <Text>{i.t("yourContributions")}: ₹10,000</Text>
                     </View>
                   </View>
                   <View style={styles.overviewItem}>
                     <Avatar.Icon size={48} icon="handshake" />
                     <View style={styles.overviewText}>
-                      <Text>{i.t('TotalLoansGiven')}: ₹50,000</Text>
+                      <Text>{i.t("TotalLoansGiven")}: ₹50,000</Text>
                     </View>
                   </View>
                   <View style={styles.overviewItem}>
                     <Avatar.Icon size={48} icon="cash" />
                     <View style={styles.overviewText}>
-                      <Text>{i.t('yourLoan')}: ₹5,000</Text>
+                      <Text>{i.t("yourLoan")}: ₹5,000</Text>
                     </View>
                   </View>
                 </View>
@@ -137,23 +136,22 @@ const SHGManagement = ({ navigation }) => {
 
             <Divider />
 
-            {/* Recent Transactions Section */}
             <Card style={styles.card}>
               <Card.Content>
                 <View style={styles.overviewHeader}>
-                  <Text style={styles.title}>{i.t('recentTransactions')}</Text>
+                  <Text style={styles.title}>{i.t("recentTransactions")}</Text>
                   <Button
                     mode="text"
                     onPress={() => setShowAllTransactions(true)}
                   >
-                    {i.t('viewAll')}
+                    {i.t("viewAll")}
                   </Button>
                 </View>
                 <DataTable>
                   <DataTable.Header>
-                    <DataTable.Title>{i.t('date')}</DataTable.Title>
-                    <DataTable.Title>{i.t('transactionType')}</DataTable.Title>
-                    <DataTable.Title numeric>{i.t('amount')}</DataTable.Title>
+                    <DataTable.Title>{i.t("date")}</DataTable.Title>
+                    <DataTable.Title>{i.t("transactionType")}</DataTable.Title>
+                    <DataTable.Title numeric>{i.t("amount")}</DataTable.Title>
                   </DataTable.Header>
 
                   {recentTransactions.map((t, index) => (
@@ -174,25 +172,51 @@ const SHGManagement = ({ navigation }) => {
 
             <Divider />
 
-            {/* Loan Management Section */}
             <Card style={styles.card}>
-              <Card.Content>
-                <Text style={styles.title}>{i.t('LoanManagement')}</Text>
+              <Card.Content style={{ gap: 10 }}>
+                <Text style={styles.title}>{i.t("LoanManagement")}</Text>
                 <Button
                   mode="contained"
                   onPress={() => router.navigate(`/Loan`)}
                   style={{
-                    alignSelf: "center", // Centers the button horizontally
-                    paddingVertical: 5, // Reduces the vertical padding
-                    paddingHorizontal: 20, // Reduces the horizontal padding
+                    alignSelf: "center",
+                    paddingVertical: 5,
+                    paddingHorizontal: 20,
                   }}
                 >
-                  {i.t('manageLoan')}
+                  {i.t("manageLoan")}
                 </Button>
+                {role === "SHG-Head" && (
+                  <Button
+                    mode="contained"
+                    onPress={() => router.navigate(`/Loan/verify`)}
+                    style={{
+                      alignSelf: "center",
+                      paddingVertical: 5,
+                      paddingHorizontal: 20,
+                    }}
+                  >
+                    {i.t("verifyLoan")}
+                  </Button>
+                )}
               </Card.Content>
             </Card>
 
             <Divider />
+
+            {role === "SHG-Head" && (
+                  <Button
+                    mode="contained"
+                    onPress={() => router.navigate(`/Members`)}
+                    style={{
+                      alignSelf: "center",
+                      paddingVertical: 5,
+                      paddingHorizontal: 20,
+                    }}
+                  >
+                    {i.t("manageMembers")}
+                  </Button>
+                )}
           </>
         )}
       </ScrollView>
