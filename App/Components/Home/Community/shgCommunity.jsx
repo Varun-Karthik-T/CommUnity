@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView, Image, Linking } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
+  Linking,
+} from "react-native";
 import { Searchbar, Divider, Button, Card, FAB } from "react-native-paper";
 import api from "@/api/api";
 
@@ -18,7 +25,9 @@ export default function ShgCommunity() {
 
   function handleCall(contact) {
     const url = `tel:${contact}`;
-    Linking.openURL(url).catch((err) => console.error("Error opening dialer", err));
+    Linking.openURL(url).catch((err) =>
+      console.error("Error opening dialer", err)
+    );
   }
 
   const recentActivities = [
@@ -69,10 +78,7 @@ export default function ShgCommunity() {
             <Text style={styles.heading}>Recent Posts</Text>
             <ScrollView style={styles.newsContainer} nestedScrollEnabled={true}>
               {recentActivities.map((activity, index) => (
-                <Card
-                  key={index}
-                  style={styles.newsCard}
-                >
+                <Card key={index} style={styles.newsCard}>
                   <Card.Content>
                     <Text style={styles.date}>{activity.date}</Text>
                     <Text style={styles.shgName}>{activity.shgName}</Text>
@@ -99,7 +105,12 @@ export default function ShgCommunity() {
                     </View>
                   </Card.Content>
                   <Card.Actions>
-                    <Button style={styles.button1} onPress={() => handleCall(item.contact)}>Contact</Button>
+                    <Button
+                      style={styles.button1}
+                      onPress={() => handleCall(item.contact)}
+                    >
+                      Contact
+                    </Button>
                     <Button style={styles.button}> Visit </Button>
                   </Card.Actions>
                 </Card>
@@ -112,7 +123,8 @@ export default function ShgCommunity() {
         icon="plus"
         label="Create post"
         style={styles.cartFAB}
-        onPress={() => setFormVisible(true)}
+        // onPress={() => setFormVisible(true)}
+        onPress={() => console.log("Create post clicked")}
       />
     </>
   );
