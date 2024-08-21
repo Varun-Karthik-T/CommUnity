@@ -6,7 +6,6 @@ from flask import jsonify
 def fetchSHGs(id):
     collection = d.db['SHGs']
 
-    # Fetch all documents from the collection
     data = collection.find( { "shg_id": id } )
     for data in data:
         if '_id' in data:
