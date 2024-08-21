@@ -19,7 +19,6 @@ def hello_world():
 
 @app.route('/data', methods=['POST'])
 def insert_data():
-    #data = request.json  # Get the JSON data from the request
 
     data={"name":"sai","age":23}
     if not data:
@@ -27,22 +26,21 @@ def insert_data():
 
     collection = db['sample']
     try:
-        result = collection.insert_one(data)  # Insert the data into the collection
+        result = collection.insert_one(data)
         return jsonify({"message": "Data inserted successfully", "id": str(result.inserted_id)}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 @app.get('/fetchSHG')
 def fetch_data():
+    print("Hit")
     collection = db['user-details']
     
-    # Fetch all data
     data = collection.find()
     
-    # Process the data to remove '_id' from each document
     result = []
     for document in data:
-        document.pop('_id', None)  # Remove the '_id' field safely
+        document.pop('_id', None)
         result.append(document)
     print(result)
     return jsonify(result)
@@ -51,11 +49,9 @@ def fetch_data():
 def fetch_profit_by_id():
     collection = db['shg-profit']
 
-    # Fetch data by ID
     data = collection.find_one()
     res=[]
     if data:
-        # Ensure 'profit-percent' exists and add it to the result list
         if 'profit-percent' in data:
             res.append(data['profit-percent'])
     print(res)
@@ -79,7 +75,6 @@ def add_data():
 def predict():
     data = request.get_json(force=True)
     
-    # Extract the required fields from the input JSON
     initial_capital = data.get('initial_capital')
     total_revenue = data.get('total_revenue')
     gross_profit = total_revenue - initial_capital
@@ -87,7 +82,6 @@ def predict():
     attendance = data.get('attendance')
     loan_repayments = data.get('loan_repayments')
     
-    # Prepare the input data in the correct format
     user_data = pd.DataFrame({
         'initial_capital': [initial_capital],
         'gross_profit': [gross_profit],
@@ -96,7 +90,6 @@ def predict():
         'loan_repayments': [loan_repayments]
     })
 
-    # Predict the performance score
     predicted_score = model.predict(user_data)
     
     return jsonify({'prediction': predicted_score.tolist()})

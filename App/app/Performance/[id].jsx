@@ -4,7 +4,7 @@ import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { LineChart } from "react-native-chart-kit";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import axios from "axios";
+import api from "@/api/api";
 
 const screenWidth = Dimensions.get("window").width - 40;
 
@@ -19,21 +19,20 @@ function Performance() {
 
   const handlePress = () => setExpanded(!expanded);
   const toggleGraph = () => setShowGraph(!showGraph);
-
+  const fetchData = async () => {
+    console.log(" API endpoint: " + api.defaults.baseURL + "/fetchSHG");
+    try {
+      let response = await api.get("/fetchSHG");
+      setShgData(response.data);
+      console.log(response.data);
+      response = await api.get("/fetchProfit");
+      setProfitData(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        let response = await axios.get("http://10.16.49.41:5000/fetchSHG");
-        setShgData(response.data);
-        console.log(response.data);
-        response = await axios.get("http://10.16.49.41:5000/fetchProfit");
-        setProfitData(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
     fetchData();
   }, []);
 
@@ -129,10 +128,8 @@ function Performance() {
         <View style={{ marginBottom: 50 }}>
           {showGraph && profitData && (
             <>
-              <View
-                style={{ display: "flex", flexDirection: "row" }}
-              >
-                <Text style={{ fontWeight: "bold" , fontSize: 20}}>
+              <View style={{ display: "flex", flexDirection: "row" }}>
+                <Text style={{ fontWeight: "bold", fontSize: 20 }}>
                   Risk Assessment Score:
                 </Text>
                 <Text style={{ fontSize: 20 }}>{shgData[0].Score}</Text>
@@ -190,5 +187,6 @@ const dummy = {
   origin: "Pudukkottai",
   description:
     "In the serene town of Pudukkottai, a story of resilience and hope began with five widows who dared to dream beyond their circumstances. These remarkable women came together to form the Self-Help Group (SHG) known as Uptown Girls. With the small capital they received, they started crafting delicious laddoos, infusing them with love and tradition. Their laddoos quickly became beloved in the local community, and the group found not just financial stability but a renewed sense of purpose. Through the platform provided by our app, Uptown Girls transformed their humble beginnings into a thriving business. They expanded their reach, utilized the extra capital to grow, and upskilled themselves along the way. Our app became a bridge to new opportunities, empowering them to take control of their future. Today, Uptown Girls is not just a symbol of delicious sweets but a testament to the strength and potential of women when given a chance. They are an inspiration to all, showing that with courage and unity, even the smallest beginnings can lead to great success.",
-  imageUri: "https://th.bing.com/th/id/R.3cef5299a9fb84b64f846b564f4e895e?rik=JU9vcW0%2bi%2brRMw&riu=http%3a%2f%2fe3az4yc7762.exactdn.com%2fwp-content%2fuploads%2f2022%2f08%2fPCI-India_Womens-SHG.jpg&ehk=1%2fYxsWbcVnPpHDw1YTul18O2zgunEC1POyr7oWvHmpM%3d&risl=&pid=ImgRaw&r=0",
+  imageUri:
+    "https://th.bing.com/th/id/R.3cef5299a9fb84b64f846b564f4e895e?rik=JU9vcW0%2bi%2brRMw&riu=http%3a%2f%2fe3az4yc7762.exactdn.com%2fwp-content%2fuploads%2f2022%2f08%2fPCI-India_Womens-SHG.jpg&ehk=1%2fYxsWbcVnPpHDw1YTul18O2zgunEC1POyr7oWvHmpM%3d&risl=&pid=ImgRaw&r=0",
 };
