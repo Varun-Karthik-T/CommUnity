@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,24 +7,31 @@ import {
   Image,
   Modal,
   TextInput,
-} from 'react-native';
-import { Searchbar, FAB, Divider, Button, Card, useTheme } from 'react-native-paper';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { BarChart } from 'react-native-chart-kit';
-import { Dimensions } from 'react-native';
-import api from '@/api/api';
+} from "react-native";
+import {
+  Searchbar,
+  FAB,
+  Divider,
+  Button,
+  Card,
+  useTheme,
+} from "react-native-paper";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { BarChart } from "react-native-chart-kit";
+import { Dimensions } from "react-native";
+import api from "@/api/api";
 
 export default function ShgMarket() {
   const theme = useTheme();
   const [modalVisible, setModalVisible] = useState(false);
   const [addProductModalVisible, setAddProductModalVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [updatedPrice, setUpdatedPrice] = useState('');
-  const [updatedAvailability, setUpdatedAvailability] = useState('');
-  const [newProductName, setNewProductName] = useState('');
-  const [newProductPrice, setNewProductPrice] = useState('');
-  const [newProductAvailability, setNewProductAvailability] = useState('');
-  const [newProductImage, setNewProductImage] = useState('');
+  const [updatedPrice, setUpdatedPrice] = useState("");
+  const [updatedAvailability, setUpdatedAvailability] = useState("");
+  const [newProductName, setNewProductName] = useState("");
+  const [newProductPrice, setNewProductPrice] = useState("");
+  const [newProductAvailability, setNewProductAvailability] = useState("");
+  const [newProductImage, setNewProductImage] = useState("");
   const [data, setData] = useState([]);
 
   const chartData = {
@@ -36,7 +43,7 @@ export default function ShgMarket() {
     ],
   };
 
-  const screenWidth = Dimensions.get('window').width;
+  const screenWidth = Dimensions.get("window").width;
 
   const openModal = (item) => {
     setSelectedProduct(item);
@@ -46,28 +53,33 @@ export default function ShgMarket() {
   };
 
   const addProduct = async () => {
-    const response = api.post('/addProduct', {
+    const response = api.post("/addProduct", {
       product_name: newProductName,
       price: parseFloat(newProductPrice),
       image: newProductImage,
-      shg_id : "shg_001",
+      shg_id: "shg_001",
       availability: parseInt(newProductAvailability),
-    })
+    });
     setAddProductModalVisible(false);
-    setNewProductName('');
-    setNewProductPrice('');
-    setNewProductAvailability('');
-    setNewProductImage('');
+    setNewProductName("");
+    setNewProductPrice("");
+    setNewProductAvailability("");
+    setNewProductImage("");
     fetchProducts();
-  }
+  };
 
   const saveChanges = async () => {
-    const response = api.post('/updateProduct', {
-      shg_id: "shg_001",
-      product_id: selectedProduct.product_id,
-      price: parseFloat(updatedPrice),
-      availability: parseInt(updatedAvailability),
-    });
+    try {
+      const response = await api.post("/updateProduct", {
+        shg_id: "shg_001",
+        product_name: selectedProduct.product_name,
+        price: parseFloat(updatedPrice),
+        availability: parseInt(updatedAvailability),
+      });
+    } catch (error) {
+      console.error(error);
+    }
+    fetchProducts();
     setModalVisible(false);
   };
 
@@ -75,32 +87,14 @@ export default function ShgMarket() {
     setAddProductModalVisible(true);
   };
 
-  const addProduct2 = () => {
-    setData((prevData) => [
-      ...prevData,
-      {
-        name: newProductName,
-        price: parseFloat(newProductPrice),
-        image: newProductImage,
-        sale: 0,
-        availability: parseInt(newProductAvailability),
-      },
-    ]);
-    setAddProductModalVisible(false);
-    setNewProductName('');
-    setNewProductPrice('');
-    setNewProductAvailability('');
-    setNewProductImage('');
-  };
-
   const fetchProducts = async () => {
-    const response = await api.get('/fetchProducts');
+    const response = await api.get("/fetchProducts");
     setData(response.data);
-  }
+  };
 
   useEffect(() => {
     fetchProducts();
-  },[])
+  }, []);
 
   return (
     <>
@@ -113,7 +107,7 @@ export default function ShgMarket() {
           <View style={styles.banner}>
             <Image
               style={styles.bannerImage}
-              source={require('@/assets/images/marketplace-banner.png')}
+              source={require("@/assets/images/marketplace-banner.png")}
             />
             <Text style={styles.bannerText}>
               Take your products to the next level
@@ -124,7 +118,7 @@ export default function ShgMarket() {
           <Text style={styles.heading2}>Sales Chart</Text>
           <BarChart
             data={chartData}
-            width={screenWidth - 30} 
+            width={screenWidth - 30}
             height={220}
             yAxisLabel=""
             chartConfig={{
@@ -133,23 +127,23 @@ export default function ShgMarket() {
               backgroundGradientTo: theme.colors.surface,
               decimalPlaces: 2,
               color: (opacity = 1) => `rgba(151, 72, 16, ${opacity})`,
-              labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, 
+              labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
               style: {
                 borderRadius: 16,
               },
               propsForBackgroundLines: {
                 strokeWidth: 1,
-                stroke: '#e3e3e3', 
-                strokeDasharray: '0',
+                stroke: "#e3e3e3",
+                strokeDasharray: "0",
               },
             }}
             style={{
               marginVertical: 8,
               borderRadius: 16,
-              alignSelf: 'center',
+              alignSelf: "center",
             }}
           />
-          
+
           <Text style={styles.heading2}>Your Products</Text>
           <ScrollView style={styles.scroll}>
             {data.map((item, index) => (
@@ -160,15 +154,25 @@ export default function ShgMarket() {
                     <View style={styles.textContent}>
                       <Text style={styles.caption}>{item.product_name}</Text>
                       <View style={styles.salesInfo}>
-                        <MaterialCommunityIcons name="chart-line" size={20} color="green" />
-                        <Text style={styles.salesText}>Sold: {item.quantity_sold}</Text>
+                        <MaterialCommunityIcons
+                          name="chart-line"
+                          size={20}
+                          color="green"
+                        />
+                        <Text style={styles.salesText}>
+                          Sold: {item.quantity_sold}
+                        </Text>
                       </View>
                       <Text style={styles.priceText}>Price: ₹{item.price}</Text>
-                      <Text style={styles.availabilityText}>Availability: {item.availability} items</Text>
+                      <Text style={styles.availabilityText}>
+                        Availability: {item.availability} items
+                      </Text>
                     </View>
                   </Card.Content>
                   <Card.Actions>
-                    <Button onPress={() => openModal(item)}>Change Availability</Button>
+                    <Button onPress={() => openModal(item)}>
+                      Change Availability
+                    </Button>
                   </Card.Actions>
                 </Card>
               </View>
@@ -193,7 +197,9 @@ export default function ShgMarket() {
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Edit Product Details</Text>
 
-            <Text style={styles.modalLabel}>Product Name: {selectedProduct?.product_name}</Text>
+            <Text style={styles.modalLabel}>
+              Product Name: {selectedProduct?.product_name}
+            </Text>
             <Text style={styles.modalLabel}>Update Price:</Text>
             <TextInput
               style={styles.input}
@@ -263,7 +269,10 @@ export default function ShgMarket() {
             />
 
             <View style={styles.modalButtons}>
-              <Button mode="outlined" onPress={() => setAddProductModalVisible(false)}>
+              <Button
+                mode="outlined"
+                onPress={() => setAddProductModalVisible(false)}
+              >
                 Cancel
               </Button>
               <Button mode="contained" onPress={addProduct}>
@@ -283,38 +292,38 @@ const styles = StyleSheet.create({
   },
   heading2: {
     fontSize: 20,
-    textAlign: 'left',
+    textAlign: "left",
     marginHorizontal: 15,
     marginTop: 10,
   },
   cartFAB: {
-    position: 'absolute',
+    position: "absolute",
     margin: 16,
     right: 0,
     bottom: 0,
   },
   banner: {
-    width: '100%',
+    width: "100%",
     height: 180,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
   },
   bannerText: {
     flex: 1,
-    textAlign: 'center',
+    textAlign: "center",
     padding: 10,
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   bannerImage: {
     flex: 1,
-    height: '100%',
+    height: "100%",
   },
   pageLayout: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
     marginBottom: 20,
   },
   scroll: {
@@ -324,8 +333,8 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   shopCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   img: {
     width: 100,
@@ -338,12 +347,12 @@ const styles = StyleSheet.create({
   },
   caption: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5,
   },
   salesInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   salesText: {
     marginLeft: 5,
@@ -359,21 +368,21 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    width: '80%',
-    backgroundColor: 'white',
+    width: "80%",
+    backgroundColor: "white",
     padding: 20,
     borderRadius: 10,
   },
   modalTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   modalLabel: {
     fontSize: 16,
@@ -381,15 +390,14 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderWidth: 1,
     borderRadius: 5,
     marginBottom: 15,
     paddingHorizontal: 10,
   },
   modalButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 });
-
