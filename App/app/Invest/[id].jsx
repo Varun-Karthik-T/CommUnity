@@ -8,7 +8,9 @@ import {
   Avatar,
   TextInput,
 } from "react-native-paper";
+import { useLocalSearchParams } from "expo-router";
 import { Dropdown } from "react-native-paper-dropdown";
+import api from "@/api/api";
 
 const data = {
   Name: "UPTOWN Girls",
@@ -33,6 +35,26 @@ function InvestPage() {
   const [type, setType] = useState("");
   const [freq, setFreq] = useState("");
   const [amount, setAmount] = useState("");
+  const {id} = useLocalSearchParams();
+
+  const createInvestment = async () => {
+    const formData = {
+      id: "u1",
+      shg_id: id,
+      investment_type: type,
+      frequency: freq,
+      amount: amount,
+    }
+    try {
+      const response = await api.post("/invest", formData);
+      console.log(response.data);
+      setAmount("");
+      setFreq("");
+      setType("");
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const handlePayment = () => {
     if (!amount) {
@@ -40,10 +62,13 @@ function InvestPage() {
       return;
     }
 
-    const upiID = "7708656066@ybl"; // Replace with the actual UPI ID
+    createInvestment();
+
+    const upiID = "7708656066@ybl";
     const name = data.Name;
     const transactionNote = `Investment in ${name}`;
     const transactionID = `TID${Date.now()}`;
+
 
     const url = `upi://pay?pa=${upiID}&pn=${name}&am=${amount}&tn=${transactionNote}&tr=${transactionID}&cu=INR`;
 
