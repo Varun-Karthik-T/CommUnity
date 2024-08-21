@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import { Text, DataTable, Button } from "react-native-paper";
+import { DataTable } from "react-native-paper";
 import DialogBox from "../UI/DialogBox";
 
 function Attendance() {
@@ -12,8 +12,8 @@ function Attendance() {
 
   const records = [
     { date: "05/08/2024", present: [1, 2, 3], absent: [4] },
-    { date: "06/08/2024", present: [1, 2, 3, 4], absent: [] },
-    { date: "07/08/2024", present: [1, 2, 3], absent: [4] },
+    { date: "12/08/2024", present: [1, 2, 3, 4], absent: [] },
+    { date: "19/08/2024", present: [1, 2, 3], absent: [4] },
   ];
 
   return (
