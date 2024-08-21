@@ -18,6 +18,11 @@ export default function Main() {
     setIsAuthenticated(true);
     router.push("/Home");
   };
+  const SHGHeadRouting = () => {
+    setRole("SHG-Head");
+    setIsAuthenticated(true);
+    router.push("/Home");
+  };
 
   const VORouting = () => {
     setRole("VO");
@@ -34,6 +39,9 @@ export default function Main() {
         </Button>
         <Button mode="outlined" onPress={SHGRouting}>
           Login as SHG member
+        </Button>
+        <Button mode="outlined" onPress={SHGHeadRouting}>
+          Login as SHG head
         </Button>
         <Button mode="outlined" onPress={VORouting}>
           Login as VO
