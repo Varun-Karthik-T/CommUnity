@@ -62,12 +62,11 @@
     "ImageLink":"Image Link",
     "Add":"Add",
     "cancel":"Cancel",
-    "AddNewProduct":"Add New Product",
+    "addNewProduct":"Add New Product",
     "editProductDetails":"Edit Product Details",
     "UpdatePrice":"Update Price",
     "UpdateAvailability":"Update Availability",
-    "save":"Save"
-    
-
-
+    "save":"Save",
+    "verifyLoan":"Verify Loans",
+    "manageMembers":"Manage Members"
 }
