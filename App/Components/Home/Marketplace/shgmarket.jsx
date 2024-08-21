@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
   Image,
+  Modal,
+  TextInput,
+  TouchableOpacity,
 } from 'react-native';
 import { Searchbar, FAB, Divider, Button, Card, useTheme } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -13,39 +16,52 @@ import { Dimensions } from 'react-native';
 
 export default function ShgMarket() {
   const theme = useTheme();
-
-  const data = [
+  const [modalVisible, setModalVisible] = useState(false);
+  const [addProductModalVisible, setAddProductModalVisible] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [updatedPrice, setUpdatedPrice] = useState('');
+  const [updatedAvailability, setUpdatedAvailability] = useState('');
+  const [newProductName, setNewProductName] = useState('');
+  const [newProductPrice, setNewProductPrice] = useState('');
+  const [newProductAvailability, setNewProductAvailability] = useState('');
+  const [newProductImage, setNewProductImage] = useState('');
+  const [data, setData] = useState([
     {
       name: 'Alwa',
       price: 100,
       image: 'https://images.pexels.com/photos/20446403/pexels-photo-20446403/free-photo-of-top-view-of-gajorer-halwa-dessert.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       sale: 30,
+      availability: 50,
     },
     {
       name: 'Basket',
       price: 200,
       image: 'https://images.pexels.com/photos/2113125/pexels-photo-2113125.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       sale: 40,
+      availability: 20,
     },
     {
       name: 'Candle',
       price: 300,
       image: 'https://images.pexels.com/photos/783200/pexels-photo-783200.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       sale: 20,
+      availability: 10,
     },
     {
       name: 'Handbag',
       price: 400,
       image: 'https://images.pexels.com/photos/6044266/pexels-photo-6044266.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       sale: 10,
+      availability: 15,
     },
     {
       name: 'Pot',
       price: 500,
       image: 'https://images.pexels.com/photos/3692083/pexels-photo-3692083.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       sale: 50,
+      availability: 30,
     },
-  ];
+  ]);
 
   const chartData = {
     labels: data.map((item) => item.name),
@@ -56,9 +72,49 @@ export default function ShgMarket() {
     ],
   };
 
-  
-
   const screenWidth = Dimensions.get('window').width;
+
+  const openModal = (item) => {
+    setSelectedProduct(item);
+    setUpdatedPrice(item.price.toString());
+    setUpdatedAvailability(item.availability.toString());
+    setModalVisible(true);
+  };
+
+  const saveChanges = () => {
+    if (selectedProduct) {
+      setData((prevData) =>
+        prevData.map((item) =>
+          item.name === selectedProduct.name
+            ? { ...item, price: updatedPrice, availability: updatedAvailability }
+            : item
+        )
+      );
+    }
+    setModalVisible(false);
+  };
+
+  const openAddProductModal = () => {
+    setAddProductModalVisible(true);
+  };
+
+  const addProduct = () => {
+    setData((prevData) => [
+      ...prevData,
+      {
+        name: newProductName,
+        price: parseFloat(newProductPrice),
+        image: newProductImage,
+        sale: 0,
+        availability: parseInt(newProductAvailability),
+      },
+    ]);
+    setAddProductModalVisible(false);
+    setNewProductName('');
+    setNewProductPrice('');
+    setNewProductAvailability('');
+    setNewProductImage('');
+  };
 
   return (
     <>
@@ -119,12 +175,14 @@ export default function ShgMarket() {
                       <Text style={styles.caption}>{item.name}</Text>
                       <View style={styles.salesInfo}>
                         <MaterialCommunityIcons name="chart-line" size={20} color="green" />
-                        <Text style={styles.salesText}>{item.sale}</Text>
+                        <Text style={styles.salesText}>Sold: {item.sale}</Text>
                       </View>
+                      <Text style={styles.priceText}>Price: ₹{item.price}</Text>
+                      <Text style={styles.availabilityText}>Availability: {item.availability} items</Text>
                     </View>
                   </Card.Content>
                   <Card.Actions>
-                    <Button> Change availability</Button>
+                    <Button onPress={() => openModal(item)}>Change Availability</Button>
                   </Card.Actions>
                 </Card>
               </View>
@@ -136,8 +194,99 @@ export default function ShgMarket() {
         icon="plus"
         label="Add Product"
         style={styles.cartFAB}
-        onPress={() => console.log('Pressed')}
+        onPress={openAddProductModal}
       />
+
+      <Modal
+        visible={modalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Edit Product Details</Text>
+
+            <Text style={styles.modalLabel}>Product Name: {selectedProduct?.name}</Text>
+            <Text style={styles.modalLabel}>Update Price:</Text>
+            <TextInput
+              style={styles.input}
+              value={updatedPrice}
+              onChangeText={setUpdatedPrice}
+              keyboardType="numeric"
+            />
+
+            <Text style={styles.modalLabel}>Update Availability:</Text>
+            <TextInput
+              style={styles.input}
+              value={updatedAvailability}
+              onChangeText={setUpdatedAvailability}
+              keyboardType="numeric"
+            />
+
+            <View style={styles.modalButtons}>
+              <Button mode="outlined" onPress={() => setModalVisible(false)}>
+                Cancel
+              </Button>
+              <Button mode="contained" onPress={saveChanges}>
+                Save
+              </Button>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        visible={addProductModalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setAddProductModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Add New Product</Text>
+
+            <Text style={styles.modalLabel}>Product Name:</Text>
+            <TextInput
+              style={styles.input}
+              value={newProductName}
+              onChangeText={setNewProductName}
+            />
+
+            <Text style={styles.modalLabel}>Price:</Text>
+            <TextInput
+              style={styles.input}
+              value={newProductPrice}
+              onChangeText={setNewProductPrice}
+              keyboardType="numeric"
+            />
+
+            <Text style={styles.modalLabel}>Availability:</Text>
+            <TextInput
+              style={styles.input}
+              value={newProductAvailability}
+              onChangeText={setNewProductAvailability}
+              keyboardType="numeric"
+            />
+
+            <Text style={styles.modalLabel}>Image Link:</Text>
+            <TextInput
+              style={styles.input}
+              value={newProductImage}
+              onChangeText={setNewProductImage}
+            />
+
+            <View style={styles.modalButtons}>
+              <Button mode="outlined" onPress={() => setAddProductModalVisible(false)}>
+                Cancel
+              </Button>
+              <Button mode="contained" onPress={addProduct}>
+                Add
+              </Button>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 }
@@ -214,4 +363,47 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     fontSize: 16,
   },
+  priceText: {
+    fontSize: 14,
+    marginTop: 5,
+  },
+  availabilityText: {
+    fontSize: 14,
+    marginTop: 5,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    width: '80%',
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  modalLabel: {
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  input: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 15,
+    paddingHorizontal: 10,
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
 });
+

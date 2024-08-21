@@ -18,14 +18,14 @@ export default function SHGDevelopment() {
 
   const LearningProgramme = [
     {
-      title: "Learning Programme",
+      title: "Training programs for SHG",
       subtitle: "Government Schemes",
-      url: "https://www.nrlm.gov.in/outerReportAction.do?methodName=showIndex#gsc.tab=0",
+      url: "https://www.sftindia.in/training-programs-for-shgs/",
       desc: "The Deendayal Antyodaya Yojana – National Rural Livelihoods Mission (DAY-NRLM) is making a difference in the lives of over 6.9 crore rural households across 698 districts, 6000 blocks, 2.5 lakh Gram Panchayats, and 6 lakh villages in the country.",
     },
     {
       title: "Learning Programme",
-      subtitle: "Government Schemes",
+      subtitle: "by pmgdisha",
       url: "https://www.pmgdisha.in/",
       desc: "Pradhan Mantri Gramin Digital Saksharta Abhiyan (PMGDISHA) aims to make six crore persons in rural areas, across States/UTs, digitally literate, reaching around 40% of rural households by covering one member from every eligible household.",
     },
