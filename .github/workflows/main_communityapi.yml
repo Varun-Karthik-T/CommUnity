@@ -18,18 +18,10 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Change directory to Backend
-        run: cd Backend
-
-      - name: Create and start virtual environment
+      - name: Install dependencies and run gunicorn
         run: |
+          cd Backend
           python -m venv venv
           source venv/bin/activate
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
-      - name: run gunicorn
-        run: gunicorn server:app
-     
+          pip install -r requirements.txt
+          gunicorn server:app
