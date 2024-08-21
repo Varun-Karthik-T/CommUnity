@@ -5,6 +5,7 @@ import api from "@/api/api";
 import Attendance from "./Attendance";
 import Minutes from "./Minutes";
 import CashBook from "./CashBook";
+import i from "@/Translations";
 import { useRouter } from "expo-router";
 
 export default function SHGBookkeeping() {
@@ -28,18 +29,14 @@ export default function SHGBookkeeping() {
   const [currentTab, setTab] = useState("");
 
   const tabs = [
+    { label: i.t('minutesBook'), value: "minutes", component: <Minutes records = {records} /> },
     {
-      label: "Minutes book",
-      value: "minutes",
-      component: <Minutes records={records} />,
-    },
-    {
-      label: "Attendance book",
+      label: i.t('attendanceBook'),
       value: "attendance",
       component: <Attendance records={records} />,
     },
     {
-      label: "Cash book",
+      label: i.t('cashBook'),
       value: "cash",
       component: <CashBook records={records} />,
     },

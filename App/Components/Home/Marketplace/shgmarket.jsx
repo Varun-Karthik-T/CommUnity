@@ -7,19 +7,13 @@ import {
   Image,
   Modal,
   TextInput,
-} from "react-native";
-import {
-  Searchbar,
-  FAB,
-  Divider,
-  Button,
-  Card,
-  useTheme,
-} from "react-native-paper";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { BarChart } from "react-native-chart-kit";
-import { Dimensions } from "react-native";
-import api from "@/api/api";
+  TouchableOpacity,
+} from 'react-native';
+import { Searchbar, FAB, Divider, Button, Card, useTheme } from 'react-native-paper';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { BarChart } from 'react-native-chart-kit';
+import { Dimensions } from 'react-native';
+import i from '@/Translations';
 
 export default function ShgMarket() {
   const theme = useTheme();
@@ -110,12 +104,12 @@ export default function ShgMarket() {
               source={require("@/assets/images/marketplace-banner.png")}
             />
             <Text style={styles.bannerText}>
-              Take your products to the next level
+              {i.t('marketQuote')}
             </Text>
           </View>
           <Divider />
 
-          <Text style={styles.heading2}>Sales Chart</Text>
+          <Text style={styles.heading2}>{i.t('salesChart')}</Text>
           <BarChart
             data={chartData}
             width={screenWidth - 30}
@@ -143,8 +137,8 @@ export default function ShgMarket() {
               alignSelf: "center",
             }}
           />
-
-          <Text style={styles.heading2}>Your Products</Text>
+          
+          <Text style={styles.heading2}>{i.t('yourProducts')}</Text>
           <ScrollView style={styles.scroll}>
             {data.map((item, index) => (
               <View key={index} style={styles.card}>
@@ -154,25 +148,15 @@ export default function ShgMarket() {
                     <View style={styles.textContent}>
                       <Text style={styles.caption}>{item.product_name}</Text>
                       <View style={styles.salesInfo}>
-                        <MaterialCommunityIcons
-                          name="chart-line"
-                          size={20}
-                          color="green"
-                        />
-                        <Text style={styles.salesText}>
-                          Sold: {item.quantity_sold}
-                        </Text>
+                        <MaterialCommunityIcons name="chart-line" size={20} color="green" />
+                        <Text style={styles.salesText}>{i.t('sales')} : {item.sale}</Text>
                       </View>
-                      <Text style={styles.priceText}>Price: ₹{item.price}</Text>
-                      <Text style={styles.availabilityText}>
-                        Availability: {item.availability} items
-                      </Text>
+                      <Text style={styles.priceText}>{i.t('price')}: ₹{item.price}</Text>
+                      <Text style={styles.availabilityText}>{i.t('availability')}: {item.availability} items</Text>
                     </View>
                   </Card.Content>
                   <Card.Actions>
-                    <Button onPress={() => openModal(item)}>
-                      Change Availability
-                    </Button>
+                    <Button onPress={() => openModal(item)}>{i.t('changeAvailability')}</Button>
                   </Card.Actions>
                 </Card>
               </View>
@@ -182,7 +166,7 @@ export default function ShgMarket() {
       </ScrollView>
       <FAB
         icon="plus"
-        label="Add Product"
+        label={i.t('addProduct')}
         style={styles.cartFAB}
         onPress={openAddProductModal}
       />
@@ -195,12 +179,10 @@ export default function ShgMarket() {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Edit Product Details</Text>
+            <Text style={styles.modalTitle}>{i.t('editProductDetails')}</Text>
 
-            <Text style={styles.modalLabel}>
-              Product Name: {selectedProduct?.product_name}
-            </Text>
-            <Text style={styles.modalLabel}>Update Price:</Text>
+            <Text style={styles.modalLabel}>{i.t('productName')}: {selectedProduct?.name}</Text>
+            <Text style={styles.modalLabel}>{i.t('UpdatePrice')}:</Text>
             <TextInput
               style={styles.input}
               value={updatedPrice}
@@ -208,7 +190,7 @@ export default function ShgMarket() {
               keyboardType="numeric"
             />
 
-            <Text style={styles.modalLabel}>Update Availability:</Text>
+            <Text style={styles.modalLabel}>{i.t('UpdateAvailability')}:</Text>
             <TextInput
               style={styles.input}
               value={updatedAvailability}
@@ -218,10 +200,10 @@ export default function ShgMarket() {
 
             <View style={styles.modalButtons}>
               <Button mode="outlined" onPress={() => setModalVisible(false)}>
-                Cancel
+                {i.t('cancel')}
               </Button>
               <Button mode="contained" onPress={saveChanges}>
-                Save
+                {i.t('save')}
               </Button>
             </View>
           </View>
@@ -236,16 +218,16 @@ export default function ShgMarket() {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Add New Product</Text>
+            <Text style={styles.modalTitle}>{i.t('addNewProduct')}</Text>
 
-            <Text style={styles.modalLabel}>Product Name:</Text>
+            <Text style={styles.modalLabel}>{i.t('productName')}</Text>
             <TextInput
               style={styles.input}
               value={newProductName}
               onChangeText={setNewProductName}
             />
 
-            <Text style={styles.modalLabel}>Price:</Text>
+            <Text style={styles.modalLabel}>{i.t('price')}:</Text>
             <TextInput
               style={styles.input}
               value={newProductPrice}
@@ -253,7 +235,7 @@ export default function ShgMarket() {
               keyboardType="numeric"
             />
 
-            <Text style={styles.modalLabel}>Availability:</Text>
+            <Text style={styles.modalLabel}>{i.t('availability')}:</Text>
             <TextInput
               style={styles.input}
               value={newProductAvailability}
@@ -261,7 +243,7 @@ export default function ShgMarket() {
               keyboardType="numeric"
             />
 
-            <Text style={styles.modalLabel}>Image Link:</Text>
+            <Text style={styles.modalLabel}>{i.t('ImageLink')}:</Text>
             <TextInput
               style={styles.input}
               value={newProductImage}
@@ -269,14 +251,11 @@ export default function ShgMarket() {
             />
 
             <View style={styles.modalButtons}>
-              <Button
-                mode="outlined"
-                onPress={() => setAddProductModalVisible(false)}
-              >
-                Cancel
+              <Button mode="outlined" onPress={() => setAddProductModalVisible(false)}>
+              {i.t('cancel')}
               </Button>
               <Button mode="contained" onPress={addProduct}>
-                Add
+                {i.t('Add')}
               </Button>
             </View>
           </View>

@@ -1,6 +1,7 @@
 import { View } from "react-native";
 import { DataTable } from "react-native-paper";
 import DialogBox from "../UI/DialogBox";
+import i from "@/Translations";
 
 function Minutes({ records }) {
     return (
@@ -8,8 +9,8 @@ function Minutes({ records }) {
         <View>
           <DataTable>
             <DataTable.Header>
-              <DataTable.Title>Date</DataTable.Title>
-              <DataTable.Title>Minutes of meeting</DataTable.Title>
+              <DataTable.Title>{i.t('date')}</DataTable.Title>
+              <DataTable.Title>{i.t('minutesofMeeting')}</DataTable.Title>
             </DataTable.Header>
             {Object.keys(records).map((date) => (
               <DataTable.Row key={date}>
@@ -17,7 +18,7 @@ function Minutes({ records }) {
                 <DataTable.Cell>
                   <DialogBox
                     content={records[date].minutes_book}
-                    trigger="View"
+                    trigger={i.t("view")}
                     title="Minutes of meeting"
                   />
                 </DataTable.Cell>

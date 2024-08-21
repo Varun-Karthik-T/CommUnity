@@ -10,7 +10,7 @@ auth_token = os.getenv("TWILIO_AUTH_TOKEN")
 client = Client(account_sid, auth_token)
 
 message = client.messages.create(
-    body="Join Earth's mightiest heroes. Like Kevin Bacon.",
+    body="₹1000 has been credited to your account",
     from_="+12486022282",
     to="+917708656066",
 )
