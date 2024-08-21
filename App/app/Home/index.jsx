@@ -9,7 +9,7 @@ function Home() {
   return (
     <>
       {isAuthenticated ? (
-        role === "SHG" ? (
+        role === "SHG" || role === "SHG-Head" ? (
           <ShgBottomNavBar/>
         ) : (
           <UserBottomNavBar />
