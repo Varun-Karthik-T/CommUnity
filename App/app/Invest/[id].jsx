@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Linking, Alert } from "react-native";
 import {
   Text,
   Card,
@@ -33,6 +33,31 @@ function InvestPage() {
   const [type, setType] = useState("");
   const [freq, setFreq] = useState("");
   const [amount, setAmount] = useState("");
+
+  const handlePayment = () => {
+    if (!amount) {
+      Alert.alert("Error", "Please enter an amount to proceed.");
+      return;
+    }
+
+    const upiID = "7708656066@ybl"; // Replace with the actual UPI ID
+    const name = data.Name;
+    const transactionNote = `Investment in ${name}`;
+    const transactionID = `TID${Date.now()}`;
+
+    const url = `upi://pay?pa=${upiID}&pn=${name}&am=${amount}&tn=${transactionNote}&tr=${transactionID}&cu=INR`;
+
+    Linking.openURL(url)
+      .then((supported) => {
+        if (!supported) {
+          Alert.alert("Error", "UPI app not found or URL invalid");
+        }
+      })
+      .catch((err) => {
+        console.error("Error opening UPI app", err);
+        Alert.alert("Error", "An error occurred while trying to open the UPI app.");
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -126,9 +151,7 @@ function InvestPage() {
 
           <Button
             mode="contained"
-            onPress={() => {
-              // Redirect to UPI apps or handle payment logic here
-            }}
+            onPress={handlePayment}
             style={styles.investButton}
           >
             Proceed to Pay
