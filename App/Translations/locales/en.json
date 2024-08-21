@@ -66,8 +66,7 @@
     "editProductDetails":"Edit Product Details",
     "UpdatePrice":"Update Price",
     "UpdateAvailability":"Update Availability",
-    "save":"Save"
-    
-
-
+    "save":"Save",
+    "verifyLoan":"Verify Loans",
+    "manageMembers":"Manage Members"
 }
