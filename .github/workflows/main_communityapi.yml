@@ -72,3 +72,8 @@ jobs:
           app-name: 'communityapi'
           slot-name: 'Production'
           package: release.zip
+
+      - name: 'Configure Gunicorn for Azure App Service'
+        run: |
+          echo "web: gunicorn --bind 0.0.0.0:8000 app:app" > Procfile
+          az webapp config appsettings set --resource-group <your_resource_group> --name communityapi --settings WEBSITES_PORT=8000
