@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Text, StyleSheet, View, ScrollView, Modal } from "react-native";
 import { Card, Button, Chip, Paragraph, useTheme } from "react-native-paper";
 import { Linking } from "react-native";
+import i from "@/Translations";
 
 export default function SHGDevelopment() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -79,7 +80,7 @@ export default function SHGDevelopment() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.head1}>Upcoming Learning Programme</Text>
+      <Text style={styles.head1}>{i.t('upcomingLearning')}</Text>
 
       <ScrollView>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -92,7 +93,7 @@ export default function SHGDevelopment() {
                     mode="outlined"
                     onPress={() => handleViewDetails(scheme)}
                   >
-                    View Details
+                    {i.t('viewDetails')}
                   </Button>
                 </Card.Content>
               </Card>
@@ -100,7 +101,7 @@ export default function SHGDevelopment() {
           </View>
         </ScrollView>
 
-        <Text style={styles.head1}>Schemes</Text>
+        <Text style={styles.head1}>{i.t('schemes')}</Text>
         <View style={styles.chipFlex}>
           <Chip
             selected={flagGovt}
@@ -112,7 +113,7 @@ export default function SHGDevelopment() {
             onPress={() => setFlagGovt(!flagGovt)}
             textStyle={{ color: flagGovt ? "white" : theme.colors.text }}
           >
-            Government
+            {i.t('govt')}
           </Chip>
           <Chip
             selected={flagPrivateBank}
@@ -124,7 +125,7 @@ export default function SHGDevelopment() {
             onPress={() => setFlagPrivateBank(!flagPrivateBank)}
             textStyle={{ color: flagPrivateBank ? "white" : theme.colors.text }}
           >
-            Private Banks
+            {i.t('privateBanks')}
           </Chip>
         </View>
 
@@ -138,7 +139,7 @@ export default function SHGDevelopment() {
                   mode="contained"
                   onPress={() => handleViewDetails(scheme)}
                 >
-                  View Details
+                  {i.t('viewDetails')}
                 </Button>
               </Card.Content>
             </Card>
@@ -154,7 +155,7 @@ export default function SHGDevelopment() {
                   mode="contained"
                   onPress={() => handleViewDetails(scheme)}
                 >
-                  View Details
+                  {i.t('viewDetails')}
                 </Button>
               </Card.Content>
             </Card>
@@ -182,10 +183,10 @@ export default function SHGDevelopment() {
                 onPress={() => openURL(selectedScheme.url)}
                 style={styles.modalButton}
               >
-                Visit Site
+                {i.t('visitSite')}
               </Button>
               <Button style={styles.modalClose} onPress={closeModal}>
-                Close
+                {i.t('close')}
               </Button>
             </View>
           </View>

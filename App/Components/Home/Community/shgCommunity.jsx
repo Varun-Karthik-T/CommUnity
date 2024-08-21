@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { Searchbar, Divider, Button, Card, FAB } from "react-native-paper";
 import api from "@/api/api";
+import i from "@/Translations";
 
 export default function ShgCommunity() {
   const [shgData, setShgData] = useState([]);
@@ -68,14 +69,14 @@ export default function ShgCommunity() {
               style={styles.bannerImage}
               source={require("@/assets/images/image.png")}
             />
-            <Text style={styles.bannerText}>Form a community</Text>
+            <Text style={styles.bannerText}>{i.t("formCommunity")}</Text>
           </View>
           <Divider />
           <View style={styles.newsContainerWrapper}>
             <View style={styles.Searchbar}>
               <Searchbar placeholder="Search for SHGs near you" />
             </View>
-            <Text style={styles.heading}>Recent Posts</Text>
+            <Text style={styles.heading}>{i.t("recentPosts")}</Text>
             <ScrollView style={styles.newsContainer} nestedScrollEnabled={true}>
               {recentActivities.map((activity, index) => (
                 <Card key={index} style={styles.newsCard}>
@@ -88,7 +89,7 @@ export default function ShgCommunity() {
               ))}
             </ScrollView>
           </View>
-          <Text style={styles.heading2}>Connect with SHGs</Text>
+          <Text style={styles.heading2}>{i.t("connect")}</Text>
           <ScrollView style={styles.scroll}>
             {shgData.map((item) => (
               <View key={item.shg_id} style={styles.card}>
@@ -109,9 +110,9 @@ export default function ShgCommunity() {
                       style={styles.button1}
                       onPress={() => handleCall(item.contact)}
                     >
-                      Contact
+                      {i.t("contact")}
                     </Button>
-                    <Button style={styles.button}> Visit </Button>
+                    <Button style={styles.button}>{i.t("visit")} </Button>
                   </Card.Actions>
                 </Card>
               </View>
@@ -121,7 +122,7 @@ export default function ShgCommunity() {
       </ScrollView>
       <FAB
         icon="plus"
-        label="Create post"
+        label={i.t("newPost")}
         style={styles.cartFAB}
         // onPress={() => setFormVisible(true)}
         onPress={() => console.log("Create post clicked")}
@@ -168,7 +169,6 @@ const styles = StyleSheet.create({
   },
   card: {
     width: 250,
-    marginRight: 15,
   },
   modalContainer: {
     backgroundColor: "white",
@@ -264,16 +264,14 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    width: 90,
+    width: "50%",
     height: 40,
-    borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
   },
   button1: {
-    width: 150,
+    width: "40%",
     fontSize: 10,
     height: 40,
-    borderRadius: 10,
   },
 });

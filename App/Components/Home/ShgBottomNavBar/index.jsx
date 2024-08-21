@@ -6,6 +6,7 @@ import ShgMarket from "../Marketplace/shgmarket";
 import SHGBookkeeping from "../../SHGBookkeeping";
 import SHGManagement from "../SHGManagement";
 import SHGDevelopment from "../SHGDevelopment";
+import i from "@/Translations";
 
 const CommunityRoute = () => <ShgCommunity />;
 
@@ -22,32 +23,32 @@ const ShgBottomNavBar = () => {
   const [routes] = useState([
     {
       key: "community",
-      title: "Community",
+      title: i.t("community"),
       focusedIcon: "account-group",
       unfocusedIcon: "account-group-outline",
     },
     {
       key: "marketplace",
-      title: "Market",
+      title: i.t("market"),
       focusedIcon: "cart",
       unfocusedIcon: "cart-outline",
     },
     {
       key: "bookkeeping",
-      title: "Records",
+      title: i.t("records"),
       focusedIcon: "book",
       unfocusedIcon: "book-outline",
     },
 
     {
       key: "development",
-      title: "Develop",
+      title: i.t("develop"),
       focusedIcon: "chart-areaspline-variant",
       unfocusedIcon: "chart-line",
     },
     {
       key: "management",
-      title: "Finance",
+      title: i.t("finance"),
       focusedIcon: "cash-check",
       unfocusedIcon: "cash",
     },

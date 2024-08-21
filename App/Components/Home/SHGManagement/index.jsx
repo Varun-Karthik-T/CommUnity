@@ -1,24 +1,49 @@
-import { useRouter } from 'expo-router';
-import * as React from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, View, FlatList } from 'react-native';
-import { Card, Button, DataTable, Divider, Avatar } from 'react-native-paper';
+import { useRouter } from "expo-router";
+import * as React from "react";
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+} from "react-native";
+import { Card, Button, DataTable, Divider, Avatar } from "react-native-paper";
+import i from "@/Translations";
 
 const SHGManagement = ({ navigation }) => {
   const [showAllTransactions, setShowAllTransactions] = React.useState(false);
   const router = useRouter();
 
   const transactions = [
-    { date: '2024-08-01', type: 'Deposit', amount: '₹13,000', isCredit: true },
-    { date: '2024-08-02', type: 'Withdrawal', amount: '₹7,000', isCredit: false },
-    { date: '2024-08-03', type: 'Deposit', amount: '₹10,000', isCredit: true },
-    { date: '2024-08-01', type: 'Withdrawal', amount: '₹12,000', isCredit: false },
-    { date: '2024-08-04', type: 'Deposit', amount: '₹17,000', isCredit: true },
-    { date: '2024-08-05', type: 'Withdrawal', amount: '₹15,000', isCredit: false },
-    { date: '2024-08-02', type: 'Deposit', amount: '₹2,000', isCredit: true },
+    { date: "2024-08-01", type: "Deposit", amount: "₹13,000", isCredit: true },
+    {
+      date: "2024-08-02",
+      type: "Withdrawal",
+      amount: "₹7,000",
+      isCredit: false,
+    },
+    { date: "2024-08-03", type: "Deposit", amount: "₹10,000", isCredit: true },
+    {
+      date: "2024-08-01",
+      type: "Withdrawal",
+      amount: "₹12,000",
+      isCredit: false,
+    },
+    { date: "2024-08-04", type: "Deposit", amount: "₹17,000", isCredit: true },
+    {
+      date: "2024-08-05",
+      type: "Withdrawal",
+      amount: "₹15,000",
+      isCredit: false,
+    },
+    { date: "2024-08-02", type: "Deposit", amount: "₹2,000", isCredit: true },
     // Add more transactions here
   ];
 
-  const sortedTransactions = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date));
+  const sortedTransactions = [...transactions].sort(
+    (a, b) => new Date(b.date) - new Date(a.date)
+  );
 
   // Group transactions by date
   const groupedTransactions = sortedTransactions.reduce((acc, transaction) => {
@@ -41,12 +66,12 @@ const SHGManagement = ({ navigation }) => {
           <DataTable>
             <DataTable.Header>
               <DataTable.Title>Type</DataTable.Title>
-              <DataTable.Title numeric>Amount</DataTable.Title>
+              <DataTable.Title numeric>{i.t("amount")}</DataTable.Title>
             </DataTable.Header>
             {groupedTransactions[date].map((t, index) => (
               <DataTable.Row
                 key={index}
-                style={{ backgroundColor: t.isCredit ? '#e8f5e9' : '#ffebee' }}
+                style={{ backgroundColor: t.isCredit ? "#e8f5e9" : "#ffebee" }}
               >
                 <DataTable.Cell>{t.type}</DataTable.Cell>
                 <DataTable.Cell numeric>{t.amount}</DataTable.Cell>
@@ -79,31 +104,31 @@ const SHGManagement = ({ navigation }) => {
             <Card style={styles.card}>
               <Card.Content>
                 <View style={styles.overviewHeader}>
-                  <Text style={styles.title}>Finance Overview</Text>
+                  <Text style={styles.title}>{i.t('financeOverview')}</Text>
                 </View>
                 <View style={styles.overview}>
                   <View style={styles.overviewItem}>
                     <Avatar.Icon size={48} icon="bank" />
                     <View style={styles.overviewText}>
-                      <Text>Total SHG Funds: ₹1,00,000</Text>
+                      <Text>{i.t('totalShgFunds')}: ₹1,00,000</Text>
                     </View>
                   </View>
                   <View style={styles.overviewItem}>
                     <Avatar.Icon size={48} icon="account" />
                     <View style={styles.overviewText}>
-                      <Text>Your Contribution: ₹10,000</Text>
+                      <Text>{i.t('yourContributions')}: ₹10,000</Text>
                     </View>
                   </View>
                   <View style={styles.overviewItem}>
                     <Avatar.Icon size={48} icon="handshake" />
                     <View style={styles.overviewText}>
-                      <Text>Total Loans Given: ₹50,000</Text>
+                      <Text>{i.t('TotalLoansGiven')}: ₹50,000</Text>
                     </View>
                   </View>
                   <View style={styles.overviewItem}>
                     <Avatar.Icon size={48} icon="cash" />
                     <View style={styles.overviewText}>
-                      <Text>Your Loan: ₹5,000</Text>
+                      <Text>{i.t('yourLoan')}: ₹5,000</Text>
                     </View>
                   </View>
                 </View>
@@ -116,22 +141,27 @@ const SHGManagement = ({ navigation }) => {
             <Card style={styles.card}>
               <Card.Content>
                 <View style={styles.overviewHeader}>
-                  <Text style={styles.title}>Recent Transactions</Text>
-                  <Button mode="text" onPress={() => setShowAllTransactions(true)}>
-                    View All
+                  <Text style={styles.title}>{i.t('recentTransactions')}</Text>
+                  <Button
+                    mode="text"
+                    onPress={() => setShowAllTransactions(true)}
+                  >
+                    {i.t('viewAll')}
                   </Button>
                 </View>
                 <DataTable>
                   <DataTable.Header>
-                    <DataTable.Title>Date</DataTable.Title>
-                    <DataTable.Title>Type</DataTable.Title>
-                    <DataTable.Title numeric>Amount</DataTable.Title>
+                    <DataTable.Title>{i.t('date')}</DataTable.Title>
+                    <DataTable.Title>{i.t('transactionType')}</DataTable.Title>
+                    <DataTable.Title numeric>{i.t('amount')}</DataTable.Title>
                   </DataTable.Header>
 
                   {recentTransactions.map((t, index) => (
                     <DataTable.Row
                       key={index}
-                      style={{ backgroundColor: t.isCredit ? '#e8f5e9' : '#ffebee' }}
+                      style={{
+                        backgroundColor: t.isCredit ? "#e8f5e9" : "#ffebee",
+                      }}
                     >
                       <DataTable.Cell>{t.date}</DataTable.Cell>
                       <DataTable.Cell>{t.type}</DataTable.Cell>
@@ -147,17 +177,17 @@ const SHGManagement = ({ navigation }) => {
             {/* Loan Management Section */}
             <Card style={styles.card}>
               <Card.Content>
-                <Text style={styles.title}>Loan Management</Text>
+                <Text style={styles.title}>{i.t('LoanManagement')}</Text>
                 <Button
                   mode="contained"
                   onPress={() => router.navigate(`/Loan`)}
-                  style={{ 
-                    alignSelf: 'center',  // Centers the button horizontally
-                    paddingVertical: 5,   // Reduces the vertical padding
-                    paddingHorizontal: 20 // Reduces the horizontal padding
+                  style={{
+                    alignSelf: "center", // Centers the button horizontally
+                    paddingVertical: 5, // Reduces the vertical padding
+                    paddingHorizontal: 20, // Reduces the horizontal padding
                   }}
                 >
-                  Manage Loans
+                  {i.t('manageLoan')}
                 </Button>
               </Card.Content>
             </Card>
@@ -174,30 +204,30 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   card: {
     marginBottom: 20,
   },
   title: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   overviewHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   overview: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
   },
   overviewItem: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 15,
-    width: '48%',
+    width: "48%",
   },
   overviewText: {
     marginLeft: 10,
@@ -205,14 +235,14 @@ const styles = StyleSheet.create({
   },
   backButton: {
     marginTop: 10,
-    width: '100%',
-    alignItems: 'center',
+    width: "100%",
+    alignItems: "center",
   },
   dateSection: {
     marginBottom: 15,
   },
   dateTitle: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
 });

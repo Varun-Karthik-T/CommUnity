@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, View, FlatList } from 'react-native';
 import { Card, Button, SegmentedButtons, TextInput } from 'react-native-paper';
+import i from '@/Translations';
 
 const Loan = ({ onBack }) => {
   const [selectedTab, setSelectedTab] = React.useState('ActiveLoans');
@@ -21,22 +22,22 @@ const Loan = ({ onBack }) => {
           <Card.Content>
             {expandedLoanId === item.id ? (
               <>
-                <Text style={styles.loanTitle}>Loan Amount: {item.amount}</Text>
-                <Text>Purpose: {item.purpose}</Text>
-                <Text>Date: {item.date}</Text>
+                <Text style={styles.loanTitle}>{i.t('LoanAmount')}: {item.amount}</Text>
+                <Text>{i.t('purpose')}: {item.purpose}</Text>
+                <Text>{i.t('date')}: {item.date}</Text>
                 <Button
                   mode="contained"
                   style={styles.repayButton}
                   onPress={() => console.log('Repay loan')}
                 >
-                  Repay Loan
+                  {i.t('repayLoan')}
                 </Button>
                 <Button
                   mode="text"
                   style={styles.collapseButton}
                   onPress={() => setExpandedLoanId(null)}
                 >
-                  Collapse
+                  {i.t('collapse')}
                 </Button>
               </>
             ) : (
@@ -47,7 +48,7 @@ const Loan = ({ onBack }) => {
                   style={styles.viewDetailsButton}
                   onPress={() => setExpandedLoanId(item.id)}
                 >
-                  View Details
+                  {i.t('viewDetails')}
                 </Button>
               </>
             )}
@@ -61,16 +62,16 @@ const Loan = ({ onBack }) => {
 
   const renderApplyLoans = () => (
     <View style={styles.applyContainer}>
-      <Text style={styles.title}>Apply for a Loan</Text>
+      <Text style={styles.title}>{i.t('applyLoans')}</Text>
       <TextInput
         mode="outlined"
-        label="Loan Amount"
+        label={i.t('amount')}
         style={styles.input}
         keyboardType="numeric"
       />
       <TextInput
         mode="outlined"
-        label="Loan Purpose"
+        label={i.t('purpose')}
         style={styles.input}
       />
       <Button
@@ -78,7 +79,7 @@ const Loan = ({ onBack }) => {
         style={styles.submitButton}
         onPress={() => console.log('Loan application submitted')}
       >
-        Submit Application
+        {i.t('submitApplication')}
       </Button>
     </View>
   );
@@ -90,8 +91,8 @@ const Loan = ({ onBack }) => {
           value={selectedTab}
           onValueChange={setSelectedTab}
           buttons={[
-            { label: 'Active Loans', value: 'ActiveLoans' },
-            { label: 'Apply Loans', value: 'ApplyLoans' },
+            { label: i.t('activeLoans'), value: 'ActiveLoans' },
+            { label: i.t('applyLoans'), value: 'ApplyLoans' },
           ]}
         />
       </View>
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   topBar: {
-    marginBottom: 10,
+    marginBottom: 8,
   },
   card: {
     marginBottom: 20,

@@ -1,6 +1,7 @@
 import { View, ScrollView } from "react-native";
 import { useState } from "react";
 import { Text, Surface, Button } from "react-native-paper";
+import i from "@/Translations";
 
 function CashBook({ records }) {
   const [expanded, setExpanded] = useState(null);
@@ -24,16 +25,16 @@ function CashBook({ records }) {
                   <>
                     {records[date].credit.map((credit, creditIndex) => (
                       <Surface key={creditIndex} style={styles.creditContainer}>
-                        <Text>From: {credit.from}</Text>
-                        <Text>Transaction ID: {credit.transaction_id}</Text>
-                        <Text>Amount: {credit.amount}</Text>
+                        <Text>{i.t('from')}: {credit.from}</Text>
+                        <Text>{i.t('transaction')} ID: {credit.transaction_id}</Text>
+                        <Text>{i.t('amount')}: {credit.amount}</Text>
                       </Surface>
                     ))}
                     {records[date].debit.map((debit, debitIndex) => (
                       <Surface key={debitIndex} style={styles.debitContainer}>
-                        <Text>To: {debit.to}</Text>
-                        <Text>Transaction ID: {debit.transaction_id}</Text>
-                        <Text>Amount: {debit.amount}</Text>
+                        <Text>{i.t('to')}: {debit.to}</Text>
+                        <Text>{i.t('transaction')} ID: {debit.transaction_id}</Text>
+                        <Text>{i.t('amount')}: {debit.amount}</Text>
                       </Surface>
                     ))}
                     {records[date].expenditures.map(
@@ -42,9 +43,9 @@ function CashBook({ records }) {
                           key={expenditureIndex}
                           style={styles.debitContainer}
                         >
-                          <Text>Project ID: {expenditure.project_id}</Text>
-                          <Text>Project Name: {expenditure.project_name}</Text>
-                          <Text>Amount: {expenditure.amount}</Text>
+                          <Text>{i.t('project')} ID: {expenditure.project_id}</Text>
+                          <Text>{i.t('projectName')}: {expenditure.project_name}</Text>
+                          <Text>{i.t('amount')}: {expenditure.amount}</Text>
                         </Surface>
                       )
                     )}
@@ -53,9 +54,9 @@ function CashBook({ records }) {
                         key={revenueIndex}
                         style={styles.creditContainer}
                       >
-                        <Text>Project ID: {revenue.project_id}</Text>
-                        <Text>Project Name: {revenue.project_name}</Text>
-                        <Text>Amount: {revenue.amount}</Text>
+                        <Text>{i.t('project')} ID: {revenue.project_id}</Text>
+                        <Text>{i.t('projectName')} : {revenue.project_name}</Text>
+                        <Text>{i.t('amount')}: {revenue.amount}</Text>
                       </Surface>
                     ))}
                   </>

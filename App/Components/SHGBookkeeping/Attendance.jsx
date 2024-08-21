@@ -3,6 +3,7 @@ import { DataTable } from "react-native-paper";
 import DialogBox from "../UI/DialogBox";
 import { useEffect, useState } from "react";
 import api from "@/api/api";
+import i from "@/Translations";
 
 function Attendance({ records }) {
   const [members, setMembers] = useState([]);
@@ -27,9 +28,9 @@ function Attendance({ records }) {
       <View>
         <DataTable>
           <DataTable.Header>
-            <DataTable.Title>Date</DataTable.Title>
-            <DataTable.Title>Present (%)</DataTable.Title>
-            <DataTable.Title>Absentees</DataTable.Title>
+            <DataTable.Title>{i.t('date')}</DataTable.Title>
+            <DataTable.Title>{i.t('present')} (%)</DataTable.Title>
+            <DataTable.Title>{i.t('absentees')}</DataTable.Title>
           </DataTable.Header>
           {Object.keys(records).length > 0 &&
             Object.entries(records).map(([date, record]) => {

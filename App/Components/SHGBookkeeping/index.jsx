@@ -8,6 +8,7 @@ import api from "@/api/api";
 import Attendance from "./Attendance";
 import Minutes from "./Minutes";
 import CashBook from "./CashBook";
+import i from "@/Translations";
 
 export default function SHGBookkeeping() {
   const [records, setRecords] = useState([]);
@@ -28,14 +29,14 @@ export default function SHGBookkeeping() {
   const [currentTab, setTab] = useState("");
 
   const tabs = [
-    { label: "Minutes book", value: "minutes", component: <Minutes records = {records} /> },
+    { label: i.t('minutesBook'), value: "minutes", component: <Minutes records = {records} /> },
     {
-      label: "Attendance book",
+      label: i.t('attendanceBook'),
       value: "attendance",
       component: <Attendance records={records} />,
     },
     {
-      label: "Cash book",
+      label: i.t('cashBook'),
       value: "cash",
       component: <CashBook records={records} />,
     },
@@ -77,6 +78,6 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   chipp: {
-    width: 150,
+    width: 200,
   }
 });
