@@ -1,5 +1,5 @@
-import { View } from "react-native";
-import { DataTable, Text, Surface } from "react-native-paper";
+import { View, ScrollView } from "react-native";
+import { DataTable, Text, Surface, MD3Colors } from "react-native-paper";
 
 function CashBook() {
   const records = [
@@ -45,9 +45,9 @@ function CashBook() {
 
   return (
     <>
-      <View>
-        {records.map((record) => (
-          <View>
+      <ScrollView>
+        {records.map((record, index) => (
+          <View key={index}>
             <Text>{record.date}</Text>
             {record.credit.map((credit, creditIndex) => (
               <Surface key={creditIndex} style={styles.creditContainer}>
@@ -56,9 +56,34 @@ function CashBook() {
                 <Text>Amount: {credit.Amount}</Text>
               </Surface>
             ))}
+            {record.debit.map((debit, debitIndex) => (
+              <Surface key={debitIndex} style={styles.debitContainer}>
+                <Text>To: {debit.to}</Text>
+                <Text>Transaction ID: {debit.transaction_id}</Text>
+                <Text>Amount: {debit.amount}</Text>
+                <Text>Purpose: {debit.purpose}</Text>
+              </Surface>
+            ))}
+            {record.expenditures.map((expenditure, expenditureIndex) => (
+              <Surface
+                key={expenditureIndex}
+                style={styles.expenditureContainer}
+              >
+                <Text>Project ID: {expenditure.project_id}</Text>
+                <Text>Project Name: {expenditure.project_name}</Text>
+                <Text>Amount: {expenditure.amount}</Text>
+              </Surface>
+            ))}
+            {record.revenue.map((revenue, revenueIndex) => (
+              <Surface key={revenueIndex} style={styles.revenueContainer}>
+                <Text>Project ID: {revenue.project_id}</Text>
+                <Text>Project Name: {revenue.project_name}</Text>
+                <Text>Amount: {revenue.amount}</Text>
+              </Surface>
+            ))}
           </View>
         ))}
-      </View>
+      </ScrollView>
     </>
   );
 }
@@ -69,7 +94,28 @@ const styles = {
     padding: 10,
     borderRadius: 4,
     elevation: 2,
-    backgroundColor: "#b1fac4",
+    backgroundColor: "#d3f2db",
+  },
+  debitContainer: {
+    marginBottom: 10,
+    padding: 10,
+    borderRadius: 4,
+    elevation: 2,
+    backgroundColor: "#f2d3d3",
+  },
+  expenditureContainer: {
+    marginBottom: 10,
+    padding: 10,
+    borderRadius: 4,
+    elevation: 2,
+    backgroundColor: "#d3f2db",
+  },
+  revenueContainer: {
+    marginBottom: 10,
+    padding: 10,
+    borderRadius: 4,
+    elevation: 2,
+    backgroundColor: "#f2d3d3",
   },
 };
 
