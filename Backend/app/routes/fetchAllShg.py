@@ -1,15 +1,21 @@
+from flask import jsonify
 from .. import app
 from .. import db as d
-from flask import jsonify
 
-@app.get('/fetchAllSHG')
-def fetchAllSHG():
+@app.get('/fetchAllShg')
+def fetchAllShg():
     collection = d.db['SHGs']
 
     # Fetch all documents from the collection
-    data = collection.find()
-    for data in data:
-        if '_id' in data:
-            data.pop('_id')
+    cursor = collection.find()
 
-    return jsonify(data)
+    # Convert the cursor to a list of documents
+    documents = []
+    for document in cursor:
+        # Remove the '_id' field or convert it to a string if needed
+        if '_id' in document:
+            document['_id'] = str(document['_id'])  # Convert ObjectId to string or remove it
+        documents.append(document)
+
+    # Return the list of documents as a JSON response
+    return jsonify(documents)
