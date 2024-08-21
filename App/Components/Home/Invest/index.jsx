@@ -52,7 +52,7 @@ function Invest() {
                   subtitle={shg.subtitle}
                   description={shg.description}
                   imageUri={shg.img}
-                  id={index}
+                  id={shg.shg_id}
                 />
               ))}
             </View>
