@@ -61,17 +61,13 @@ export default function ShgMarket() {
     fetchProducts();
   }
 
-  const saveChanges = () => {
-    if (selectedProduct) {
-      setData((prevData) =>
-        prevData.map((item) =>
-          item.name === selectedProduct.name
-            ? { ...item, price: updatedPrice, availability: updatedAvailability }
-            : item
-        )
-      );
-    }
-
+  const saveChanges = async () => {
+    const response = api.post('/updateProduct', {
+      shg_id: "shg_001",
+      product_id: selectedProduct.product_id,
+      price: parseFloat(updatedPrice),
+      availability: parseInt(updatedAvailability),
+    });
     setModalVisible(false);
   };
 
@@ -99,7 +95,6 @@ export default function ShgMarket() {
 
   const fetchProducts = async () => {
     const response = await api.get('/fetchProducts');
-    console.log(response.data);
     setData(response.data);
   }
 
@@ -198,7 +193,7 @@ export default function ShgMarket() {
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Edit Product Details</Text>
 
-            <Text style={styles.modalLabel}>Product Name: {selectedProduct?.name}</Text>
+            <Text style={styles.modalLabel}>Product Name: {selectedProduct?.product_name}</Text>
             <Text style={styles.modalLabel}>Update Price:</Text>
             <TextInput
               style={styles.input}

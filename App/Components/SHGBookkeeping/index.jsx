@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, SafeAreaView } from "react-native";
-import {
-  Chip,
-  Icon,
-} from "react-native-paper";
+import { Chip, Icon, FAB } from "react-native-paper";
 import api from "@/api/api";
 import Attendance from "./Attendance";
 import Minutes from "./Minutes";
 import CashBook from "./CashBook";
+import { useRouter } from "expo-router";
 
 export default function SHGBookkeeping() {
   const [records, setRecords] = useState([]);
+
+  const router = useRouter();
 
   fetchExpenses = async () => {
     try {
@@ -28,7 +28,11 @@ export default function SHGBookkeeping() {
   const [currentTab, setTab] = useState("");
 
   const tabs = [
-    { label: "Minutes book", value: "minutes", component: <Minutes records = {records} /> },
+    {
+      label: "Minutes book",
+      value: "minutes",
+      component: <Minutes records={records} />,
+    },
     {
       label: "Attendance book",
       value: "attendance",
@@ -55,10 +59,14 @@ export default function SHGBookkeeping() {
             </Chip>
           ))}
         </View>
-        <View>
-          {tabs.find((tab) => tab.value === currentTab)?.component}
-        </View>
+        <View>{tabs.find((tab) => tab.value === currentTab)?.component}</View>
       </SafeAreaView>
+      <FAB
+        icon="plus"
+        label="Add new entry"
+        style={styles.fab}
+        onPress={() => router.push("Home/bookkeeping")}
+      />
     </>
   );
 }
@@ -78,5 +86,11 @@ const styles = StyleSheet.create({
   },
   chipp: {
     width: 150,
-  }
+  },
+  fab: {
+    position: "absolute",
+    margin: 16,
+    right: 0,
+    bottom: 0,
+  },
 });
