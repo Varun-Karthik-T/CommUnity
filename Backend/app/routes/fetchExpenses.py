@@ -1,44 +1,4 @@
-# from .. import app
-# from .. import db as d
-# from flask import jsonify
-
-# @app.get('/fetchExpenses/<id>')
-# def fetchExpenses(id):
-#     collection = d.db['expenses']
-
-#     # Fetch all documents from the collection
-#     data = collection.find( { "shg_id": id } )
-#     for data1 in data:
-#         if '_id' in data1:
-#             data.pop('_id')
-#     if data is None:
-#         return jsonify({"error": "None"}), 404
-#     print(data)
-#     return jsonify(data)
-
-# # from flask import jsonify
-# # from bson.json_util import dumps
-# # from .. import app
-# # from .. import db as d
-
-# # @app.get('/fetchExpenses/<id>')
-# # def fetchExpenses(id):
-# #     collection = d.db['expenses']
-
-# #     # Fetch the document with the specific 'shg_id' field
-# #     cursor = collection.find({"shg_id": id})
-
-# #     # Convert cursor to a list and handle special types
-# #     data = list(cursor)
-    
-# #     # Convert MongoDB's ObjectId and other BSON types to JSON serializable format
-# #     json_data = dumps(data)
-
-# #     return jsonify(json_data)
-
-
 from flask import jsonify
-from bson.json_util import dumps
 from .. import app
 from .. import db as d
 
