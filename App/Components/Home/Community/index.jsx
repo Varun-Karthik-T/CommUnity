@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import {
   Text,
@@ -9,10 +9,12 @@ import {
   Modal,
   Portal,
 } from "react-native-paper";
+import api from "@/api/api";
 
 function Community() {
   const [visible, setVisible] = useState(false);
   const [selectedNews, setSelectedNews] = useState(null);
+  const [shgData, setShgData] = useState([]);
 
   const recentActivities = [
     {
@@ -39,29 +41,27 @@ function Community() {
     // Can be added later
   ];
 
-  const shgData = [
-    {
-      name: "Sunrise SHG",
-      location: "Village A",
-      avatar: "https://images.pexels.com/photos/36744/agriculture-arable-clouds-countryside.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    },
-    {
-      name: "Empowerment SHG",
-      location: "Village B",
-      avatar: "https://images.pexels.com/photos/7938943/pexels-photo-7938943.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    },
-    {
-      name: "Unity SHG",
-      location: "Village C",
-      avatar: "https://images.pexels.com/photos/4659806/pexels-photo-4659806.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    },
-  ];
+  async function fetchShgData() {
+    console.log(api.defaults.baseURL + "/fetchAllShg");
+    try {
+      let response = await api.get("/fetchAllShg");
+      console.log(response.data);
+      setShgData(response.data);
+    } catch (error) {
+      console.error("Error fetching SHG data:", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchShgData();
+  }, []);
 
   const ngoData = [
     {
       name: "Helping Hands NGO",
       resources: "Financial Aid, Training Programs",
-      avatar: "https://images.pexels.com/photos/3541916/pexels-photo-3541916.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      avatar:
+        "https://images.pexels.com/photos/3541916/pexels-photo-3541916.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     {
       name: "Growth Foundation",
@@ -106,13 +106,13 @@ function Community() {
         </View>
         <Text style={styles.heading}>Self Help Groups</Text>
         <ScrollView horizontal style={styles.horizontalScroll}>
-          {shgData.map((shg, index) => (
-            <Card key={index} style={styles.card}>
+          {shgData.map((shg) => (
+            <Card key={shg.shg_id} style={styles.card}>
               <Card.Title
                 title={shg.name}
                 subtitle={shg.location}
                 left={(props) => (
-                  <Avatar.Image {...props} source={{ uri: shg.avatar }} />
+                  <Avatar.Image {...props} source={{ uri: shg.img }} />
                 )}
               />
               <Card.Actions>
