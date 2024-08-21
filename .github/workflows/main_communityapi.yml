@@ -19,7 +19,7 @@ jobs:
           python-version: '3.11'
 
       - name: Change directory to backend
-        run: cd backend
+        run: cd Backend
 
       - name: Create and start virtual environment
         run: |
@@ -39,8 +39,8 @@ jobs:
         with:
           name: python-app
           path: |
-            backend/release.zip
-            !backend/venv/
+            Backend/release.zip
+            !Backend/venv/
 
   deploy:
     runs-on: ubuntu-latest
@@ -58,7 +58,7 @@ jobs:
           name: python-app
 
       - name: Change directory to backend
-        run: cd backend
+        run: cd Backend
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
@@ -76,4 +76,4 @@ jobs:
         with:
           app-name: 'communityapi'
           slot-name: 'Production'
-          package: ./backend/release.zip
+          package: ./Backend/release.zip
