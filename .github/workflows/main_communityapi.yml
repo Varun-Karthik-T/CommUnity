@@ -18,7 +18,7 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Change directory to backend
+      - name: Change directory to Backend
         run: cd Backend
 
       - name: Create and start virtual environment
@@ -32,15 +32,15 @@ jobs:
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
       - name: Zip artifact for deployment
-        run: zip -r release.zip ./*
+        run: zip -r ../release.zip ./*
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
         with:
           name: python-app
           path: |
-            Backend/release.zip
-            !Backend/venv/
+            release.zip
+            !venv/
 
   deploy:
     runs-on: ubuntu-latest
@@ -56,9 +56,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: python-app
-
-      - name: Change directory to backend
-        run: cd Backend
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
@@ -76,4 +73,4 @@ jobs:
         with:
           app-name: 'communityapi'
           slot-name: 'Production'
-          package: ./Backend/release.zip
+          package: release.zip
