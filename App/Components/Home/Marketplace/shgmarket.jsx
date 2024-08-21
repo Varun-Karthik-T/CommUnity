@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -7,12 +7,12 @@ import {
   Image,
   Modal,
   TextInput,
-  TouchableOpacity,
 } from 'react-native';
 import { Searchbar, FAB, Divider, Button, Card, useTheme } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { BarChart } from 'react-native-chart-kit';
 import { Dimensions } from 'react-native';
+import api from '@/api/api';
 
 export default function ShgMarket() {
   const theme = useTheme();
@@ -25,49 +25,13 @@ export default function ShgMarket() {
   const [newProductPrice, setNewProductPrice] = useState('');
   const [newProductAvailability, setNewProductAvailability] = useState('');
   const [newProductImage, setNewProductImage] = useState('');
-  const [data, setData] = useState([
-    {
-      name: 'Alwa',
-      price: 100,
-      image: 'https://images.pexels.com/photos/20446403/pexels-photo-20446403/free-photo-of-top-view-of-gajorer-halwa-dessert.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      sale: 30,
-      availability: 50,
-    },
-    {
-      name: 'Basket',
-      price: 200,
-      image: 'https://images.pexels.com/photos/2113125/pexels-photo-2113125.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      sale: 40,
-      availability: 20,
-    },
-    {
-      name: 'Candle',
-      price: 300,
-      image: 'https://images.pexels.com/photos/783200/pexels-photo-783200.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      sale: 20,
-      availability: 10,
-    },
-    {
-      name: 'Handbag',
-      price: 400,
-      image: 'https://images.pexels.com/photos/6044266/pexels-photo-6044266.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      sale: 10,
-      availability: 15,
-    },
-    {
-      name: 'Pot',
-      price: 500,
-      image: 'https://images.pexels.com/photos/3692083/pexels-photo-3692083.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      sale: 50,
-      availability: 30,
-    },
-  ]);
+  const [data, setData] = useState([]);
 
   const chartData = {
-    labels: data.map((item) => item.name),
+    labels: data.map((item) => item.product_name),
     datasets: [
       {
-        data: data.map((item) => item.sale),
+        data: data.map((item) => item.quantity_sold),
       },
     ],
   };
@@ -81,6 +45,21 @@ export default function ShgMarket() {
     setModalVisible(true);
   };
 
+  const addProduct = async () => {
+    const response = api.post('/addProduct', {
+      product_name: newProductName,
+      price: parseFloat(newProductPrice),
+      image: newProductImage,
+      shg_id : "shg_001",
+      availability: parseInt(newProductAvailability),
+    })
+    setAddProductModalVisible(false);
+    setNewProductName('');
+    setNewProductPrice('');
+    setNewProductAvailability('');
+    setNewProductImage('');
+  }
+
   const saveChanges = () => {
     if (selectedProduct) {
       setData((prevData) =>
@@ -91,6 +70,7 @@ export default function ShgMarket() {
         )
       );
     }
+
     setModalVisible(false);
   };
 
@@ -98,7 +78,7 @@ export default function ShgMarket() {
     setAddProductModalVisible(true);
   };
 
-  const addProduct = () => {
+  const addProduct2 = () => {
     setData((prevData) => [
       ...prevData,
       {
@@ -115,6 +95,16 @@ export default function ShgMarket() {
     setNewProductAvailability('');
     setNewProductImage('');
   };
+
+  const fetchProducts = async () => {
+    const response = await api.get('/fetchProducts');
+    console.log(response.data);
+    setData(response.data);
+  }
+
+  useEffect(() => {
+    fetchProducts();
+  },[])
 
   return (
     <>
@@ -172,10 +162,10 @@ export default function ShgMarket() {
                   <Card.Content style={styles.shopCard}>
                     <Image source={{ uri: item.image }} style={styles.img} />
                     <View style={styles.textContent}>
-                      <Text style={styles.caption}>{item.name}</Text>
+                      <Text style={styles.caption}>{item.product_name}</Text>
                       <View style={styles.salesInfo}>
                         <MaterialCommunityIcons name="chart-line" size={20} color="green" />
-                        <Text style={styles.salesText}>Sold: {item.sale}</Text>
+                        <Text style={styles.salesText}>Sold: {item.quantity_sold}</Text>
                       </View>
                       <Text style={styles.priceText}>Price: ₹{item.price}</Text>
                       <Text style={styles.availabilityText}>Availability: {item.availability} items</Text>
