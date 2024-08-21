@@ -1,4 +1,5 @@
 import { View } from 'react-native';
+import { useState } from 'react';
 import { Button, Dialog, Portal, Text } from 'react-native-paper';
 
 const DialogBox = ({content,trigger,title}) => {

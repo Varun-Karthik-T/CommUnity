@@ -1,5 +1,6 @@
 import { View } from "react-native";
 import { Text, DataTable, Button } from "react-native-paper";
+import DialogBox from "../UI/DialogBox";
 
 function Attendance() {
   const members = [
@@ -29,7 +30,7 @@ function Attendance() {
               <DataTable.Cell>{record.date}</DataTable.Cell>
               <DataTable.Cell>{((record.present.length / members.length) * 100).toFixed(2)}%</DataTable.Cell>
               <DataTable.Cell>
-                <Button>View</Button>
+                <DialogBox content={record.absent.map((id) => members.find((member) => member.id === id).name).join(", ")} trigger="View" title="Absentees" />
               </DataTable.Cell>
             </DataTable.Row>
           ))}
