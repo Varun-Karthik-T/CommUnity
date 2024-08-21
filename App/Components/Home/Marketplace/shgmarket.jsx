@@ -7,7 +7,6 @@ import {
   Image,
   Modal,
   TextInput,
-  TouchableOpacity,
 } from 'react-native';
 import { Searchbar, FAB, Divider, Button, Card, useTheme } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
