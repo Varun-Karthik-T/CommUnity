@@ -15,13 +15,15 @@ import {
   Divider,
   Chip,
   Button,
-  Surface,
+  useTheme,
 } from "react-native-paper";
+// import HorizontalScrollView from "@/Components/UI/MarketScroll";
 
 const HorizontalScrollView = ({ data, onProductPress }) => (
+  
   <ScrollView horizontal showsHorizontalScrollIndicator={false}>
     {data.map((item, index) => (
-      <Surface
+      <TouchableOpacity
         key={index}
         onPress={() => onProductPress(item)}
         style={styles.productCard}
@@ -30,12 +32,13 @@ const HorizontalScrollView = ({ data, onProductPress }) => (
         <Image source={{ uri: item.image }} style={styles.productImage} />
         <Text style={styles.productName}>{item.name}</Text>
         <Text style={styles.productPrice}>₹{item.price}</Text>
-      </Surface>
+      </TouchableOpacity>
     ))}
   </ScrollView>
 );
 
 export default function MarketPlace() {
+  const theme = useTheme();
   const [modalVisible, setModalVisible] = useState(false);
   const [cartVisible, setCartVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);

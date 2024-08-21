@@ -1,25 +1,22 @@
 import { View, Image, ScrollView, StyleSheet } from "react-native";
 import { Button, Card, Text } from "react-native-paper";
 
-const HorizontalScrollView = ({ data }) => {
-  return (
-    <ScrollView horizontal style={styles.scroll}>
-      {data.map((item, index) => (
-        <View key={index} style={styles.card}>
-          <Card>
-            <Card.Content style={styles.shopCard}>
-              <Image source={{ uri: item.image }} style={styles.img} />
-              <Text style={styles.caption}>{item.name}</Text>
-            </Card.Content>
-            <Card.Actions>
-              <Button> View product </Button>
-            </Card.Actions>
-          </Card>
-        </View>
-      ))}
-    </ScrollView>
-  );
-};
+const HorizontalScrollView = ({ data, onProductPress }) => (
+  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+    {data.map((item, index) => (
+      <Button
+        key={index}
+        onPress={() => onProductPress(item)}
+        style={styles.productCard}
+        mode="contained"
+      >
+        <Image source={{ uri: item.image }} style={styles.productImage} />
+        <Text style={styles.productName}>{item.name}</Text>
+        <Text style={styles.productPrice}>₹{item.price}</Text>
+      </Button>
+    ))}
+  </ScrollView>
+);
 
 export default HorizontalScrollView;
 
@@ -29,20 +26,25 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 20,
   },
-  card: {
-    marginHorizontal: 10,
-    marginVertical: 10,
+  productCard: {
+    margin: 10,
+    padding: 10,
+    backgroundColor: '#fff',
+    borderRadius: 10,
   },
-  scroll: {
-    height: "fit-content",
+  productImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 10,
   },
-  caption: {
-    fontSize: 12,
+  productName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 10,
   },
-  shopCard: {
-    display: "flex",
-    alignItems: "center",
-    flexDirection: "column",
-    gap: 5,
-  }
+  productPrice: {
+    fontSize: 14,
+    color: '#888',
+    marginTop: 5,
+  },
 });
