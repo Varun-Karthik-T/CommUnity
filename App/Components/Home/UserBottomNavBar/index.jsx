@@ -14,7 +14,7 @@ const UserBottomNavBar = () => {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
     { key: 'invest', title: 'Invest', focusedIcon: 'cash-check', unfocusedIcon: 'cash' },
-    { key: 'market', title: 'Marketplace', focusedIcon: 'cart-check', unfocusedIcon: 'cart-outline'},
+    { key: 'market', title: 'Market', focusedIcon: 'cart-check', unfocusedIcon: 'cart-outline'},
     { key: 'community', title: 'Community', focusedIcon: 'account-group', unfocusedIcon: 'account-group-outline' },
   ]);
 

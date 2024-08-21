@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, Linking } from "react-native";
 import {
   Text,
   Card,
@@ -37,15 +37,14 @@ function Community() {
       description: "Organized a health camp for the local community.",
       details:
         "Detailed description of the health camp organized by Unity SHG for the local community.",
-    },
-    // Can be added later
+    }
   ];
 
   async function fetchShgData() {
-    console.log(api.defaults.baseURL + "/fetchAllShg");
+    //console.log(api.defaults.baseURL + "/fetchAllShg");
     try {
       let response = await api.get("/fetchAllShg");
-      console.log(response.data);
+      //console.log(response.data);
       setShgData(response.data);
     } catch (error) {
       console.error("Error fetching SHG data:", error);
@@ -60,11 +59,13 @@ function Community() {
     {
       name: "Helping Hands NGO",
       resources: "Financial Aid, Training Programs",
+      contact: "0987654321",
       avatar:
         "https://images.pexels.com/photos/3541916/pexels-photo-3541916.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     {
       name: "Growth Foundation",
+      contact: "0123456789",
       resources: "Microfinance, Skill Development",
       avatar: "https://picsum.photos/100/100",
     },
@@ -74,6 +75,12 @@ function Community() {
     setSelectedNews(news);
     setVisible(true);
   };
+  function handleCall(contact) {
+    const url = `tel:${contact}`;
+    Linking.openURL(url).catch((err) =>
+      console.error("Error opening dialer", err)
+    );
+  }
 
   const hideModal = () => {
     setVisible(false);
@@ -116,7 +123,7 @@ function Community() {
                 )}
               />
               <Card.Actions>
-                <Button>Contact</Button>
+                <Button onPress={() => handleCall(shg.contact)}>Contact</Button>
               </Card.Actions>
             </Card>
           ))}
@@ -133,7 +140,7 @@ function Community() {
                 )}
               />
               <Card.Actions>
-                <Button>Contact</Button>
+                <Button  onPress={() => handleCall(ngo.contact)}>Contact</Button>
               </Card.Actions>
             </Card>
           ))}

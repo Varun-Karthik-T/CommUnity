@@ -11,7 +11,6 @@ const CommunityRoute = () => <ShgCommunity />;
 
 const MarketPlaceRoute = () => <ShgMarket />;
 
-
 const BookKeepingRoute = () => <SHGBookkeeping />;
 
 const ManagementRoute = () => <SHGManagement />;
@@ -29,13 +28,13 @@ const ShgBottomNavBar = () => {
     },
     {
       key: "marketplace",
-      title: "Marketplace",
+      title: "Market",
       focusedIcon: "cart",
       unfocusedIcon: "cart-outline",
     },
     {
       key: "bookkeeping",
-      title: "BookKeeping",
+      title: "Records",
       focusedIcon: "book",
       unfocusedIcon: "book-outline",
     },
