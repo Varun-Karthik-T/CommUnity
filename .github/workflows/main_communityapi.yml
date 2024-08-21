@@ -19,6 +19,8 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies and run gunicorn
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
         run: |
           cd Backend
           python -m venv venv
