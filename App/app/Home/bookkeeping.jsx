@@ -1,90 +1,154 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, ScrollView, Button as RNButton, TouchableOpacity } from "react-native";
-import { Text, TextInput, Button } from "react-native-paper";
+import { View, StyleSheet, ScrollView } from "react-native";
+import { Text, TextInput, Button, Checkbox } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import api from "@/api/api";
 
-const Card = ({ children, onAdd, onRemove }) => (
+const Card = ({ children, onAdd, onRemove, disabled }) => (
   <View style={styles.card}>
     {children}
     {onAdd && (
-      <TouchableOpacity onPress={onAdd} style={styles.cardAction}>
-        <Text style={styles.cardActionText}>+ Add</Text>
-      </TouchableOpacity>
+      <Button
+        onPress={onAdd}
+        style={styles.cardAction}
+        mode="outlined"
+        disabled={disabled}
+      >
+        + Add
+      </Button>
     )}
     {onRemove && (
-      <TouchableOpacity onPress={onRemove} style={styles.cardAction}>
-        <Text style={styles.cardActionText}>- Remove</Text>
-      </TouchableOpacity>
+      <Button onPress={onRemove} style={styles.cardAction} mode="outlined">
+        - Remove
+      </Button>
     )}
   </View>
 );
 
 function Bookkeeping() {
   const [todayDate, setTodayDate] = useState("");
-  
+
+  const [members, setMembers] = useState([]);
+
   const [credits, setCredits] = useState([
-    { from: "", transaction_id: "", amount: "" }
+    { from: "", transaction_id: "", amount: 0 },
   ]);
 
   const [debits, setDebits] = useState([
-    { to: "", transaction_id: "", amount: "", purpose: "" }
+    { to: "", transaction_id: "", amount: 0, purpose: "" },
   ]);
 
   const [expenditures, setExpenditures] = useState([
-    { project_id: "", project_name: "", amount: "" }
+    { project_id: "", project_name: "", amount: 0 },
   ]);
 
   const [revenues, setRevenues] = useState([
-    { project_id: "", project_name: "", amount: "" }
+    { project_id: "", project_name: "", amount: 0 },
   ]);
 
   const [minutes, setMinutes] = useState("");
   const [currentBalance, setCurrentBalance] = useState("");
   const [attendance, setAttendance] = useState("");
-  const [initialCapital, setInitialCapital] = useState("");
-  const [attendancePercentage, setAttendancePercentage] = useState("");
   const [loanRepayments, setLoanRepayments] = useState("");
   const [totalRevenue, setTotalRevenue] = useState("");
+
+  const fetchMembers = async () => {
+    try {
+      const response = await api.get("/fetchAllMembers");
+      console.log(response.data);
+      setMembers(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const calculateTotalRevenue = () => {
+    const totalCredits = credits.reduce(
+      (sum, credit) => sum + parseFloat(credit.amount),
+      0
+    );
+    const totalRevenues = revenues.reduce(
+      (sum, revenue) => sum + parseFloat(revenue.amount),
+      0
+    );
+    const totalDebits = debits.reduce(
+      (sum, debit) => sum + parseFloat(debit.amount),
+      0
+    );
+    const totalExpenditures = expenditures.reduce(
+      (sum, expenditure) => sum + parseFloat(expenditure.amount),
+      0
+    );
+
+    const rev = totalCredits + totalRevenues - totalDebits - totalExpenditures;
+    setTotalRevenue(rev);
+  };
 
   useEffect(() => {
     const date = new Date();
     setTodayDate(date.toDateString());
+    fetchMembers();
   }, []);
 
-  const handleSubmit = () => {
+  useEffect(() => {
+    calculateTotalRevenue();
+  },[credits, revenues, debits, expenditures]);
+
+  const handleCheckboxChange = (memberId) => {
+    setAttendance((prevAttendance) =>
+      prevAttendance.includes(memberId)
+        ? prevAttendance.filter((member_id) => member_id !== memberId)
+        : [...prevAttendance, memberId]
+    );
+  };
+
+  const calculateAttendancePercentage = () => {
+    if (members.length === 0) return 0;
+    return ((attendance.length / members.length) * 100).toFixed(2);
+  };
+
+  const handleSubmit = async () => {
+    const attendancePercentage = calculateAttendancePercentage();
     const bookkeepingRecord = {
       date: todayDate,
       credit: credits,
       debit: debits,
-      purpose: debits[0].purpose,  
       expenditures,
       revenue: revenues,
       currentBalance: parseFloat(currentBalance),
-      attendance: attendance.split(",").map((member) => member.trim()),
+      attendance,
       minutes_book: minutes,
-      initial_capital: parseFloat(initialCapital),
       attendance_percentage: parseFloat(attendancePercentage),
       loan_repayments: parseFloat(loanRepayments),
-      performance: parseFloat(performance),
       total_revenue: parseFloat(totalRevenue),
     };
-
-    console.log(bookkeepingRecord);
+    const response = await api.post("/addExpense/shg_001", bookkeepingRecord);
+    if (response.data.success) {
+      console.log("Record added successfully");
+    }
   };
 
   const addCard = (category) => {
     switch (category) {
-      case 'credit':
+      case "credit":
         setCredits([...credits, { from: "", transaction_id: "", amount: "" }]);
         break;
-      case 'debit':
-        setDebits([...debits, { to: "", transaction_id: "", amount: "", purpose: "" }]);
+      case "debit":
+        setDebits([
+          ...debits,
+          { to: "", transaction_id: "", amount: "", purpose: "" },
+        ]);
         break;
-      case 'expenditure':
-        setExpenditures([...expenditures, { project_id: "", project_name: "", amount: "" }]);
+      case "expenditure":
+        setExpenditures([
+          ...expenditures,
+          { project_id: "", project_name: "", amount: "" },
+        ]);
         break;
-      case 'revenue':
-        setRevenues([...revenues, { project_id: "", project_name: "", amount: "" }]);
+      case "revenue":
+        setRevenues([
+          ...revenues,
+          { project_id: "", project_name: "", amount: "" },
+        ]);
         break;
       default:
         break;
@@ -93,16 +157,16 @@ function Bookkeeping() {
 
   const removeCard = (category, index) => {
     switch (category) {
-      case 'credit':
+      case "credit":
         setCredits(credits.filter((_, i) => i !== index));
         break;
-      case 'debit':
+      case "debit":
         setDebits(debits.filter((_, i) => i !== index));
         break;
-      case 'expenditure':
+      case "expenditure":
         setExpenditures(expenditures.filter((_, i) => i !== index));
         break;
-      case 'revenue':
+      case "revenue":
         setRevenues(revenues.filter((_, i) => i !== index));
         break;
       default:
@@ -119,8 +183,10 @@ function Bookkeeping() {
         {credits.map((credit, index) => (
           <Card
             key={index}
-            onAdd={() => addCard('credit')}
-            onRemove={credits.length > 1 ? () => removeCard('credit', index) : null}
+            onAdd={() => addCard("credit")}
+            onRemove={
+              credits.length > 1 ? () => removeCard("credit", index) : null
+            }
           >
             <TextInput
               label="Credit From"
@@ -156,12 +222,13 @@ function Bookkeeping() {
           </Card>
         ))}
 
-        {/* Debit Card Section */}
         {debits.map((debit, index) => (
           <Card
             key={index}
-            onAdd={() => addCard('debit')}
-            onRemove={debits.length > 1 ? () => removeCard('debit', index) : null}
+            onAdd={() => addCard("debit")}
+            onRemove={
+              debits.length > 1 ? () => removeCard("debit", index) : null
+            }
           >
             <TextInput
               label="Debit To"
@@ -207,12 +274,15 @@ function Bookkeeping() {
           </Card>
         ))}
 
-        {/* Expenditure Card Section */}
         {expenditures.map((expenditure, index) => (
           <Card
             key={index}
-            onAdd={() => addCard('expenditure')}
-            onRemove={expenditures.length > 1 ? () => removeCard('expenditure', index) : null}
+            onAdd={() => addCard("expenditure")}
+            onRemove={
+              expenditures.length > 1
+                ? () => removeCard("expenditure", index)
+                : null
+            }
           >
             <TextInput
               label="Expenditure Project ID"
@@ -248,12 +318,13 @@ function Bookkeeping() {
           </Card>
         ))}
 
-        {/* Revenue Card Section */}
         {revenues.map((revenue, index) => (
           <Card
             key={index}
-            onAdd={() => addCard('revenue')}
-            onRemove={revenues.length > 1 ? () => removeCard('revenue', index) : null}
+            onAdd={() => addCard("revenue")}
+            onRemove={
+              revenues.length > 1 ? () => removeCard("revenue", index) : null
+            }
           >
             <TextInput
               label="Revenue Project ID"
@@ -289,7 +360,6 @@ function Bookkeeping() {
           </Card>
         ))}
 
-        {/* Remaining Fields */}
         <TextInput
           label="Minutes of the meeting"
           value={minutes}
@@ -304,26 +374,21 @@ function Bookkeeping() {
           style={styles.textInput}
           keyboardType="numeric"
         />
-        <TextInput
-          label="Attendance (comma-separated IDs)"
-          value={attendance}
-          onChangeText={setAttendance}
-          style={styles.textInput}
-        />
-        <TextInput
-          label="Initial Capital"
-          value={initialCapital}
-          onChangeText={setInitialCapital}
-          style={styles.textInput}
-          keyboardType="numeric"
-        />
-        <TextInput
-          label="Attendance Percentage"
-          value={attendancePercentage}
-          onChangeText={setAttendancePercentage}
-          style={styles.textInput}
-          keyboardType="numeric"
-        />
+        <Text>Attendance</Text>
+        <View style={styles.attendance}>
+          {members.map((member) => (
+            <View key={member._id} style={styles.checkboxContainer}>
+              <Checkbox
+                status={
+                  attendance.includes(member.member_id) ? "checked" : "unchecked"
+                }
+                onPress={() => handleCheckboxChange(member.member_id)}
+              />
+              <Text>{member.name}</Text>
+            </View>
+          ))}
+        </View>
+
         <TextInput
           label="Loan Repayments"
           value={loanRepayments}
@@ -331,16 +396,14 @@ function Bookkeeping() {
           style={styles.textInput}
           keyboardType="numeric"
         />
-      
-        <TextInput
-          label="Total Revenue"
-          value={totalRevenue}
-          onChangeText={setTotalRevenue}
-          style={styles.textInput}
-          keyboardType="numeric"
-        />
 
-        <Button mode="contained" onPress={handleSubmit} style={styles.submitButton}>
+        <Text>Total Revenue: {totalRevenue}</Text>
+
+        <Button
+          mode="contained"
+          onPress={handleSubmit}
+          style={styles.submitButton}
+        >
           Submit
         </Button>
       </ScrollView>
@@ -376,11 +439,24 @@ const styles = StyleSheet.create({
   },
   cardAction: {
     marginTop: 10,
-    alignItems: "center",
   },
   cardActionText: {
-    color: "#000",
     fontWeight: "bold",
+  },
+  checkboxContainer: {
+    flexDirection: "row",
+    marginVertical: 5,
+    alignItems: "center",
+    gap: 5,
+  },
+  attendance: {
+    width: "80%",
+    alignItems: "flex-start",
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    gap: 10,
   },
 });
 

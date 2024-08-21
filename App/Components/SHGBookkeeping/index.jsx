@@ -26,7 +26,7 @@ export default function SHGBookkeeping() {
     fetchExpenses();
   }, []);
 
-  const [currentTab, setTab] = useState("");
+  const [currentTab, setTab] = useState("minutes");
 
   const tabs = [
     { label: i.t('minutesBook'), value: "minutes", component: <Minutes records = {records} /> },
