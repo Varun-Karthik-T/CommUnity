@@ -15,21 +15,19 @@ function Performance() {
   const [expanded, setExpanded] = useState(false);
   const [showGraph, setShowGraph] = useState(false);
   const [shgData, setShgData] = useState();
-  const [profitData, setProfitData] = useState();
+  const [expenses, setExpenses] = useState();
 
   const handlePress = () => setExpanded(!expanded);
   const toggleGraph = () => setShowGraph(!showGraph);
   const fetchData = async () => {
-    console.log(" API endpoint: " + api.defaults.baseURL + "/fetchSHG");
     try {
-      let response = await api.get("/fetchSHG");
+      const response = await api.get(`/fetchSHGs/${id}`);
       setShgData(response.data);
-      console.log(response.data);
-      response = await api.get("/fetchProfit");
-      setProfitData(response.data);
-      console.log(response.data);
+      const expenses = await api.get(`/fetchExpenses/${id}`);
+      console.log(expenses.data);
+      setExpenses(expenses.data[0].records);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error(error);
     }
   };
   useEffect(() => {
@@ -52,80 +50,70 @@ function Performance() {
       strokeDasharray: "0",
     },
   };
-  response1 = {
-    data: {
-      Score: 4,
-    },
-  };
-  const data = {
-    labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ],
-    datasets: [
-      {
-        data: profitData ? Object.values(profitData[0]) : [],
-      },
-    ],
-  };
+  // const data = {
+  //   labels: [
+  //     "Jan",
+  //     "Feb",
+  //     "Mar",
+  //     "Apr",
+  //     "May",
+  //     "Jun",
+  //     "Jul",
+  //     "Aug",
+  //     "Sep",
+  //     "Oct",
+  //     "Nov",
+  //     "Dec",
+  //   ],
+  //   datasets: [
+  //     {
+  //       data: profitData ? Object.values(profitData[0]) : [],
+  //     },
+  //   ],
+  // };
 
   return (
     <>
       <ScrollView contentContainerStyle={styles.container}>
-        <Surface style={styles.surfaceContainer}>
-          <Text variant="displaySmall" style={styles.heading}>
-            {dummy.title}
-          </Text>
-          <View style={styles.chipContainer}>
-            <Chip variant="titleSmall">from {dummy.origin}</Chip>
-            {shgData && (
-              <>
-                <Chip variant="titleSmall">
-                  on {shgData[0].Date_Of_Establishment}
-                </Chip>
-                <Chip variant="titleSmall">
-                  {shgData[0].SHG_Members + " members"}
-                </Chip>
-                <Chip variant="titleSmall">
-                  Specializes in {shgData[0].Sector}
-                </Chip>
-              </>
-            )}
-          </View>
-        </Surface>
+        {shgData && (
+          <>
+            <Surface style={styles.surfaceContainer}>
+              <Text variant="displaySmall" style={styles.heading}>
+                {shgData.name}
+              </Text>
+              <View style={styles.chipContainer}>
+                <Chip variant="titleSmall">from {shgData.location}</Chip>
+                {shgData && (
+                  <>
+                    <Chip variant="titleSmall">on {shgData.date}</Chip>
+                    <Chip variant="titleSmall">{shgData.subtitle}</Chip>
+                  </>
+                )}
+              </View>
+            </Surface>
 
-        <Image source={{ uri: dummy.imageUri }} style={styles.cover} />
-        <Surface style={styles.surfaceContainer}>
-          <Button
-            onPress={handlePress}
-            icon={expanded ? "chevron-up" : "chevron-down"}
-          >
-            Read More
-          </Button>
-        </Surface>
-        <View>
-          {expanded && <Text variant="bodyLarge">{dummy.description}</Text>}
-        </View>
-        <Surface style={styles.surfaceContainer}>
-          <Button
-            onPress={toggleGraph}
-            icon={showGraph ? "chevron-up" : "chevron-down"}
-          >
-            Performance Analytics
-          </Button>
-        </Surface>
+            <Image source={{ uri: shgData.img }} style={styles.cover} />
+            <Surface style={styles.surfaceContainer}>
+              <Button
+                onPress={handlePress}
+                icon={expanded ? "chevron-up" : "chevron-down"}
+              >
+                Read More
+              </Button>
+            </Surface>
+            <View>
+              {expanded && <Text variant="bodyLarge">{shgData.desc}</Text>}
+            </View>
+            <Surface style={styles.surfaceContainer}>
+              <Button
+                onPress={toggleGraph}
+                icon={showGraph ? "chevron-up" : "chevron-down"}
+              >
+                Performance Analytics
+              </Button>
+            </Surface>
 
-        <View style={{ marginBottom: 50 }}>
+            {/* <View style={{ marginBottom: 50 }}>
           {showGraph && profitData && (
             <>
               <View style={{ display: "flex", flexDirection: "row" }}>
@@ -142,7 +130,9 @@ function Performance() {
               />
             </>
           )}
-        </View>
+        </View> */}
+          </>
+        )}
       </ScrollView>
     </>
   );

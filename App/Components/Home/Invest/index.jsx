@@ -36,7 +36,7 @@ function Invest() {
                   subtitle={shg.subtitle}
                   description={shg.description}
                   imageUri={shg.imageUri}
-                  id={index}
+                  id={shg.id}
                 />
               ))}
             </View>
@@ -51,12 +51,14 @@ export default Invest;
 
 const shgData = [
   {
+    id: "shg_001",
     title: "UPTOWN GIRLS",
     subtitle: "Pudukkottai",
     description: "We make the best Laddoos in town",
     imageUri: "https://th.bing.com/th/id/R.3cef5299a9fb84b64f846b564f4e895e?rik=JU9vcW0%2bi%2brRMw&riu=http%3a%2f%2fe3az4yc7762.exactdn.com%2fwp-content%2fuploads%2f2022%2f08%2fPCI-India_Womens-SHG.jpg&ehk=1%2fYxsWbcVnPpHDw1YTul18O2zgunEC1POyr7oWvHmpM%3d&risl=&pid=ImgRaw&r=0",
   },
   {
+    id: "shg_002",
     title: "TSI SHG",
     subtitle: "Tenkasi",
     description: "We make the best baskets in town",
