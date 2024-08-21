@@ -5,6 +5,7 @@ from .. import db as d
 @app.post('/addProduct')
 def addProduct():
     data = request.json
+    data['quantity_sold'] = 0
 
     collection = d.db['products']
 
