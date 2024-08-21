@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -20,60 +20,24 @@ export default function ShgMarket() {
   const [modalVisible, setModalVisible] = useState(false);
   const [addProductModalVisible, setAddProductModalVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [updatedPrice, setUpdatedPrice] = useState('');
-  const [updatedAvailability, setUpdatedAvailability] = useState('');
-  const [newProductName, setNewProductName] = useState('');
-  const [newProductPrice, setNewProductPrice] = useState('');
-  const [newProductAvailability, setNewProductAvailability] = useState('');
-  const [newProductImage, setNewProductImage] = useState('');
-  const [data, setData] = useState([
-    {
-      name: 'Alwa',
-      price: 100,
-      image: 'https://images.pexels.com/photos/20446403/pexels-photo-20446403/free-photo-of-top-view-of-gajorer-halwa-dessert.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      sale: 30,
-      availability: 50,
-    },
-    {
-      name: 'Basket',
-      price: 200,
-      image: 'https://images.pexels.com/photos/2113125/pexels-photo-2113125.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      sale: 40,
-      availability: 20,
-    },
-    {
-      name: 'Candle',
-      price: 300,
-      image: 'https://images.pexels.com/photos/783200/pexels-photo-783200.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      sale: 20,
-      availability: 10,
-    },
-    {
-      name: 'Handbag',
-      price: 400,
-      image: 'https://images.pexels.com/photos/6044266/pexels-photo-6044266.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      sale: 10,
-      availability: 15,
-    },
-    {
-      name: 'Pot',
-      price: 500,
-      image: 'https://images.pexels.com/photos/3692083/pexels-photo-3692083.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      sale: 50,
-      availability: 30,
-    },
-  ]);
+  const [updatedPrice, setUpdatedPrice] = useState("");
+  const [updatedAvailability, setUpdatedAvailability] = useState("");
+  const [newProductName, setNewProductName] = useState("");
+  const [newProductPrice, setNewProductPrice] = useState("");
+  const [newProductAvailability, setNewProductAvailability] = useState("");
+  const [newProductImage, setNewProductImage] = useState("");
+  const [data, setData] = useState([]);
 
   const chartData = {
-    labels: data.map((item) => item.name),
+    labels: data.map((item) => item.product_name),
     datasets: [
       {
-        data: data.map((item) => item.sale),
+        data: data.map((item) => item.quantity_sold),
       },
     ],
   };
 
-  const screenWidth = Dimensions.get('window').width;
+  const screenWidth = Dimensions.get("window").width;
 
   const openModal = (item) => {
     setSelectedProduct(item);
@@ -82,16 +46,34 @@ export default function ShgMarket() {
     setModalVisible(true);
   };
 
-  const saveChanges = () => {
-    if (selectedProduct) {
-      setData((prevData) =>
-        prevData.map((item) =>
-          item.name === selectedProduct.name
-            ? { ...item, price: updatedPrice, availability: updatedAvailability }
-            : item
-        )
-      );
+  const addProduct = async () => {
+    const response = api.post("/addProduct", {
+      product_name: newProductName,
+      price: parseFloat(newProductPrice),
+      image: newProductImage,
+      shg_id: "shg_001",
+      availability: parseInt(newProductAvailability),
+    });
+    setAddProductModalVisible(false);
+    setNewProductName("");
+    setNewProductPrice("");
+    setNewProductAvailability("");
+    setNewProductImage("");
+    fetchProducts();
+  };
+
+  const saveChanges = async () => {
+    try {
+      const response = await api.post("/updateProduct", {
+        shg_id: "shg_001",
+        product_name: selectedProduct.product_name,
+        price: parseFloat(updatedPrice),
+        availability: parseInt(updatedAvailability),
+      });
+    } catch (error) {
+      console.error(error);
     }
+    fetchProducts();
     setModalVisible(false);
   };
 
@@ -99,23 +81,14 @@ export default function ShgMarket() {
     setAddProductModalVisible(true);
   };
 
-  const addProduct = () => {
-    setData((prevData) => [
-      ...prevData,
-      {
-        name: newProductName,
-        price: parseFloat(newProductPrice),
-        image: newProductImage,
-        sale: 0,
-        availability: parseInt(newProductAvailability),
-      },
-    ]);
-    setAddProductModalVisible(false);
-    setNewProductName('');
-    setNewProductPrice('');
-    setNewProductAvailability('');
-    setNewProductImage('');
+  const fetchProducts = async () => {
+    const response = await api.get("/fetchProducts");
+    setData(response.data);
   };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
     <>
@@ -128,7 +101,7 @@ export default function ShgMarket() {
           <View style={styles.banner}>
             <Image
               style={styles.bannerImage}
-              source={require('@/assets/images/marketplace-banner.png')}
+              source={require("@/assets/images/marketplace-banner.png")}
             />
             <Text style={styles.bannerText}>
               {i.t('marketQuote')}
@@ -139,7 +112,7 @@ export default function ShgMarket() {
           <Text style={styles.heading2}>{i.t('salesChart')}</Text>
           <BarChart
             data={chartData}
-            width={screenWidth - 30} 
+            width={screenWidth - 30}
             height={220}
             yAxisLabel=""
             chartConfig={{
@@ -148,20 +121,20 @@ export default function ShgMarket() {
               backgroundGradientTo: theme.colors.surface,
               decimalPlaces: 2,
               color: (opacity = 1) => `rgba(151, 72, 16, ${opacity})`,
-              labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, 
+              labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
               style: {
                 borderRadius: 16,
               },
               propsForBackgroundLines: {
                 strokeWidth: 1,
-                stroke: '#e3e3e3', 
-                strokeDasharray: '0',
+                stroke: "#e3e3e3",
+                strokeDasharray: "0",
               },
             }}
             style={{
               marginVertical: 8,
               borderRadius: 16,
-              alignSelf: 'center',
+              alignSelf: "center",
             }}
           />
           
@@ -173,7 +146,7 @@ export default function ShgMarket() {
                   <Card.Content style={styles.shopCard}>
                     <Image source={{ uri: item.image }} style={styles.img} />
                     <View style={styles.textContent}>
-                      <Text style={styles.caption}>{item.name}</Text>
+                      <Text style={styles.caption}>{item.product_name}</Text>
                       <View style={styles.salesInfo}>
                         <MaterialCommunityIcons name="chart-line" size={20} color="green" />
                         <Text style={styles.salesText}>{i.t('sales')} : {item.sale}</Text>
@@ -298,38 +271,38 @@ const styles = StyleSheet.create({
   },
   heading2: {
     fontSize: 20,
-    textAlign: 'left',
+    textAlign: "left",
     marginHorizontal: 15,
     marginTop: 10,
   },
   cartFAB: {
-    position: 'absolute',
+    position: "absolute",
     margin: 16,
     right: 0,
     bottom: 0,
   },
   banner: {
-    width: '100%',
+    width: "100%",
     height: 180,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
   },
   bannerText: {
     flex: 1,
-    textAlign: 'center',
+    textAlign: "center",
     padding: 10,
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   bannerImage: {
     flex: 1,
-    height: '100%',
+    height: "100%",
   },
   pageLayout: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
     marginBottom: 20,
   },
   scroll: {
@@ -339,8 +312,8 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   shopCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   img: {
     width: 100,
@@ -353,12 +326,12 @@ const styles = StyleSheet.create({
   },
   caption: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5,
   },
   salesInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   salesText: {
     marginLeft: 5,
@@ -374,21 +347,21 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    width: '80%',
-    backgroundColor: 'white',
+    width: "80%",
+    backgroundColor: "white",
     padding: 20,
     borderRadius: 10,
   },
   modalTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   modalLabel: {
     fontSize: 16,
@@ -396,15 +369,14 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderWidth: 1,
     borderRadius: 5,
     marginBottom: 15,
     paddingHorizontal: 10,
   },
   modalButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 });
-

@@ -2,9 +2,9 @@ from flask import jsonify
 from .. import app
 from .. import db as d
 
-@app.get('/fetchAllShg')
-def fetchAllShg():
-    collection = d.db['SHGs']
+@app.get('/fetchProducts')
+def fetchProducts():
+    collection = d.db['products']
 
     cursor = collection.find()
 
@@ -14,4 +14,4 @@ def fetchAllShg():
             document['_id'] = str(document['_id']) 
         documents.append(document)
 
-    return jsonify(documents)
+    return jsonify((documents))

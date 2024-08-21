@@ -2,11 +2,11 @@ from flask import jsonify
 from .. import app
 from .. import db as d
 
-@app.get('/fetchAllShg')
-def fetchAllShg():
-    collection = d.db['SHGs']
+@app.get('/fetchLoan/<id>')
+def fetchLoan(id):
+    collection = d.db['loans']
 
-    cursor = collection.find()
+    cursor = collection.find( { "member_id": id } )
 
     documents = []
     for document in cursor:

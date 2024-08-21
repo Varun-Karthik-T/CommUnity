@@ -3,24 +3,52 @@ import { SafeAreaView, ScrollView, StyleSheet, Text, View, FlatList } from 'reac
 import { Card, Button, SegmentedButtons, TextInput } from 'react-native-paper';
 import i from '@/Translations';
 
-const Loan = ({ onBack }) => {
-  const [selectedTab, setSelectedTab] = React.useState('ActiveLoans');
-  const [expandedLoanId, setExpandedLoanId] = React.useState(null);
+const Loan = () => {
+  const [selectedTab, setSelectedTab] = useState("ActiveLoans");
+  const [expandedLoanId, setExpandedLoanId] = useState(null);
+  const [loanAmount, setLoanAmount] = useState("");
+  const [loanPurpose, setLoanPurpose] = useState("");
+  const [activeLoans, setActiveLoans] = useState([]);
 
-  // Sample data for active loans
-  const activeLoans = [
-    { id: '1', amount: '₹10,000', purpose: 'Education', date: '2024-07-15' },
-    { id: '2', amount: '₹5,000', purpose: 'Health', date: '2024-06-10' },
-    // Add more loans as needed
-  ];
+  const applyLoan = async () => {
+    const formData = {
+      member_id: "shg_001_m1",
+      loan_amount: loanAmount,
+      purpose: loanPurpose,
+    };
+    try {
+      const response = await api.post("/applyLoan", formData);
+      if (response.data.success) {
+        setLoanAmount("");
+        setLoanPurpose("");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchLoans = async () => {
+    try {
+      const response = await api.get("/fetchLoan/shg_001_m1");
+      console.log(response.data);
+      setActiveLoans(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchLoans();
+  }, []);
 
   const renderActiveLoans = () => (
     <FlatList
       data={activeLoans}
+      keyExtractor={(item) => item._id}
       renderItem={({ item }) => (
-        <Card style={styles.card}>
+        <Card style={styles.card} key={item._id}>
           <Card.Content>
-            {expandedLoanId === item.id ? (
+            {expandedLoanId === item._id ? (
               <>
                 <Text style={styles.loanTitle}>{i.t('LoanAmount')}: {item.amount}</Text>
                 <Text>{i.t('purpose')}: {item.purpose}</Text>
@@ -28,7 +56,7 @@ const Loan = ({ onBack }) => {
                 <Button
                   mode="contained"
                   style={styles.repayButton}
-                  onPress={() => console.log('Repay loan')}
+                  onPress={() => console.log("Repay loan")}
                 >
                   {i.t('repayLoan')}
                 </Button>
@@ -42,11 +70,11 @@ const Loan = ({ onBack }) => {
               </>
             ) : (
               <>
-                <Text style={styles.loanTitle}>{item.amount}</Text>
+                <Text style={styles.loanTitle}>{item.loan_amount}</Text>
                 <Button
                   mode="text"
                   style={styles.viewDetailsButton}
-                  onPress={() => setExpandedLoanId(item.id)}
+                  onPress={() => setExpandedLoanId(item._id)}
                 >
                   {i.t('viewDetails')}
                 </Button>
@@ -55,7 +83,6 @@ const Loan = ({ onBack }) => {
           </Card.Content>
         </Card>
       )}
-      keyExtractor={(item) => item.id}
       ListEmptyComponent={<Text>No active loans.</Text>}
     />
   );
@@ -68,11 +95,15 @@ const Loan = ({ onBack }) => {
         label={i.t('amount')}
         style={styles.input}
         keyboardType="numeric"
+        value={loanAmount}
+        onChangeText={setLoanAmount}
       />
       <TextInput
         mode="outlined"
         label={i.t('purpose')}
         style={styles.input}
+        value={loanPurpose}
+        onChangeText={setLoanPurpose}
       />
       <Button
         mode="contained"
@@ -96,9 +127,7 @@ const Loan = ({ onBack }) => {
           ]}
         />
       </View>
-      <ScrollView>
-        {selectedTab === 'ActiveLoans' ? renderActiveLoans() : renderApplyLoans()}
-      </ScrollView>
+      {selectedTab === "ActiveLoans" ? renderActiveLoans() : renderApplyLoans()}
     </SafeAreaView>
   );
 };
@@ -107,7 +136,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   topBar: {
     marginBottom: 8,
@@ -118,7 +147,7 @@ const styles = StyleSheet.create({
   },
   loanTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   viewDetailsButton: {
     marginTop: 10,
@@ -134,7 +163,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   input: {
