@@ -1,4 +1,6 @@
-import * as React from 'react';
+
+import api from "@/api/api";
+import { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, View, FlatList } from 'react-native';
 import { Card, Button, SegmentedButtons, TextInput } from 'react-native-paper';
 import i from '@/Translations';
@@ -108,7 +110,7 @@ const Loan = () => {
       <Button
         mode="contained"
         style={styles.submitButton}
-        onPress={() => console.log('Loan application submitted')}
+        onPress={applyLoan}
       >
         {i.t('submitApplication')}
       </Button>
