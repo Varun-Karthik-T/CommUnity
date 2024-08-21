@@ -1,30 +1,49 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, Button as RNButton, TouchableOpacity } from "react-native";
 import { Text, TextInput, Button } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+const Card = ({ children, onAdd, onRemove }) => (
+  <View style={styles.card}>
+    {children}
+    {onAdd && (
+      <TouchableOpacity onPress={onAdd} style={styles.cardAction}>
+        <Text style={styles.cardActionText}>+ Add</Text>
+      </TouchableOpacity>
+    )}
+    {onRemove && (
+      <TouchableOpacity onPress={onRemove} style={styles.cardAction}>
+        <Text style={styles.cardActionText}>- Remove</Text>
+      </TouchableOpacity>
+    )}
+  </View>
+);
+
 function Bookkeeping() {
   const [todayDate, setTodayDate] = useState("");
+  
+  const [credits, setCredits] = useState([
+    { from: "", transaction_id: "", amount: "" }
+  ]);
+
+  const [debits, setDebits] = useState([
+    { to: "", transaction_id: "", amount: "", purpose: "" }
+  ]);
+
+  const [expenditures, setExpenditures] = useState([
+    { project_id: "", project_name: "", amount: "" }
+  ]);
+
+  const [revenues, setRevenues] = useState([
+    { project_id: "", project_name: "", amount: "" }
+  ]);
+
   const [minutes, setMinutes] = useState("");
-  const [creditFrom, setCreditFrom] = useState("");
-  const [creditTransactionId, setCreditTransactionId] = useState("");
-  const [creditAmount, setCreditAmount] = useState("");
-  const [debitTo, setDebitTo] = useState("");
-  const [debitTransactionId, setDebitTransactionId] = useState("");
-  const [debitAmount, setDebitAmount] = useState("");
-  const [purpose, setPurpose] = useState("");
-  const [expenditureProjectId, setExpenditureProjectId] = useState("");
-  const [expenditureProjectName, setExpenditureProjectName] = useState("");
-  const [expenditureAmount, setExpenditureAmount] = useState("");
-  const [revenueProjectId, setRevenueProjectId] = useState("");
-  const [revenueProjectName, setRevenueProjectName] = useState("");
-  const [revenueAmount, setRevenueAmount] = useState("");
   const [currentBalance, setCurrentBalance] = useState("");
   const [attendance, setAttendance] = useState("");
   const [initialCapital, setInitialCapital] = useState("");
   const [attendancePercentage, setAttendancePercentage] = useState("");
   const [loanRepayments, setLoanRepayments] = useState("");
-  const [performance, setPerformance] = useState("");
   const [totalRevenue, setTotalRevenue] = useState("");
 
   useEffect(() => {
@@ -35,35 +54,11 @@ function Bookkeeping() {
   const handleSubmit = () => {
     const bookkeepingRecord = {
       date: todayDate,
-      credit: [
-        {
-          from: creditFrom,
-          transaction_id: creditTransactionId,
-          amount: parseFloat(creditAmount),
-        },
-      ],
-      debit: [
-        {
-          to: debitTo,
-          transaction_id: debitTransactionId,
-          amount: parseFloat(debitAmount),
-        },
-      ],
-      purpose: purpose,
-      expenditures: [
-        {
-          project_id: expenditureProjectId,
-          project_name: expenditureProjectName,
-          amount: parseFloat(expenditureAmount),
-        },
-      ],
-      revenue: [
-        {
-          project_id: revenueProjectId,
-          project_name: revenueProjectName,
-          amount: parseFloat(revenueAmount),
-        },
-      ],
+      credit: credits,
+      debit: debits,
+      purpose: debits[0].purpose,  
+      expenditures,
+      revenue: revenues,
       currentBalance: parseFloat(currentBalance),
       attendance: attendance.split(",").map((member) => member.trim()),
       minutes_book: minutes,
@@ -75,95 +70,232 @@ function Bookkeeping() {
     };
 
     console.log(bookkeepingRecord);
-    // Here you would send `bookkeepingRecord` to your backend or database
+  };
+
+  const addCard = (category) => {
+    switch (category) {
+      case 'credit':
+        setCredits([...credits, { from: "", transaction_id: "", amount: "" }]);
+        break;
+      case 'debit':
+        setDebits([...debits, { to: "", transaction_id: "", amount: "", purpose: "" }]);
+        break;
+      case 'expenditure':
+        setExpenditures([...expenditures, { project_id: "", project_name: "", amount: "" }]);
+        break;
+      case 'revenue':
+        setRevenues([...revenues, { project_id: "", project_name: "", amount: "" }]);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const removeCard = (category, index) => {
+    switch (category) {
+      case 'credit':
+        setCredits(credits.filter((_, i) => i !== index));
+        break;
+      case 'debit':
+        setDebits(debits.filter((_, i) => i !== index));
+        break;
+      case 'expenditure':
+        setExpenditures(expenditures.filter((_, i) => i !== index));
+        break;
+      case 'revenue':
+        setRevenues(revenues.filter((_, i) => i !== index));
+        break;
+      default:
+        break;
+    }
   };
 
   return (
     <SafeAreaView style={styles.pageLayout}>
       <ScrollView contentContainerStyle={styles.formContainer}>
-        <Text variant="headlineSmall">Bookkeeping entry for {todayDate}</Text>
-        
+        <Text variant="headlineSmall">Bookkeeping Entry for</Text>
+        <Text>{todayDate}</Text>
+
+        {credits.map((credit, index) => (
+          <Card
+            key={index}
+            onAdd={() => addCard('credit')}
+            onRemove={credits.length > 1 ? () => removeCard('credit', index) : null}
+          >
+            <TextInput
+              label="Credit From"
+              value={credit.from}
+              onChangeText={(text) => {
+                const newCredits = [...credits];
+                newCredits[index].from = text;
+                setCredits(newCredits);
+              }}
+              style={styles.textInput}
+            />
+            <TextInput
+              label="Credit Transaction ID"
+              value={credit.transaction_id}
+              onChangeText={(text) => {
+                const newCredits = [...credits];
+                newCredits[index].transaction_id = text;
+                setCredits(newCredits);
+              }}
+              style={styles.textInput}
+            />
+            <TextInput
+              label="Credit Amount"
+              value={credit.amount}
+              onChangeText={(text) => {
+                const newCredits = [...credits];
+                newCredits[index].amount = text;
+                setCredits(newCredits);
+              }}
+              style={styles.textInput}
+              keyboardType="numeric"
+            />
+          </Card>
+        ))}
+
+        {/* Debit Card Section */}
+        {debits.map((debit, index) => (
+          <Card
+            key={index}
+            onAdd={() => addCard('debit')}
+            onRemove={debits.length > 1 ? () => removeCard('debit', index) : null}
+          >
+            <TextInput
+              label="Debit To"
+              value={debit.to}
+              onChangeText={(text) => {
+                const newDebits = [...debits];
+                newDebits[index].to = text;
+                setDebits(newDebits);
+              }}
+              style={styles.textInput}
+            />
+            <TextInput
+              label="Debit Transaction ID"
+              value={debit.transaction_id}
+              onChangeText={(text) => {
+                const newDebits = [...debits];
+                newDebits[index].transaction_id = text;
+                setDebits(newDebits);
+              }}
+              style={styles.textInput}
+            />
+            <TextInput
+              label="Debit Amount"
+              value={debit.amount}
+              onChangeText={(text) => {
+                const newDebits = [...debits];
+                newDebits[index].amount = text;
+                setDebits(newDebits);
+              }}
+              style={styles.textInput}
+              keyboardType="numeric"
+            />
+            <TextInput
+              label="Purpose"
+              value={debit.purpose}
+              onChangeText={(text) => {
+                const newDebits = [...debits];
+                newDebits[index].purpose = text;
+                setDebits(newDebits);
+              }}
+              style={styles.textInput}
+            />
+          </Card>
+        ))}
+
+        {/* Expenditure Card Section */}
+        {expenditures.map((expenditure, index) => (
+          <Card
+            key={index}
+            onAdd={() => addCard('expenditure')}
+            onRemove={expenditures.length > 1 ? () => removeCard('expenditure', index) : null}
+          >
+            <TextInput
+              label="Expenditure Project ID"
+              value={expenditure.project_id}
+              onChangeText={(text) => {
+                const newExpenditures = [...expenditures];
+                newExpenditures[index].project_id = text;
+                setExpenditures(newExpenditures);
+              }}
+              style={styles.textInput}
+            />
+            <TextInput
+              label="Expenditure Project Name"
+              value={expenditure.project_name}
+              onChangeText={(text) => {
+                const newExpenditures = [...expenditures];
+                newExpenditures[index].project_name = text;
+                setExpenditures(newExpenditures);
+              }}
+              style={styles.textInput}
+            />
+            <TextInput
+              label="Expenditure Amount"
+              value={expenditure.amount}
+              onChangeText={(text) => {
+                const newExpenditures = [...expenditures];
+                newExpenditures[index].amount = text;
+                setExpenditures(newExpenditures);
+              }}
+              style={styles.textInput}
+              keyboardType="numeric"
+            />
+          </Card>
+        ))}
+
+        {/* Revenue Card Section */}
+        {revenues.map((revenue, index) => (
+          <Card
+            key={index}
+            onAdd={() => addCard('revenue')}
+            onRemove={revenues.length > 1 ? () => removeCard('revenue', index) : null}
+          >
+            <TextInput
+              label="Revenue Project ID"
+              value={revenue.project_id}
+              onChangeText={(text) => {
+                const newRevenues = [...revenues];
+                newRevenues[index].project_id = text;
+                setRevenues(newRevenues);
+              }}
+              style={styles.textInput}
+            />
+            <TextInput
+              label="Revenue Project Name"
+              value={revenue.project_name}
+              onChangeText={(text) => {
+                const newRevenues = [...revenues];
+                newRevenues[index].project_name = text;
+                setRevenues(newRevenues);
+              }}
+              style={styles.textInput}
+            />
+            <TextInput
+              label="Revenue Amount"
+              value={revenue.amount}
+              onChangeText={(text) => {
+                const newRevenues = [...revenues];
+                newRevenues[index].amount = text;
+                setRevenues(newRevenues);
+              }}
+              style={styles.textInput}
+              keyboardType="numeric"
+            />
+          </Card>
+        ))}
+
+        {/* Remaining Fields */}
         <TextInput
-          label="Credit From"
-          value={creditFrom}
-          onChangeText={setCreditFrom}
+          label="Minutes of the meeting"
+          value={minutes}
+          onChangeText={setMinutes}
           style={styles.textInput}
-        />
-        <TextInput
-          label="Credit Transaction ID"
-          value={creditTransactionId}
-          onChangeText={setCreditTransactionId}
-          style={styles.textInput}
-        />
-        <TextInput
-          label="Credit Amount"
-          value={creditAmount}
-          onChangeText={setCreditAmount}
-          style={styles.textInput}
-          keyboardType="numeric"
-        />
-        <TextInput
-          label="Debit To"
-          value={debitTo}
-          onChangeText={setDebitTo}
-          style={styles.textInput}
-        />
-        <TextInput
-          label="Debit Transaction ID"
-          value={debitTransactionId}
-          onChangeText={setDebitTransactionId}
-          style={styles.textInput}
-        />
-        <TextInput
-          label="Debit Amount"
-          value={debitAmount}
-          onChangeText={setDebitAmount}
-          style={styles.textInput}
-          keyboardType="numeric"
-        />
-        <TextInput
-          label="Purpose"
-          value={purpose}
-          onChangeText={setPurpose}
-          style={styles.textInput}
-        />
-        <TextInput
-          label="Expenditure Project ID"
-          value={expenditureProjectId}
-          onChangeText={setExpenditureProjectId}
-          style={styles.textInput}
-        />
-        <TextInput
-          label="Expenditure Project Name"
-          value={expenditureProjectName}
-          onChangeText={setExpenditureProjectName}
-          style={styles.textInput}
-        />
-        <TextInput
-          label="Expenditure Amount"
-          value={expenditureAmount}
-          onChangeText={setExpenditureAmount}
-          style={styles.textInput}
-          keyboardType="numeric"
-        />
-        <TextInput
-          label="Revenue Project ID"
-          value={revenueProjectId}
-          onChangeText={setRevenueProjectId}
-          style={styles.textInput}
-        />
-        <TextInput
-          label="Revenue Project Name"
-          value={revenueProjectName}
-          onChangeText={setRevenueProjectName}
-          style={styles.textInput}
-        />
-        <TextInput
-          label="Revenue Amount"
-          value={revenueAmount}
-          onChangeText={setRevenueAmount}
-          style={styles.textInput}
-          keyboardType="numeric"
+          multiline={true}
         />
         <TextInput
           label="Current Balance"
@@ -177,13 +309,6 @@ function Bookkeeping() {
           value={attendance}
           onChangeText={setAttendance}
           style={styles.textInput}
-        />
-        <TextInput
-          label="Minutes of the meeting"
-          value={minutes}
-          onChangeText={setMinutes}
-          style={styles.textInput}
-          multiline={true}
         />
         <TextInput
           label="Initial Capital"
@@ -206,13 +331,7 @@ function Bookkeeping() {
           style={styles.textInput}
           keyboardType="numeric"
         />
-        <TextInput
-          label="Performance"
-          value={performance}
-          onChangeText={setPerformance}
-          style={styles.textInput}
-          keyboardType="numeric"
-        />
+      
         <TextInput
           label="Total Revenue"
           value={totalRevenue}
@@ -220,7 +339,7 @@ function Bookkeeping() {
           style={styles.textInput}
           keyboardType="numeric"
         />
-        
+
         <Button mode="contained" onPress={handleSubmit} style={styles.submitButton}>
           Submit
         </Button>
@@ -241,10 +360,27 @@ const styles = StyleSheet.create({
   textInput: {
     width: "80%",
     margin: 10,
+    borderRadius: 5,
   },
   submitButton: {
     marginTop: 20,
     width: "60%",
+  },
+  card: {
+    width: "80%",
+    padding: 15,
+    borderRadius: 15,
+    backgroundColor: "#f8f8f8",
+    marginVertical: 10,
+    elevation: 3,
+  },
+  cardAction: {
+    marginTop: 10,
+    alignItems: "center",
+  },
+  cardActionText: {
+    color: "#000",
+    fontWeight: "bold",
   },
 });
 
