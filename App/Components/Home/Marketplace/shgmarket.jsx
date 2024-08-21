@@ -58,6 +58,7 @@ export default function ShgMarket() {
     setNewProductPrice('');
     setNewProductAvailability('');
     setNewProductImage('');
+    fetchProducts();
   }
 
   const saveChanges = () => {
