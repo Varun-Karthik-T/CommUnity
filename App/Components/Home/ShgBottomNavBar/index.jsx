@@ -3,7 +3,7 @@ import { useState } from "react";
 import SHGProfile from "@/Components/Home/SHGProfile";
 import ShgCommunity from "../Community/shgCommunity";
 import ShgMarket from "../Marketplace/shgmarket";
-import SHGBookkeeping from "../SHGBookkeeping";
+import SHGBookkeeping from "../../SHGBookkeeping";
 import SHGManagement from "../SHGManagement";
 import SHGDevelopment from "../SHGDevelopment";
 
