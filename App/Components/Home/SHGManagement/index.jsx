@@ -8,13 +8,13 @@ const SHGManagement = ({ navigation }) => {
   const router = useRouter();
 
   const transactions = [
-    { date: '2024-08-01', type: 'Deposit', amount: '₹5,000', isCredit: true },
+    { date: '2024-08-01', type: 'Deposit', amount: '₹13,000', isCredit: true },
     { date: '2024-08-02', type: 'Withdrawal', amount: '₹7,000', isCredit: false },
     { date: '2024-08-03', type: 'Deposit', amount: '₹10,000', isCredit: true },
-    { date: '2024-08-01', type: 'Withdrawal', amount: '₹2,000', isCredit: false },
-    { date: '2024-08-02', type: 'Withdrawal', amount: '₹7,000', isCredit: true },
-    { date: '2024-08-03', type: 'Deposit', amount: '₹10,000', isCredit: false },
-    { date: '2024-08-01', type: 'Withdrawal', amount: '₹2,000', isCredit: true },
+    { date: '2024-08-01', type: 'Withdrawal', amount: '₹12,000', isCredit: false },
+    { date: '2024-08-04', type: 'Deposit', amount: '₹17,000', isCredit: true },
+    { date: '2024-08-05', type: 'Withdrawal', amount: '₹15,000', isCredit: false },
+    { date: '2024-08-02', type: 'Deposit', amount: '₹2,000', isCredit: true },
     // Add more transactions here
   ];
 
