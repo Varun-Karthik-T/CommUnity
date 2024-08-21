@@ -205,6 +205,9 @@ const SHGManagement = () => {
             <Divider />
 
             {role === "SHG-Head" && (
+              <Card style={styles.card}> 
+              <Card.Content style={{ gap: 10 }}>
+              <Text style={styles.title}>{i.t("manageMembers")}</Text>
                   <Button
                     mode="contained"
                     onPress={() => router.navigate(`/Members`)}
@@ -216,6 +219,8 @@ const SHGManagement = () => {
                   >
                     {i.t("manageMembers")}
                   </Button>
+                </Card.Content>
+              </Card>
                 )}
           </>
         )}
