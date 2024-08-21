@@ -11,9 +11,11 @@ def updateProduct():
         if 'shg_id' not in data or 'price' not in data:
             return jsonify({'error': 'Missing required fields'}), 400
         new_availability = None
+        new_price = None
         shg_id = data['shg_id']
         product_name=data['product_name']
-        new_price = data['price']
+        if 'price' in data:
+            new_price = data['price']
         if 'availability' in data:
             new_availability = data['availability']
 
@@ -21,21 +23,18 @@ def updateProduct():
             new_price = float(new_price)
         except ValueError:
             return jsonify({'error': 'Invalid price value'}), 400
-
-        result = collection.update_one(
-            {'shg_id': shg_id},
-            {'product_name': product_name},
-            {'$set': {'price': new_price}}
-        )
+        if new_price is not None:
+            result = collection.update_one(
+                {'shg_id': data['shg_id'], 'product_name': data['product_name']},
+                {'$set': {'price': new_price}}
+            )
         if new_availability is not None:
             result = collection.update_one(
-                {'shg_id': shg_id},
-                {'product_name': product_name},
+                {'shg_id': data['shg_id'], 'product_name': data['product_name']},
                 {'$set': {'availability': new_availability}}
             )
-
         if result.matched_count == 0:
-            return jsonify({'error': 'Document not found'}), 404
+                return jsonify({'error': 'Product not found'}), 404
 
         return jsonify({'success': True}), 200
 
