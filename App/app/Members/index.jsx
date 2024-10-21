@@ -13,9 +13,11 @@ export default function Members() {
   const [newMemberSmartphone, setNewMemberSmartphone] = useState(false);
 
   const members = [
-    { id: 1, name: "John Doe", loanBought: "₹50,000", loanRepaid: "₹30,000", isSmartphoneUser: true },
-    { id: 2, name: "Jane Smith", loanBought: "₹70,000", loanRepaid: "₹50,000", isSmartphoneUser: false },
-    // Add more members here...
+    { id: 1, name: "Maariyamma", loanBought: "₹50,000", loanRepaid: "₹30,000", isSmartphoneUser: true },
+    { id: 2, name: "Christina", loanBought: "₹70,000", loanRepaid: "₹50,000", isSmartphoneUser: false },
+    { id: 3, name: "Nadia", loanBought: "NIL", loanRepaid: "NIL", isSmartphoneUser: false },
+    { id: 4, name: "Bibi", loanBought: "₹10,000", loanRepaid: "₹10,000", isSmartphoneUser: false },
+    { id: 5, name: "Nina", loanBought: "₹20,000", loanRepaid: "NIL", isSmartphoneUser: false },
   ];
 
   const handleViewDetails = (member) => {

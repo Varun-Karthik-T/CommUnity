@@ -7,12 +7,12 @@ export default function VerifyLoans() {
   const [selectedLoan, setSelectedLoan] = useState(null);
   const [activeTab, setActiveTab] = useState('requests');
   const [requestLoans, setRequestLoans] = useState([
-    { id: '1', userName: 'John Doe', loanAmount: '₹50,000', purpose: 'Agriculture', status: 'Pending' },
-    { id: '2', userName: 'Jane Smith', loanAmount: '₹70,000', purpose: 'Business', status: 'Pending' },
+    { id: '1', userName: 'Maariyamma', loanAmount: '₹50,000', purpose: 'Agriculture', status: 'Pending' },
+    { id: '2', userName: 'Christina', loanAmount: '₹70,000', purpose: 'Health', status: 'Pending' },
   ]);
   const [pastLoans, setPastLoans] = useState([
-    { id: '3', userName: 'Alice Brown', loanAmount: '₹40,000', purpose: 'Education', status: 'Approved' },
-    { id: '4', userName: 'Bob Johnson', loanAmount: '₹60,000', purpose: 'Healthcare', status: 'Approved' },
+    { id: '3', userName: 'Nadia', loanAmount: '₹40,000', purpose: 'Education', status: 'Approved' },
+    { id: '4', userName: 'Bibi', loanAmount: '₹60,000', purpose: 'Healthcare', status: 'Approved' },
   ]);
 
   const handleViewDetails = (loan) => {
